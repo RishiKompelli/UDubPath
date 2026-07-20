@@ -1,0 +1,84 @@
+{
+  "majors": [
+    {
+      "id": "uw-seattle-me",
+      "name": "Mechanical Engineering",
+      "degree": "BSME",
+      "status": "complete",
+      "file": "mechanical-engineering.json",
+      "source": "https://www.engr.washington.edu/current/academics/4-year-plans/me-degree-requirements"
+    },
+    {
+      "id": "uw-seattle-aa",
+      "name": "Aeronautics & Astronautics",
+      "degree": "BSAAE",
+      "status": "future",
+      "file": null,
+      "source": "https://www.engr.washington.edu/current/academics/4-year-plans/aa-degree-requirements"
+    },
+    {
+      "id": "uw-seattle-bioe",
+      "name": "Bioengineering",
+      "degree": "BSBioE",
+      "status": "future",
+      "file": null,
+      "source": "https://www.engr.washington.edu/current/academics/4-year-plans/bioe-degree-requirements"
+    },
+    {
+      "id": "uw-seattle-cheme",
+      "name": "Chemical Engineering",
+      "degree": "BSChemE",
+      "status": "future",
+      "file": null,
+      "source": "https://www.engr.washington.edu/current/academics/4-year-plans/cheme-degree-requirements"
+    },
+    {
+      "id": "uw-seattle-cive",
+      "name": "Civil Engineering",
+      "degree": "BSCivE",
+      "status": "future",
+      "file": null,
+      "source": "https://www.engr.washington.edu/current/academics/4-year-plans/cive-degree-requirements"
+    },
+    {
+      "id": "uw-seattle-ece",
+      "name": "Electrical & Computer Engineering",
+      "degree": "BSECE",
+      "status": "future",
+      "file": null,
+      "source": "https://www.engr.washington.edu/current/academics/4-year-plans/ece-degree-requirements"
+    },
+    {
+      "id": "uw-seattle-enve",
+      "name": "Environmental Engineering",
+      "degree": "BSEnvE",
+      "status": "future",
+      "file": null,
+      "source": "https://www.engr.washington.edu/current/academics/4-year-plans/enve-degree-requirements"
+    },
+    {
+      "id": "uw-seattle-hcde",
+      "name": "Human Centered Design & Engineering",
+      "degree": "BSHCDE",
+      "status": "future",
+      "file": null,
+      "source": "https://www.engr.washington.edu/current/academics/4-year-plans/hcde-degree-requirements"
+    },
+    {
+      "id": "uw-seattle-ise",
+      "name": "Industrial Engineering",
+      "degree": "BSIE",
+      "status": "future",
+      "file": null,
+      "source": "https://www.engr.washington.edu/current/academics/4-year-plans/ise-degree-requirements"
+    },
+    {
+      "id": "uw-seattle-mse",
+      "name": "Materials Science & Engineering",
+      "degree": "BSMSE",
+      "status": "future",
+      "file": null,
+      "source": "https://www.engr.washington.edu/current/academics/4-year-plans/mse-degree-requirements"
+    }
+  ]
+}

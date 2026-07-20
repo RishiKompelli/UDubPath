@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Visual University of Washington degree and prerequisite planner">
+  <title>UW Degree Mapper</title>
+  <link rel="stylesheet" href="src/styles.css">
+  <script src="src/app.js" defer></script>
+</head>
+<body>
+  <div id="loading-screen" class="loading-screen">
+    <div class="loading-mark">W</div>
+    <h1>Loading UW Degree Mapper</h1>
+    <p>Preparing the degree graph and course catalog…</p>
+  </div>
+
+  <header class="topbar">
+    <div class="brand-wrap">
+      <div class="brand-mark" aria-hidden="true">W</div>
+      <div>
+        <div class="eyebrow">UNIVERSITY OF WASHINGTON</div>
+        <div class="brand-title">Degree Mapper</div>
+      </div>
+    </div>
+
+    <div class="top-controls">
+      <label class="select-field">
+        <span>Major</span>
+        <select id="major-select"></select>
+      </label>
+      <label class="select-field">
+        <span>Degree path</span>
+        <select id="track-select"></select>
+      </label>
+      <button id="data-status" class="data-badge" type="button" title="Catalog source details">
+        <span class="status-dot"></span>
+        <span id="data-status-text">Catalog</span>
+      </button>
+    </div>
+
+    <div class="top-actions">
+      <button id="export-button" class="button ghost" type="button">Export</button>
+      <button id="import-button" class="button ghost" type="button">Import</button>
+      <input id="import-file" type="file" accept="application/json" hidden>
+      <button id="reset-button" class="button danger-ghost" type="button">Reset</button>
+    </div>
+  </header>
+
+  <nav class="tabbar" aria-label="Planner views">
+    <button class="tab active" data-view="map" type="button"><span class="tab-icon">⌘</span>Degree map</button>
+    <button class="tab" data-view="requirements" type="button"><span class="tab-icon">✓</span>Requirements</button>
+    <button class="tab" data-view="planner" type="button"><span class="tab-icon">▦</span>Four-year plan</button>
+    <button class="tab" data-view="credits" type="button"><span class="tab-icon">⇄</span>AP & transfer credit</button>
+    <button class="tab" data-view="catalog" type="button"><span class="tab-icon">⌕</span>All UW courses</button>
+  </nav>
+
+  <main>
+    <section id="view-map" class="view active">
+      <div class="view-heading map-heading">
+        <div>
+          <div class="eyebrow">OFFICIAL DEGREE SECTIONS + PREREQUISITE PATHS</div>
+          <h1 id="map-title">Mechanical Engineering</h1>
+          <p>Courses are grouped by the same requirement sections used in UW Engineering’s degree plan. Select a course to spotlight its prerequisites and the courses it unlocks across sections.</p>
+        </div>
+        <div class="legend" aria-label="Course status legend">
+          <span><i class="legend-dot available"></i>Available</span>
+          <span><i class="legend-dot planned"></i>Planned</span>
+          <span><i class="legend-dot fulfilled"></i>Fulfilled</span>
+          <span><i class="legend-dot locked"></i>Locked</span>
+          <span><i class="legend-dot unknown"></i>Check catalog</span>
+        </div>
+      </div>
+
+      <div class="map-toolbar card-surface">
+        <label class="search-box grow">
+          <span aria-hidden="true">⌕</span>
+          <input id="map-search" type="search" placeholder="Find a course in this degree map, such as ME 374">
+        </label>
+        <label class="toggle-field"><input id="available-only" type="checkbox"><span>Available next only</span></label>
+        <div class="edge-key" aria-label="Connection color legend">
+          <span><i class="edge-key-line incoming"></i>Prerequisite of selected course</span>
+          <span><i class="edge-key-line outgoing"></i>Unlocked by selected course</span>
+        </div>
+        <label class="toggle-field"><input id="show-all-connections" type="checkbox"><span>Show every connection</span></label>
+        <button id="fit-map-button" class="button secondary" type="button">Fit map</button>
+      </div>
+
+      <div class="map-layout">
+        <div id="map-scroll" class="map-scroll card-surface">
+          <div id="map-stage" class="map-stage">
+            <svg id="map-edges" class="map-edges" aria-hidden="true"></svg>
+            <div id="map-columns" class="map-columns"></div>
+          </div>
+        </div>
+        <aside id="course-panel" class="course-panel card-surface" aria-live="polite"></aside>
+      </div>
+    </section>
+
+    <section id="view-requirements" class="view">
+      <div class="view-heading">
+        <div>
+          <div class="eyebrow">DEGREE AUDIT</div>
+          <h1>Requirements</h1>
+          <p>Requirements follow the selected major’s official UW Engineering section order. Every requirement can also be marked fulfilled manually.</p>
+        </div>
+      </div>
+      <div id="requirement-summary" class="metric-grid"></div>
+      <div id="requirements-grid" class="requirements-grid"></div>
+    </section>
+
+    <section id="view-planner" class="view">
+      <div class="view-heading planner-heading">
+        <div>
+          <div class="eyebrow">QUARTER-BY-QUARTER</div>
+          <h1>Four-year plan</h1>
+          <p>Your plan starts empty. Add any catalog course, or load UW’s official sample plan as an editable starting point.</p>
+        </div>
+        <div class="heading-actions">
+          <button id="load-sample-button" class="button primary" type="button">Load official sample plan</button>
+          <button id="clear-plan-button" class="button secondary" type="button">Clear plan</button>
+        </div>
+      </div>
+
+      <div class="planner-toolbar card-surface">
+        <label class="search-box grow">
+          <span aria-hidden="true">＋</span>
+          <input id="planner-add-search" type="search" placeholder="Search a course to add to your plan">
+        </label>
+        <select id="planner-add-results" aria-label="Matching courses"><option value="">Choose a matching course…</option></select>
+        <select id="planner-add-quarter" aria-label="Quarter"></select>
+        <button id="planner-add-button" class="button primary" type="button">Add course</button>
+      </div>
+
+      <div id="planner-grid" class="planner-grid"></div>
+      <div id="planner-insights" class="planner-insights"></div>
+    </section>
+
+
+    <section id="view-credits" class="view">
+      <div class="view-heading credits-heading">
+        <div>
+          <div class="eyebrow">BULK CREDIT SETUP</div>
+          <h1>AP and transfer credit</h1>
+          <p>Add exam scores or select several UW course equivalents at once. Every matching course box, prerequisite, degree requirement, and plan warning updates automatically.</p>
+        </div>
+      </div>
+
+      <div id="credit-summary" class="metric-grid"></div>
+
+      <div class="credit-setup-grid">
+        <article class="credit-card card-surface">
+          <div class="credit-card-head">
+            <div><div class="eyebrow">OFFICIAL UW AWARDS</div><h2>Advanced Placement exams</h2></div>
+            <a id="ap-policy-link" class="source-link" href="https://admit.washington.edu/apply/transfer/exams-for-credit/ap/" target="_blank" rel="noreferrer">UW AP policy ↗</a>
+          </div>
+          <p class="detail-description">Choose an AP exam and score. The mapper marks the UW course equivalents listed by UW Admissions.</p>
+          <div class="ap-add-row">
+            <label><span>AP exam</span><select id="ap-exam-select"></select></label>
+            <label><span>Score</span><select id="ap-score-select"></select></label>
+            <button id="ap-add-button" class="button primary" type="button">Add exam</button>
+          </div>
+          <div id="ap-selected-list" class="credit-selection-list"></div>
+          <p id="ap-policy-note" class="requirement-note"></p>
+        </article>
+
+        <article class="credit-card card-surface">
+          <div class="credit-card-head">
+            <div><div class="eyebrow">RUNNING START / COLLEGE / TRANSFER</div><h2>Select UW equivalents in bulk</h2></div>
+            <a class="source-link" href="https://admit.washington.edu/apply/transfer/policies/" target="_blank" rel="noreferrer">UW transfer policy ↗</a>
+          </div>
+          <p class="detail-description">Use your UW transcript or the Equivalency Guide to identify the UW courses your college work covers, then check all of them here instead of opening boxes one by one.</p>
+          <details id="transfer-picker" class="multi-select-dropdown">
+            <summary><span id="transfer-picker-label">Choose UW course equivalents…</span><span aria-hidden="true">▾</span></summary>
+            <div class="multi-select-menu">
+              <label class="search-box">
+                <span aria-hidden="true">⌕</span>
+                <input id="transfer-course-search" type="search" placeholder="Search course code or title, such as MATH 208">
+              </label>
+              <label class="toggle-field transfer-major-toggle"><input id="transfer-major-only" type="checkbox" checked><span>Show degree-map courses only</span></label>
+              <div id="transfer-course-options" class="multi-select-options"></div>
+            </div>
+          </details>
+          <div id="transfer-selected-list" class="credit-selection-list"></div>
+        </article>
+      </div>
+
+      <article class="credit-card card-surface credit-review-card">
+        <div class="credit-card-head">
+          <div><div class="eyebrow">CURRENTLY APPLIED</div><h2>Courses fulfilled by outside credit</h2></div>
+          <button id="clear-external-credit" class="button danger-ghost" type="button">Clear AP & transfer credit</button>
+        </div>
+        <div id="external-credit-table" class="external-credit-table"></div>
+      </article>
+    </section>
+
+    <section id="view-catalog" class="view">
+      <div class="catalog-hero">
+        <div>
+          <div class="eyebrow">UW COURSE CATALOG</div>
+          <h1>Search every course</h1>
+          <p id="catalog-description">Search by course code, title, subject, description, or prerequisite.</p>
+        </div>
+        <div class="catalog-count-block">
+          <strong id="catalog-total">0</strong>
+          <span>courses loaded</span>
+        </div>
+      </div>
+
+      <div class="catalog-toolbar card-surface">
+        <label class="search-box catalog-search">
+          <span aria-hidden="true">⌕</span>
+          <input id="catalog-search" type="search" placeholder="Search all UW courses, for example robotics, CSE 142, or thermodynamics">
+        </label>
+        <select id="campus-filter" aria-label="Campus filter"><option value="all">All campuses</option></select>
+        <select id="department-filter" aria-label="Department filter"><option value="all">All departments</option></select>
+      </div>
+
+      <div class="catalog-layout">
+        <div>
+          <div class="results-heading">
+            <span id="catalog-result-count">Start typing to search</span>
+            <button id="show-more-button" class="text-button" type="button" hidden>Show more</button>
+          </div>
+          <div id="catalog-results" class="catalog-grid"></div>
+        </div>
+        <aside id="catalog-panel" class="catalog-panel card-surface"></aside>
+      </div>
+    </section>
+  </main>
+
+  <div id="data-modal" class="modal-backdrop" hidden>
+    <div class="modal card-surface" role="dialog" aria-modal="true" aria-labelledby="data-modal-title">
+      <button class="modal-close" type="button" aria-label="Close">×</button>
+      <div class="eyebrow">CATALOG DATA</div>
+      <h2 id="data-modal-title">Course catalog source</h2>
+      <div id="data-modal-content"></div>
+    </div>
+  </div>
+
+  <div id="confirm-modal" class="modal-backdrop" hidden>
+    <div class="modal small card-surface" role="dialog" aria-modal="true" aria-labelledby="confirm-title">
+      <h2 id="confirm-title">Confirm</h2>
+      <p id="confirm-message"></p>
+      <div class="modal-actions">
+        <button id="confirm-cancel" class="button secondary" type="button">Cancel</button>
+        <button id="confirm-ok" class="button danger" type="button">Continue</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <footer>
+    <p>This planner is an educational planning tool, not an official degree audit. Verify requirements, prerequisites, and offerings with UW advisers and current UW sources.</p>
+  </footer>
+</body>
+</html>
