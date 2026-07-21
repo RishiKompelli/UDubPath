@@ -630,66 +630,117 @@
     "name": "Suggested four-year LSJ plan (not an official UW schedule)",
     "quarters": {
       "y1-autumn": [
-        "SLOT:English Composition",
-        "SLOT:Foreign Language",
-        "SLOT:Arts & Humanities"
+        "SLOT:5:English Composition",
+        "SLOT:5:Foreign Language",
+        "SLOT:5:Arts & Humanities"
       ],
       "y1-winter": [
-        "SLOT:Reasoning",
-        "SLOT:Foreign Language",
-        "SLOT:Natural Sciences"
+        "SLOT:5:Reasoning",
+        "SLOT:5:Foreign Language",
+        "SLOT:5:Natural Sciences"
       ],
       "y1-spring": [
         "LSJ 200",
-        "SLOT:Foreign Language",
-        "SLOT:Arts & Humanities"
+        "SLOT:5:Foreign Language",
+        "SLOT:5:Arts & Humanities"
       ],
       "y2-autumn": [
         "LSJ 320",
-        "SLOT:Social Sciences",
-        "SLOT:Natural Sciences"
+        "SLOT:5:Social Sciences",
+        "SLOT:5:Natural Sciences"
       ],
       "y2-winter": [
         "LSJ 300",
         "LSJ 331",
-        "SLOT:Writing"
+        "SLOT:5:Writing"
       ],
       "y2-spring": [
         "LSJ 332",
-        "SLOT:Arts & Humanities",
-        "SLOT:Natural Sciences"
+        "SLOT:5:Arts & Humanities",
+        "SLOT:5:Natural Sciences"
       ],
       "y3-autumn": [
         "LSJ 369",
         "LSJ 376",
-        "SLOT:Social Sciences"
+        "SLOT:5:Social Sciences"
       ],
       "y3-winter": [
         "LSJ 410",
         "PHIL 314",
-        "SLOT:Writing"
+        "SLOT:5:Writing"
       ],
       "y3-spring": [
         "LSJ 401",
         "SOC 371",
-        "SLOT:Arts & Humanities"
+        "SLOT:5:Arts & Humanities"
       ],
       "y4-autumn": [
         "LSJ 438",
-        "SLOT:Additional Areas of Inquiry",
-        "SLOT:Free Elective"
+        "SLOT:5:Additional Areas of Inquiry",
+        "SLOT:3:Free Elective",
+        "SLOT:5:Unassigned graduation credits"
       ],
       "y4-winter": [
-        "SLOT:Additional Areas of Inquiry",
-        "SLOT:Diversity",
-        "SLOT:Free Elective"
+        "SLOT:5:Additional Areas of Inquiry",
+        "SLOT:5:Diversity",
+        "SLOT:3:Free Elective"
       ],
       "y4-spring": [
-        "SLOT:Free Elective",
-        "SLOT:Free Elective",
-        "SLOT:Free Elective"
+        "SLOT:3:Free Elective",
+        "SLOT:3:Free Elective",
+        "SLOT:3:Free Elective",
+        "SLOT:5:Unassigned graduation credits"
       ]
+    },
+    "creditTotal": 180.0,
+    "note": "Every credit needed to reach the degree total is represented. Replace requirement placeholders with actual approved courses."
+  },
+  "prerequisiteSubstitutions": {},
+  "plannerSlotPools": {
+    "English Composition": {
+      "areas": [
+        "C"
+      ]
+    },
+    "Foreign Language": {},
+    "Arts & Humanities": {
+      "areas": [
+        "A&H"
+      ]
+    },
+    "Reasoning": {},
+    "Natural Sciences": {
+      "areas": [
+        "NSc"
+      ]
+    },
+    "Social Sciences": {
+      "areas": [
+        "SSc"
+      ]
+    },
+    "Writing": {
+      "areas": [
+        "W"
+      ]
+    },
+    "Additional Areas of Inquiry": {},
+    "Free Elective": {
+      "allowAny": true
+    },
+    "Diversity": {
+      "areas": [
+        "DIV"
+      ]
+    },
+    "Unassigned graduation credits": {
+      "allowAny": true
     }
   },
-  "prerequisiteSubstitutions": {}
+  "dataAudit": {
+    "auditedOn": "2026-07-21",
+    "degreeTotalChecked": 180,
+    "samplePlanCredits": 180.0,
+    "officialPlanningNote": "Planning aid only; confirm substitutions, variable-credit courses, and changing elective approvals with the department adviser."
+  }
 }

@@ -21,6 +21,10 @@
     {
       "label": "UW MSE course catalog",
       "url": "https://www.washington.edu/students/crscat/mse.html"
+    },
+    {
+      "label": "UW MSE approved technical electives",
+      "url": "https://mse.washington.edu/current/undergrad/courses"
     }
   ],
   "tracks": [
@@ -1089,7 +1093,7 @@
       "sourceUrl": "https://www.washington.edu/students/crscat/meche.html"
     }
   },
-    "mapGroups": [
+  "mapGroups": [
     {
       "id": "efig",
       "label": "Engineering First-year Interest Group",
@@ -1918,7 +1922,7 @@
       "displayCredits": "180 cr"
     }
   ],
-    "samplePlan": {
+  "samplePlan": {
     "name": "Official AUT26 sample four-year plan",
     "quarters": {
       "y1-autumn": [
@@ -1926,12 +1930,12 @@
         "CHEM 142",
         "ENGR 101",
         "GEN ST 199",
-        "SLOT:A&H / SSc"
+        "SLOT:1:A&H / SSc"
       ],
       "y1-winter": [
         "MATH 125",
         "CHEM 152",
-        "SLOT:English Composition"
+        "SLOT:5:English Composition"
       ],
       "y1-spring": [
         "MATH 126",
@@ -1942,19 +1946,19 @@
         "PHYS 122",
         "MSE 311",
         "AMATH 301",
-        "SLOT:A&H / SSc"
+        "SLOT:5:A&H / SSc"
       ],
       "y2-winter": [
         "PHYS 123",
         "MSE 312",
         "AA 210",
-        "SLOT:A&H / SSc / DIV"
+        "SLOT:5:A&H / SSc / DIV"
       ],
       "y2-spring": [
         "MSE 313",
         "MATH 207",
         "CEE 220",
-        "SLOT:A&H / SSc"
+        "SLOT:5:A&H / SSc"
       ],
       "y3-autumn": [
         "MATH 208",
@@ -1967,36 +1971,38 @@
         "MSE 322",
         "MSE 342",
         "MSE 351",
-        "SLOT:Math Elective"
+        "SLOT:3:Math Elective"
       ],
       "y3-spring": [
         "MSE 333",
         "MSE 352",
         "MSE 362",
-        "SLOT:Science Elective",
-        "SLOT:A&H / SSc"
+        "SLOT:3:Science Elective",
+        "SLOT:5:A&H / SSc"
       ],
       "y4-autumn": [
         "MSE 442",
         "MSE 493",
-        "SLOT:MSE Technical Elective",
-        "SLOT:MSE Technical Elective",
-        "SLOT:Engineering Fundamentals Elective"
+        "SLOT:3:MSE Technical Elective",
+        "SLOT:3:MSE Technical Elective",
+        "SLOT:4:Engineering Fundamentals Elective"
       ],
       "y4-winter": [
         "MSE 494",
         "MSE 431",
-        "SLOT:MSE Technical Elective",
-        "SLOT:MSE Technical Elective",
-        "SLOT:Engineering Fundamentals Elective"
+        "SLOT:3:MSE Technical Elective",
+        "SLOT:3:MSE Technical Elective",
+        "SLOT:4:Engineering Fundamentals Elective"
       ],
       "y4-spring": [
         "MSE 495",
-        "SLOT:MSE Technical Elective",
-        "SLOT:Science Elective",
-        "SLOT:A&H / SSc"
+        "SLOT:3:MSE Technical Elective",
+        "SLOT:3:Science Elective",
+        "SLOT:5:A&H / SSc"
       ]
-    }
+    },
+    "creditTotal": 180.0,
+    "note": "Every credit needed to reach the degree total is represented. Replace requirement placeholders with actual approved courses."
   },
   "prerequisiteSubstitutions": {
     "MATH 124": [
@@ -2032,5 +2038,49 @@
       "CHEM 153",
       "CHEM 155"
     ]
+  },
+  "plannerSlotPools": {
+    "A&H / SSc": {
+      "areas": [
+        "A&H",
+        "SSc"
+      ]
+    },
+    "English Composition": {
+      "areas": [
+        "C"
+      ]
+    },
+    "A&H / SSc / DIV": {
+      "areas": [
+        "A&H",
+        "SSc",
+        "DIV"
+      ]
+    },
+    "Math Elective": {},
+    "Science Elective": {
+      "areas": [
+        "NSc"
+      ]
+    },
+    "MSE Technical Elective": {},
+    "Engineering Fundamentals Elective": {
+      "courses": [
+        "AA 210",
+        "AMATH 301",
+        "CEE 220",
+        "EE 215",
+        "ME 123",
+        "ME 230",
+        "MSE 170"
+      ]
+    }
+  },
+  "dataAudit": {
+    "auditedOn": "2026-07-21",
+    "degreeTotalChecked": 180,
+    "samplePlanCredits": 180.0,
+    "officialPlanningNote": "Planning aid only; confirm substitutions, variable-credit courses, and changing elective approvals with the department adviser."
   }
 }

@@ -602,7 +602,106 @@
       "id": "electives",
       "label": "Engineering Electives",
       "credits": "16 cr",
-      "courses": [],
+      "courses": [
+        "AMATH 301",
+        "AA 210",
+        "BIOEN 215",
+        "BIOEN 420",
+        "BIOEN 440",
+        "BIOEN 467",
+        "BIOEN 488",
+        "BIOEN 490",
+        "BIOEN 491",
+        "BIOEN 492",
+        "BSE 406",
+        "BSE 420",
+        "BSE 426",
+        "BSE 430",
+        "BSE 436",
+        "BSE 480",
+        "BSE 481",
+        "CHEM E 301",
+        "CHEM E 341",
+        "CHEM E 355",
+        "CHEM E 434",
+        "CHEM E 440",
+        "CHEM E 458",
+        "CHEM E 467",
+        "CHEM E 476",
+        "CHEM E 477",
+        "CHEM E 484",
+        "CHEM E 490",
+        "CHEM E 491",
+        "CHEM E 497",
+        "CHEM E 499",
+        "CHEM E 511",
+        "CHEM E 562",
+        "CHEM E 563",
+        "CHEM 429",
+        "CHEM 460",
+        "CEE 220",
+        "CEE 291",
+        "CEE 307",
+        "CEE 327",
+        "CEE 337",
+        "CEE 348",
+        "CEE 349",
+        "CEE 352",
+        "CEE 354",
+        "CEE 356",
+        "CEE 357",
+        "CEE 367",
+        "CEE 377",
+        "CEE 390",
+        "CEE 409",
+        "CEE 420",
+        "CEE 462",
+        "CEE 480",
+        "CEE 482",
+        "CEE 484",
+        "CEE 487",
+        "CEE 488",
+        "CEE 490",
+        "CEE 493",
+        "CSE 143",
+        "CSE 160",
+        "CSE 163",
+        "CSE 373",
+        "CSE 410",
+        "CSE 412",
+        "CSE 413",
+        "CSE 414",
+        "CSE 416",
+        "CSE 417",
+        "EE 215",
+        "EE 233",
+        "EE 235",
+        "EE 486",
+        "IND E 250",
+        "IND E 315",
+        "MSE 170",
+        "MSE 298",
+        "MSE 333",
+        "MSE 463",
+        "MSE 481",
+        "MSE 483",
+        "ME 123",
+        "ME 230",
+        "ME 341",
+        "ME 373",
+        "ME 374",
+        "ME 406",
+        "ME 410",
+        "ME 414",
+        "ME 416",
+        "ME 426",
+        "ME 430",
+        "ME 469",
+        "ME 471",
+        "ME 559",
+        "ME 568",
+        "ENGR 321"
+      ],
       "requirementRefs": [
         {
           "id": "engineering-electives",
@@ -1024,9 +1123,109 @@
       "title": "Engineering Electives",
       "displayCredits": "16 cr",
       "targetCredits": 16,
-      "type": "manual",
-      "manualLabel": "Approved engineering elective credits completed",
-      "note": "Use the current Chemical Engineering approved-elective list and enter the completed credits here."
+      "type": "pool",
+      "note": "Complete 16 credits from the current UW Chemical Engineering approved engineering-elective list.",
+      "courses": [
+        "AMATH 301",
+        "AA 210",
+        "BIOEN 215",
+        "BIOEN 420",
+        "BIOEN 440",
+        "BIOEN 467",
+        "BIOEN 488",
+        "BIOEN 490",
+        "BIOEN 491",
+        "BIOEN 492",
+        "BSE 406",
+        "BSE 420",
+        "BSE 426",
+        "BSE 430",
+        "BSE 436",
+        "BSE 480",
+        "BSE 481",
+        "CHEM E 301",
+        "CHEM E 341",
+        "CHEM E 355",
+        "CHEM E 434",
+        "CHEM E 440",
+        "CHEM E 458",
+        "CHEM E 467",
+        "CHEM E 476",
+        "CHEM E 477",
+        "CHEM E 484",
+        "CHEM E 490",
+        "CHEM E 491",
+        "CHEM E 497",
+        "CHEM E 499",
+        "CHEM E 511",
+        "CHEM E 562",
+        "CHEM E 563",
+        "CHEM 429",
+        "CHEM 460",
+        "CEE 220",
+        "CEE 291",
+        "CEE 307",
+        "CEE 327",
+        "CEE 337",
+        "CEE 348",
+        "CEE 349",
+        "CEE 352",
+        "CEE 354",
+        "CEE 356",
+        "CEE 357",
+        "CEE 367",
+        "CEE 377",
+        "CEE 390",
+        "CEE 409",
+        "CEE 420",
+        "CEE 462",
+        "CEE 480",
+        "CEE 482",
+        "CEE 484",
+        "CEE 487",
+        "CEE 488",
+        "CEE 490",
+        "CEE 493",
+        "CSE 143",
+        "CSE 160",
+        "CSE 163",
+        "CSE 373",
+        "CSE 410",
+        "CSE 412",
+        "CSE 413",
+        "CSE 414",
+        "CSE 416",
+        "CSE 417",
+        "EE 215",
+        "EE 233",
+        "EE 235",
+        "EE 486",
+        "IND E 250",
+        "IND E 315",
+        "MSE 170",
+        "MSE 298",
+        "MSE 333",
+        "MSE 463",
+        "MSE 481",
+        "MSE 483",
+        "ME 123",
+        "ME 230",
+        "ME 341",
+        "ME 373",
+        "ME 374",
+        "ME 406",
+        "ME 410",
+        "ME 414",
+        "ME 416",
+        "ME 426",
+        "ME 430",
+        "ME 469",
+        "ME 471",
+        "ME 559",
+        "ME 568",
+        "ENGR 321"
+      ],
+      "minCredits": 16
     },
     {
       "id": "total",
@@ -1045,12 +1244,12 @@
         "CHEM 142",
         "ENGR 101",
         "GEN ST 199",
-        "SLOT:A&H / SSc"
+        "SLOT:5:A&H / SSc"
       ],
       "y1-winter": [
         "MATH 125",
         "CHEM 152",
-        "SLOT:English Composition"
+        "SLOT:5:English Composition"
       ],
       "y1-spring": [
         "MATH 126",
@@ -1061,55 +1260,98 @@
         "MATH 207",
         "PHYS 122",
         "CHEM 237",
-        "SLOT:A&H / SSc / DIV"
+        "SLOT:5:A&H / SSc / DIV"
       ],
       "y2-winter": [
         "PHYS 123",
         "CHEM 238",
         "MATH 208",
-        "SLOT:Free Elective"
+        "SLOT:3:Free Elective"
       ],
       "y2-spring": [
         "CHEM E 310",
         "CHEM E 375",
-        "SLOT:Math Elective",
-        "SLOT:Free Elective"
+        "SLOT:3:Math Elective",
+        "SLOT:3:Free Elective"
       ],
       "y3-autumn": [
         "CHEM E 325",
         "CHEM E 330",
         "CHEM E 456",
-        "SLOT:A&H / SSc"
+        "SLOT:5:A&H / SSc"
       ],
       "y3-winter": [
         "CHEM E 326",
         "CHEM E 340",
-        "SLOT:Engineering Elective",
-        "SLOT:A&H / SSc"
+        "SLOT:1:Engineering Elective",
+        "SLOT:5:A&H / SSc"
       ],
       "y3-spring": [
         "CHEM E 436",
         "CHEM E 457",
-        "SLOT:Engineering Elective",
-        "SLOT:A&H / SSc"
+        "SLOT:1:Engineering Elective",
+        "SLOT:5:A&H / SSc"
       ],
       "y4-autumn": [
         "CHEM E 435",
         "CHEM E 455",
         "CHEM E 465",
-        "SLOT:Free Elective"
+        "SLOT:3:Free Elective"
       ],
       "y4-winter": [
         "CHEM E 437",
         "CHEM E 485",
-        "SLOT:Engineering Elective",
-        "SLOT:Free Elective"
+        "SLOT:1:Engineering Elective",
+        "SLOT:3:Free Elective",
+        "SLOT:3:Unassigned graduation credits"
       ],
       "y4-spring": [
         "CHEM E 486",
-        "SLOT:Engineering Elective",
-        "CHEM E 480"
+        "SLOT:1:Engineering Elective",
+        "CHEM E 480",
+        "SLOT:5:Unassigned graduation credits"
       ]
+    },
+    "creditTotal": 180.0,
+    "note": "Every credit needed to reach the degree total is represented. Replace requirement placeholders with actual approved courses."
+  },
+  "plannerSlotPools": {
+    "A&H / SSc": {
+      "areas": [
+        "A&H",
+        "SSc"
+      ]
+    },
+    "English Composition": {
+      "areas": [
+        "C"
+      ]
+    },
+    "A&H / SSc / DIV": {
+      "areas": [
+        "A&H",
+        "SSc",
+        "DIV"
+      ]
+    },
+    "Free Elective": {
+      "allowAny": true
+    },
+    "Math Elective": {},
+    "Engineering Elective": {
+      "courses": [
+        "ENGR 101",
+        "GEN ST 199"
+      ]
+    },
+    "Unassigned graduation credits": {
+      "allowAny": true
     }
+  },
+  "dataAudit": {
+    "auditedOn": "2026-07-21",
+    "degreeTotalChecked": 180,
+    "samplePlanCredits": 180.0,
+    "officialPlanningNote": "Planning aid only; confirm substitutions, variable-credit courses, and changing elective approvals with the department adviser."
   }
 }

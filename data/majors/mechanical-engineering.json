@@ -1653,17 +1653,17 @@
         "CHEM 142",
         "ENGR 101",
         "GEN ST 199",
-        "SLOT:A&H/SSc"
+        "SLOT:3:A&H/SSc"
       ],
       "y1-winter": [
         "MATH 125",
         "CHEM 152",
-        "SLOT:English Composition"
+        "SLOT:5:English Composition"
       ],
       "y1-spring": [
         "MATH 126",
         "PHYS 121",
-        "SLOT:A&H/SSc/DIV"
+        "SLOT:5:A&H/SSc/DIV"
       ],
       "y2-autumn": [
         "PHYS 122",
@@ -1675,19 +1675,19 @@
         "PHYS 123",
         "MATH 208",
         "ME 230",
-        "SLOT:Free Elective"
+        "SLOT:1:Free Elective"
       ],
       "y2-spring": [
         "CEE 220",
         "MATH 209",
         "MSE 170",
-        "SLOT:A&H/SSc"
+        "SLOT:5:A&H/SSc"
       ],
       "y3-autumn": [
         "ME 323",
         "AMATH 301",
         "EE 215",
-        "SLOT:A&H/SSc"
+        "SLOT:5:A&H/SSc"
       ],
       "y3-winter": [
         "ME 333",
@@ -1698,26 +1698,28 @@
         "ME 355",
         "ME 374",
         "IND E 315",
-        "SLOT:ME Option Elective"
+        "SLOT:3:ME Option Elective"
       ],
       "y4-autumn": [
         "ME 331",
         "ME 493",
-        "SLOT:ME Option Elective",
-        "SLOT:A&H/SSc"
+        "SLOT:3:ME Option Elective",
+        "SLOT:5:A&H/SSc"
       ],
       "y4-winter": [
         "ME 356",
         "ME 494",
-        "SLOT:ME Option Elective",
-        "SLOT:ME Option Elective"
+        "SLOT:3:ME Option Elective",
+        "SLOT:3:ME Option Elective"
       ],
       "y4-spring": [
         "ME 495",
-        "SLOT:ME Option Elective",
-        "SLOT:A&H/SSc"
+        "SLOT:3:ME Option Elective",
+        "SLOT:5:A&H/SSc"
       ]
-    }
+    },
+    "creditTotal": 180.0,
+    "note": "Every credit needed to reach the degree total is represented. Replace requirement placeholders with actual approved courses."
   },
   "prerequisiteSubstitutions": {
     "MATH 124": [
@@ -1753,5 +1755,64 @@
       "CHEM 153",
       "CHEM 155"
     ]
+  },
+  "plannerSlotPools": {
+    "A&H/SSc": {
+      "areas": [
+        "A&H",
+        "SSc"
+      ]
+    },
+    "English Composition": {
+      "areas": [
+        "C"
+      ]
+    },
+    "A&H/SSc/DIV": {
+      "areas": [
+        "A&H",
+        "SSc",
+        "DIV"
+      ]
+    },
+    "Free Elective": {
+      "allowAny": true
+    },
+    "ME Option Elective": {
+      "courses": [
+        "ME 402",
+        "ME 406",
+        "ME 410",
+        "ME 411",
+        "ME 412",
+        "ME 419",
+        "ME 425",
+        "ME 426",
+        "ME 430",
+        "ME 431",
+        "ME 440",
+        "ME 442",
+        "ME 445",
+        "ME 450",
+        "ME 460",
+        "ME 461",
+        "ME 469",
+        "ME 470",
+        "ME 471",
+        "ME 473",
+        "ME 477",
+        "ME 478",
+        "ME 480",
+        "ME 498",
+        "ME 499",
+        "ENGR 321"
+      ]
+    }
+  },
+  "dataAudit": {
+    "auditedOn": "2026-07-21",
+    "degreeTotalChecked": 180,
+    "samplePlanCredits": 180.0,
+    "officialPlanningNote": "Planning aid only; confirm substitutions, variable-credit courses, and changing elective approvals with the department adviser."
   }
 }

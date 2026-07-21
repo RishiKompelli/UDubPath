@@ -667,7 +667,62 @@
       "id": "approved-engineering",
       "label": "Approved Engineering Electives",
       "credits": "9–12 cr",
-      "courses": [],
+      "courses": [
+        "AA 210",
+        "AMATH 422",
+        "AMATH 423",
+        "AMATH 424",
+        "AMATH 481",
+        "AMATH 482",
+        "AMATH 483",
+        "CHEM E 310",
+        "CHEM E 326",
+        "CHEM E 375",
+        "CHEM E 445",
+        "CHEM E 457",
+        "CHEM E 465",
+        "NME 220",
+        "CEE 220",
+        "CEE 350",
+        "CEE 357",
+        "CEE 480",
+        "CEE 495",
+        "CSE 122",
+        "CSE 123",
+        "CSE 154",
+        "CSE 160",
+        "CSE 373",
+        "CSE 410",
+        "CSE 427",
+        "EE 215",
+        "EE 233",
+        "EE 235",
+        "EE 242",
+        "EE 271",
+        "EE 341",
+        "EE 401",
+        "EE 484",
+        "EE 485",
+        "IND E 250",
+        "IND E 337",
+        "IND E 351",
+        "IND E 426",
+        "IND E 470",
+        "ME 123",
+        "ME 230",
+        "ME 410",
+        "ME 414",
+        "ME 461",
+        "ME 478",
+        "ME 498",
+        "MSE 170",
+        "MSE 273",
+        "MSE 450",
+        "MSE 471",
+        "MSE 481",
+        "MSE 482",
+        "MSE 483"
+      ],
       "requirementRefs": [
         {
           "id": "approved-engineering",
@@ -1208,10 +1263,66 @@
       "title": "Approved Engineering Electives",
       "displayCredits": "9–12 cr",
       "targetCredits": 9,
-      "type": "manual",
-      "manualLabel": "Approved engineering elective credits completed",
+      "type": "pool",
       "maxCredits": 12,
-      "note": "Option A requires 9 credits and Option B requires 12. Use the current BioE-approved list and enter the completed credits here."
+      "note": "Complete 9–12 credits from the department-approved engineering elective list; the exact amount depends on capstone choice.",
+      "courses": [
+        "AA 210",
+        "AMATH 422",
+        "AMATH 423",
+        "AMATH 424",
+        "AMATH 481",
+        "AMATH 482",
+        "AMATH 483",
+        "CHEM E 310",
+        "CHEM E 326",
+        "CHEM E 375",
+        "CHEM E 445",
+        "CHEM E 457",
+        "CHEM E 465",
+        "NME 220",
+        "CEE 220",
+        "CEE 350",
+        "CEE 357",
+        "CEE 480",
+        "CEE 495",
+        "CSE 122",
+        "CSE 123",
+        "CSE 154",
+        "CSE 160",
+        "CSE 373",
+        "CSE 410",
+        "CSE 427",
+        "EE 215",
+        "EE 233",
+        "EE 235",
+        "EE 242",
+        "EE 271",
+        "EE 341",
+        "EE 401",
+        "EE 484",
+        "EE 485",
+        "IND E 250",
+        "IND E 337",
+        "IND E 351",
+        "IND E 426",
+        "IND E 470",
+        "ME 123",
+        "ME 230",
+        "ME 410",
+        "ME 414",
+        "ME 461",
+        "ME 478",
+        "ME 498",
+        "MSE 170",
+        "MSE 273",
+        "MSE 450",
+        "MSE 471",
+        "MSE 481",
+        "MSE 482",
+        "MSE 483"
+      ],
+      "minCredits": 9
     },
     {
       "id": "total",
@@ -1230,12 +1341,12 @@
         "CHEM 142",
         "ENGR 101",
         "GEN ST 199",
-        "SLOT:A&H / SSc"
+        "SLOT:5:A&H / SSc"
       ],
       "y1-winter": [
         "MATH 125",
         "CHEM 152",
-        "SLOT:English Composition"
+        "SLOT:5:English Composition"
       ],
       "y1-spring": [
         "MATH 126",
@@ -1246,12 +1357,12 @@
         "BIOL 180",
         "CHEM 223",
         "BIOEN 215",
-        "SLOT:A&H / SSc"
+        "SLOT:5:A&H / SSc"
       ],
       "y2-winter": [
         "BIOL 200",
         "AMATH 301",
-        "SLOT:A&H / SSc / DIV"
+        "SLOT:5:A&H / SSc / DIV"
       ],
       "y2-spring": [
         "MATH 207",
@@ -1265,7 +1376,7 @@
         "BIOEN 326",
         "BIOEN 327",
         "MATH 208",
-        "SLOT:A&H / SSc"
+        "SLOT:5:A&H / SSc"
       ],
       "y3-winter": [
         "BIOEN 335",
@@ -1277,28 +1388,81 @@
       "y3-spring": [
         "BIOEN 345",
         "BIOEN 400",
-        "SLOT:BIOEN Elective",
-        "SLOT:A&H / SSc",
+        "SLOT:3:BIOEN Elective",
+        "SLOT:5:A&H / SSc",
         "BIOEN 401"
       ],
       "y4-autumn": [
         "BIOEN 402",
-        "SLOT:BIOEN Elective",
-        "SLOT:Engineering Elective",
-        "SLOT:A&H / SSc / Writing"
+        "SLOT:3:BIOEN Elective",
+        "SLOT:1:Engineering Elective",
+        "SLOT:5:A&H / SSc / Writing"
       ],
       "y4-winter": [
         "BIOEN 402",
-        "SLOT:BIOEN Elective",
-        "SLOT:BIOEN Elective",
-        "SLOT:A&H / SSc"
+        "SLOT:3:BIOEN Elective",
+        "SLOT:3:BIOEN Elective",
+        "SLOT:5:A&H / SSc"
       ],
       "y4-spring": [
         "BIOEN 402",
-        "SLOT:BIOEN Elective",
-        "SLOT:Engineering Elective",
-        "SLOT:General Elective / Writing"
+        "SLOT:3:BIOEN Elective",
+        "SLOT:1:Engineering Elective",
+        "SLOT:3:General Elective / Writing"
+      ]
+    },
+    "creditTotal": 180.0,
+    "note": "Every credit needed to reach the degree total is represented. Replace requirement placeholders with actual approved courses."
+  },
+  "plannerSlotPools": {
+    "A&H / SSc": {
+      "areas": [
+        "A&H",
+        "SSc"
+      ]
+    },
+    "English Composition": {
+      "areas": [
+        "C"
+      ]
+    },
+    "A&H / SSc / DIV": {
+      "areas": [
+        "A&H",
+        "SSc",
+        "DIV"
+      ]
+    },
+    "BIOEN Elective": {},
+    "Engineering Elective": {
+      "courses": [
+        "ENGR 101",
+        "GEN ST 199"
+      ]
+    },
+    "A&H / SSc / Writing": {
+      "areas": [
+        "W",
+        "A&H",
+        "SSc"
+      ]
+    },
+    "General Elective / Writing": {
+      "courses": [
+        "BIOEN 401",
+        "BIOEN 402",
+        "BIOEN 404",
+        "BIOEN 405"
+      ],
+      "areas": [
+        "W"
       ]
     }
+  },
+  "dataAudit": {
+    "auditedOn": "2026-07-21",
+    "degreeTotalChecked": 180,
+    "samplePlanCredits": 180.0,
+    "officialPlanningNote": "Planning aid only; confirm substitutions, variable-credit courses, and changing elective approvals with the department adviser."
   }
 }

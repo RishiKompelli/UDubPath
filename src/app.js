@@ -31,7 +31,8 @@ const app = {
   activeView: "map",
   catalogLimit: 60,
   confirmResolver: null,
-  mapRenderToken: 0
+  mapRenderToken: 0,
+  pendingPlanSlot: null
 };
 
 const $ = (selector, parent = document) => parent.querySelector(selector);
@@ -151,6 +152,7 @@ async function initialize() {
     app.catalogPayload = catalogPayload;
     app.apCredit = apCredit;
     app.progress = loadProgress();
+    migrateLegacyPlanSlots();
     buildCatalogIndexes();
     populateGlobalControls();
     bindEvents();
@@ -321,7 +323,20 @@ function bindEvents() {
 
   $("#requirements-grid").addEventListener("change", handleRequirementChange);
 
-  $("#planner-add-search").addEventListener("input", debounce(updatePlannerSearchResults, 100));
+  const plannerSearch = $("#planner-add-search");
+  plannerSearch.addEventListener("input", debounce(() => {
+    app.plannerSelectedCourseCode = null;
+    updatePlannerSearchResults();
+    openPlannerCourseMenu();
+  }, 80));
+  plannerSearch.addEventListener("focus", () => {
+    updatePlannerSearchResults();
+    openPlannerCourseMenu();
+  });
+  plannerSearch.addEventListener("keydown", handlePlannerSearchKeydown);
+  $("#planner-course-toggle").addEventListener("click", togglePlannerCourseMenu);
+  $("#planner-add-menu").addEventListener("mousedown", handlePlannerMenuClick);
+  document.addEventListener("click", handlePlannerOutsideClick);
   $("#planner-add-button").addEventListener("click", addPlannerSearchCourse);
   $("#planner-grid").addEventListener("click", handlePlannerClick);
   $("#planner-grid").addEventListener("dragstart", handleDragStart);
@@ -510,6 +525,183 @@ function renderMapRequirementCard(reference) {
   </button>`;
 }
 
+
+function getSamplePlanMapSlots() {
+  const result = [];
+  const quarters = app.major.samplePlan?.quarters || {};
+
+  for (const quarter of QUARTERS) {
+    const items = quarters[quarter.id] || [];
+    items.forEach((item, index) => {
+      if (!String(item || "").startsWith("SLOT:")) return;
+      const slot = typeof parsePlanSlot === "function"
+        ? parsePlanSlot(item)
+        : (() => {
+            const payload = String(item).slice(5);
+            const match = payload.match(/^(\d+(?:\.\d+)?):(.*)$/);
+            return match
+              ? { credits: Number(match[1]), label: match[2].trim(), raw: item }
+              : { credits: 0, label: payload.trim(), raw: item };
+          })();
+
+      result.push({
+        ...slot,
+        quarterId: quarter.id,
+        quarterText: `Year ${quarter.year} ${quarter.season}`,
+        key: `${quarter.id}-${index}-${item}`
+      });
+    });
+  }
+
+  return result;
+}
+
+function mapGroupText(group) {
+  return `${group.id || ""} ${group.label || ""} ${group.shortLabel || ""} ${group.description || ""}`.toLowerCase();
+}
+
+function firstMapGroup(groups, patterns) {
+  for (const pattern of patterns) {
+    const match = groups.find((group) => pattern.test(mapGroupText(group)));
+    if (match) return match.id;
+  }
+  return null;
+}
+
+function explicitCourseCodesFromSlotLabel(label) {
+  return [...String(label || "").matchAll(/\b(?:AA|A A|AMATH|BIOEN|CHEM E|CHEM|CEE|CSE|EE|E E|ENGR|HCDE|IND E|MATH|ME|M E|MSE|MS E|NME|PHYS|STAT)\s+\d{3}[A-Z]?\b/gi)]
+    .map((match) => normalizeCode(match[0]));
+}
+
+function chooseMapGroupForPlanSlot(slot, groups) {
+  const label = String(slot.label || "").toLowerCase();
+  const definition = app.major.plannerSlotPools?.[slot.label] || {};
+
+  if (definition.mapGroup && groups.some((group) => group.id === definition.mapGroup)) {
+    return definition.mapGroup;
+  }
+
+  const explicitCodes = explicitCourseCodesFromSlotLabel(slot.label);
+  if (explicitCodes.length) {
+    const exactGroup = groups.find((group) => {
+      const codes = new Set((group.courses || []).map(normalizeCode));
+      return explicitCodes.some((code) => codes.has(code));
+    });
+    if (exactGroup) return exactGroup.id;
+  }
+
+  if (/unassigned|graduation credits?|free elective|general elective/.test(label)) {
+    return firstMapGroup(groups, [/free/, /elective/]) || groups.at(-1)?.id;
+  }
+
+  if (/composition|writing|a\s*&\s*h|arts?\s*&?\s*humanities|ssc|social sciences?|diversity|foreign language|reasoning|areas? of inquiry/.test(label)) {
+    return firstMapGroup(groups, [/general.education/, /general studies?/, /areas? of inquiry/]);
+  }
+
+  if (/math|statistics?/.test(label) && !/science/.test(label)) {
+    return firstMapGroup(groups, [/mathematics/, /\bmath\b/, /statistics/]);
+  }
+
+  if (/science|natural science|nsc|biology|chemistry|physics/.test(label)) {
+    return firstMapGroup(groups, [/\bscience/, /math.*science/]);
+  }
+
+  if (/engineering fundamentals?/.test(label)) {
+    return firstMapGroup(groups, [/fundamentals?/]);
+  }
+
+  if (/capstone/.test(label)) {
+    return firstMapGroup(groups, [/capstone/, /major core/, /\bcore\b/]);
+  }
+
+  if (/engineering\s*&?\s*science elective/.test(label)) {
+    return firstMapGroup(groups, [/engineering.*science/, /approved engineering/, /elective/]);
+  }
+
+  if (/engineering elective/.test(label)) {
+    return firstMapGroup(groups, [/approved engineering/, /engineering electives?/, /elective/]);
+  }
+
+  if (/technical elective|option elective|advanced .*elective|senior elective|major elective|bioen elective|cse senior elective|mse technical elective|hcde elective|ind e technical elective/.test(label)) {
+    return firstMapGroup(groups, [/technical elective/, /senior elective/, /advanced/, /options?/, /electives?/]);
+  }
+
+  if (/professional issues/.test(label)) {
+    return firstMapGroup(groups, [/advanced/, /core/, /elective/]);
+  }
+
+  const poolCodes = (definition.courses || []).map(normalizeCode);
+  if (poolCodes.length) {
+    let best = null;
+    let bestCount = 0;
+    for (const group of groups) {
+      const groupCodes = new Set((group.courses || []).map(normalizeCode));
+      const overlap = poolCodes.reduce((count, code) => count + (groupCodes.has(code) ? 1 : 0), 0);
+      if (overlap > bestCount) {
+        best = group.id;
+        bestCount = overlap;
+      }
+    }
+    if (best) return best;
+  }
+
+  const ignored = new Set(["approved", "additional", "course", "courses", "credit", "credits", "elective", "requirement", "requirements", "with", "and", "or"]);
+  const tokens = label.split(/[^a-z0-9]+/).filter((token) => token.length > 2 && !ignored.has(token));
+  let best = null;
+  let bestScore = 0;
+  for (const group of groups) {
+    const haystack = mapGroupText(group);
+    const score = tokens.reduce((sum, token) => sum + (haystack.includes(token) ? 1 : 0), 0);
+    if (score > bestScore) {
+      best = group.id;
+      bestScore = score;
+    }
+  }
+  if (best) return best;
+
+  return firstMapGroup(groups, [/general.education/, /free/]) || groups.at(-1)?.id;
+}
+
+function getMapPlanSlotsByGroup(groups) {
+  const result = new Map(groups.map((group) => [group.id, []]));
+  for (const slot of getSamplePlanMapSlots()) {
+    const groupId = chooseMapGroupForPlanSlot(slot, groups);
+    if (!result.has(groupId)) result.set(groupId, []);
+    result.get(groupId).push(slot);
+  }
+  return result;
+}
+
+function renderMapPlanSlotCard(slot, rawQuery = "") {
+  const query = String(rawQuery || "").toLowerCase();
+  const matches = !query || `${slot.label} ${slot.quarterText}`.toLowerCase().includes(query);
+  const currentlyInPlan = (app.progress.plan?.[slot.quarterId] || []).includes(slot.raw);
+
+  return `<button class="map-plan-slot-node ${matches ? "" : "dimmed"}" type="button"
+    data-map-plan-slot="${escapeHtml(slot.raw)}"
+    data-map-plan-quarter="${escapeHtml(slot.quarterId)}">
+    <span class="map-plan-slot-top">
+      <strong>${escapeHtml(slot.label)}</strong>
+      <em>${formatNumber(slot.credits)} cr</em>
+    </span>
+    <span class="map-plan-slot-status">${currentlyInPlan ? "Choose course" : "Suggested"} · ${escapeHtml(slot.quarterText)}</span>
+  </button>`;
+}
+
+function openMapPlanSlot(item, quarterId) {
+  switchView("planner");
+  requestAnimationFrame(() => {
+    if (typeof beginFillPlanSlot === "function") {
+      beginFillPlanSlot(item, quarterId);
+    } else {
+      const quarterSelect = $("#planner-add-quarter");
+      if (quarterSelect) quarterSelect.value = quarterId;
+      showToast("Choose a course for this requirement in the four-year planner.");
+    }
+    document.querySelector(`[data-quarter="${quarterId}"]`)?.scrollIntoView({ behavior: "smooth", block: "center" });
+  });
+}
+
 function getApExam(examId) {
   return (app.apCredit.exams || []).find((exam) => exam.id === examId) || null;
 }
@@ -618,6 +810,7 @@ function renderMap() {
   const rawQuery = ($("#map-search")?.value || "").trim().toLowerCase();
   const availableOnly = $("#available-only")?.checked;
   const groups = getVisibleMapGroups();
+  const planSlotsByGroup = getMapPlanSlotsByGroup(groups);
   const selected = app.selectedCode;
   const neighbors = new Set(selected ? [selected, ...getMajorSuccessors(selected), ...getPrerequisiteGroups(selected).flatMap(expandedPrerequisiteOptions)] : []);
 
@@ -650,7 +843,9 @@ function renderMap() {
         </article>`;
     }).join("");
     const requirementCards = (group.requirementRefs || []).map(renderMapRequirementCard).join("");
-    const itemCount = group.courses.length + (group.requirementRefs || []).length;
+    const planSlots = planSlotsByGroup.get(group.id) || [];
+    const planSlotCards = planSlots.map((slot) => renderMapPlanSlotCard(slot, rawQuery)).join("");
+    const itemCount = group.courses.length + (group.requirementRefs || []).length + planSlots.length;
     return `
       <section class="map-column ${group.courses.length > 14 ? "dense" : ""} ${!group.courses.length ? "requirements-only" : ""}" data-group="${escapeHtml(group.id)}">
         <div class="map-column-header">
@@ -662,6 +857,7 @@ function renderMap() {
           ${group.description ? `<p>${escapeHtml(group.description)}</p>` : ""}
         </div>
         ${requirementCards ? `<div class="map-requirement-list">${requirementCards}</div>` : ""}
+        ${planSlotCards ? `<div class="map-plan-slot-section"><div class="map-plan-slot-heading">Course placeholders</div><div class="map-plan-slot-list">${planSlotCards}</div></div>` : ""}
         <div class="map-node-list">${nodes}</div>
       </section>`;
   }).join("");
@@ -739,6 +935,11 @@ function drawMapEdges() {
 }
 
 function handleMapClick(event) {
+  const planSlotNode = event.target.closest("[data-map-plan-slot]");
+  if (planSlotNode) {
+    openMapPlanSlot(planSlotNode.dataset.mapPlanSlot, planSlotNode.dataset.mapPlanQuarter);
+    return;
+  }
   const requirementNode = event.target.closest("[data-map-requirement]");
   if (requirementNode) {
     const id = requirementNode.dataset.mapRequirement;
@@ -909,8 +1110,10 @@ function fulfilledCredits() {
 }
 
 function plannedCredits() {
-  const unique = new Set(Object.values(app.progress.plan).flat().filter((item) => !item.startsWith("SLOT:")));
-  return [...unique].reduce((total, code) => total + numericCredits(getCourse(code).credits), 0);
+  return Object.values(app.progress.plan).flat().reduce((total, item) => {
+    const slot = parsePlanSlot(item);
+    return total + (slot ? slot.credits : numericCredits(getCourse(item).credits));
+  }, 0);
 }
 
 function areaMatches(course, area) {
@@ -1373,7 +1576,98 @@ function handleRequirementChange(event) {
   }
 }
 
+
+function isPlanSlot(item) {
+  return String(item || "").startsWith("SLOT:");
+}
+
+function parsePlanSlot(item) {
+  if (!isPlanSlot(item)) return null;
+  const payload = String(item).slice(5);
+  const match = payload.match(/^(\d+(?:\.\d+)?):(.*)$/);
+  if (match) return { credits: Number(match[1]), label: match[2].trim(), raw: item };
+  return { credits: 0, label: payload.trim(), raw: item };
+}
+
+function migrateLegacyPlanSlots() {
+  const queues = new Map();
+  for (const items of Object.values(app.major.samplePlan?.quarters || {})) {
+    for (const item of items) {
+      const slot = parsePlanSlot(item);
+      if (!slot) continue;
+      if (!queues.has(slot.label)) queues.set(slot.label, []);
+      queues.get(slot.label).push(item);
+    }
+  }
+  let changed = false;
+  for (const quarter of QUARTERS) {
+    app.progress.plan[quarter.id] = (app.progress.plan[quarter.id] || []).map((item) => {
+      if (!isPlanSlot(item) || /^SLOT:\d+(?:\.\d+)?:/.test(item)) return item;
+      const label = parsePlanSlot(item).label;
+      const replacement = queues.get(label)?.shift();
+      if (replacement) {
+        changed = true;
+        return replacement;
+      }
+      return item;
+    });
+  }
+  if (changed) saveProgress();
+}
+
+function plannedCourseCodes() {
+  return [...new Set(Object.values(app.progress.plan).flat().filter((item) => !isPlanSlot(item)).map(normalizeCode))];
+}
+
+function slotPoolDefinition(slot) {
+  return app.major.plannerSlotPools?.[slot.label] || {};
+}
+
+function courseMatchesSlot(course, slot) {
+  const definition = slotPoolDefinition(slot);
+  const code = normalizeCode(course.code);
+  const listed = (definition.courses || []).map(normalizeCode);
+  if (listed.length && !listed.includes(code)) return false;
+  const departments = definition.departments || [];
+  if (departments.length && !departments.some((department) => code.startsWith(normalizeCode(department) + " "))) return false;
+  const minimumLevel = Number(definition.minimumLevel || 0);
+  if (minimumLevel) {
+    const level = Number(code.match(/\d{3}/)?.[0] || 0);
+    if (level < minimumLevel) return false;
+  }
+  const areas = definition.areas || [];
+  if (areas.length && !areas.some((area) => areaMatches(course, area))) return false;
+  const explicitCodes = [...slot.label.matchAll(/\b(?:AA|A A|AMATH|BIOEN|CHEM E|CHEM|CEE|CSE|EE|E E|ENGR|HCDE|IND E|MATH|ME|M E|MSE|MS E|NME|PHYS|STAT)\s+\d{3}[A-Z]?\b/gi)].map((match) => normalizeCode(match[0]));
+  if (explicitCodes.length && !explicitCodes.includes(code)) return false;
+  return true;
+}
+
+function beginFillPlanSlot(item, quarterId) {
+  app.pendingPlanSlot = { item, quarterId };
+  app.plannerSelectedCourseCode = null;
+  const slot = parsePlanSlot(item);
+  const quarterSelect = $("#planner-add-quarter");
+  if (quarterSelect) quarterSelect.value = quarterId;
+  const input = $("#planner-add-search");
+  if (input) {
+    input.value = "";
+    input.placeholder = `Search a course for ${slot.label}`;
+    input.focus();
+  }
+  updatePlannerSearchResults();
+  renderPlanner();
+  showToast(`Choose a course to replace “${slot.label}”.`);
+}
+
+function clearPendingPlanSlot() {
+  app.pendingPlanSlot = null;
+  const input = $("#planner-add-search");
+  if (input) input.placeholder = "Search a course to add to your plan";
+}
+
 function renderPlanner() {
+  const addButton = $("#planner-add-button");
+  if (addButton) addButton.textContent = app.pendingPlanSlot ? "Use course for requirement" : "Add course";
   const warnings = validatePlan();
   $("#planner-grid").innerHTML = [1,2,3,4].map((year) => {
     const quarters = QUARTERS.filter((quarter) => quarter.year === year);
@@ -1397,10 +1691,12 @@ function renderQuarter(quarter, warnings) {
 }
 
 function renderPlanItem(item, quarterId, hasWarning) {
-  if (item.startsWith("SLOT:")) {
-    const title = item.slice(5);
+  if (isPlanSlot(item)) {
+    const slot = parsePlanSlot(item);
     return `<div class="plan-course slot" draggable="true" data-plan-item="${escapeHtml(item)}" data-from-quarter="${quarterId}">
-      <div class="plan-code">Requirement slot</div><div class="plan-title">${escapeHtml(title)}</div>
+      <div class="plan-code">Requirement · ${formatNumber(slot.credits)} cr</div>
+      <div class="plan-title">${escapeHtml(slot.label)}</div>
+      <button class="slot-fill" type="button" data-fill-slot="${escapeHtml(item)}" data-quarter="${quarterId}">Choose course</button>
       <button class="plan-remove" type="button" data-remove-plan="${escapeHtml(item)}" data-quarter="${quarterId}" aria-label="Remove">×</button>
     </div>`;
   }
@@ -1413,32 +1709,203 @@ function renderPlanItem(item, quarterId, hasWarning) {
 }
 
 function quarterCredits(quarterId) {
-  return (app.progress.plan[quarterId] || []).reduce((sum, item) => sum + (item.startsWith("SLOT:") ? 0 : numericCredits(getCourse(item).credits)), 0);
+  return (app.progress.plan[quarterId] || []).reduce((sum, item) => {
+    const slot = parsePlanSlot(item);
+    return sum + (slot ? slot.credits : numericCredits(getCourse(item).credits));
+  }, 0);
+}
+
+function plannerCourseDisplay(course) {
+  return `${course.code} — ${course.title}`;
+}
+
+function openPlannerCourseMenu() {
+  const menu = $("#planner-add-menu");
+  const input = $("#planner-add-search");
+  const toggle = $("#planner-course-toggle");
+  if (!menu || !input) return;
+  menu.hidden = false;
+  input.setAttribute("aria-expanded", "true");
+  if (toggle) toggle.setAttribute("aria-expanded", "true");
+}
+
+function closePlannerCourseMenu() {
+  const menu = $("#planner-add-menu");
+  const input = $("#planner-add-search");
+  const toggle = $("#planner-course-toggle");
+  if (!menu || !input) return;
+  menu.hidden = true;
+  input.setAttribute("aria-expanded", "false");
+  input.removeAttribute("aria-activedescendant");
+  if (toggle) toggle.setAttribute("aria-expanded", "false");
+  app.plannerSearchIndex = -1;
+}
+
+function togglePlannerCourseMenu(event) {
+  event.preventDefault();
+  const menu = $("#planner-add-menu");
+  const input = $("#planner-add-search");
+  if (!menu || !input) return;
+  if (menu.hidden) {
+    updatePlannerSearchResults();
+    openPlannerCourseMenu();
+    input.focus();
+  } else {
+    closePlannerCourseMenu();
+  }
 }
 
 function updatePlannerSearchResults() {
   const input = $("#planner-add-search");
-  const select = $("#planner-add-results");
-  if (!input || !select) return;
+  const menu = $("#planner-add-menu");
+  if (!input || !menu) return;
+
   const query = input.value.trim().toLowerCase();
-  let matches = [];
-  if (query) {
-    matches = app.courses.filter((course) => course.campus === "Seattle" && `${course.code} ${course.title}`.toLowerCase().includes(query)).slice(0, 30);
-  } else {
-    matches = allMajorCodes().map(getCourse).slice(0, 30);
+  const pendingSlot = app.pendingPlanSlot ? parsePlanSlot(app.pendingPlanSlot.item) : null;
+  let matches = app.courses.filter((course) => course.campus === "Seattle");
+
+  if (pendingSlot) {
+    matches = matches.filter((course) => courseMatchesSlot(course, pendingSlot));
   }
-  select.innerHTML = `<option value="">Choose a matching course…</option>${matches.map((course) => `<option value="${escapeHtml(course.code)}">${escapeHtml(course.code)} — ${escapeHtml(course.title)}</option>`).join("")}`;
+
+  if (query && !app.plannerSelectedCourseCode) {
+    matches = matches.filter((course) =>
+      `${course.code} ${course.title}`.toLowerCase().includes(query)
+    );
+  } else if (!pendingSlot && !query) {
+    const majorCodes = new Set(allMajorCodes());
+    matches = matches.filter((course) => majorCodes.has(normalizeCode(course.code)));
+  }
+
+  matches = matches.slice(0, 60);
+  app.plannerSearchMatches = matches;
+  app.plannerSearchIndex = -1;
+
+  const emptyMessage = pendingSlot
+    ? `No matching courses found for ${pendingSlot.label}.`
+    : "No matching courses found.";
+
+  menu.innerHTML = matches.length
+    ? matches.map((course, index) => `
+      <button
+        id="planner-course-option-${index}"
+        class="planner-course-option"
+        type="button"
+        role="option"
+        data-planner-course="${escapeHtml(course.code)}"
+        aria-selected="false"
+      >
+        <span class="planner-option-code">${escapeHtml(course.code)}</span>
+        <span class="planner-option-title">${escapeHtml(course.title)}</span>
+        <span class="planner-option-credits">${escapeHtml(course.credits || "?")} cr</span>
+      </button>
+    `).join("")
+    : `<div class="planner-course-empty">${escapeHtml(emptyMessage)}</div>`;
+}
+
+function selectPlannerCourse(code) {
+  const normalized = normalizeCode(code);
+  const course = app.catalogByCode.get(normalized) || getCourse(normalized);
+  const input = $("#planner-add-search");
+  app.plannerSelectedCourseCode = normalized;
+  if (input) input.value = plannerCourseDisplay(course);
+  closePlannerCourseMenu();
+}
+
+function setPlannerSearchHighlight(index) {
+  const matches = app.plannerSearchMatches || [];
+  if (!matches.length) return;
+
+  const bounded = (index + matches.length) % matches.length;
+  app.plannerSearchIndex = bounded;
+
+  $$(".planner-course-option", $("#planner-add-menu")).forEach((option, optionIndex) => {
+    const active = optionIndex === bounded;
+    option.classList.toggle("active", active);
+    option.setAttribute("aria-selected", active ? "true" : "false");
+    if (active) {
+      $("#planner-add-search").setAttribute("aria-activedescendant", option.id);
+      option.scrollIntoView({ block: "nearest" });
+    }
+  });
+}
+
+function handlePlannerSearchKeydown(event) {
+  const menu = $("#planner-add-menu");
+  const matches = app.plannerSearchMatches || [];
+
+  if (event.key === "ArrowDown") {
+    event.preventDefault();
+    if (menu.hidden) openPlannerCourseMenu();
+    setPlannerSearchHighlight((app.plannerSearchIndex ?? -1) + 1);
+    return;
+  }
+
+  if (event.key === "ArrowUp") {
+    event.preventDefault();
+    if (menu.hidden) openPlannerCourseMenu();
+    setPlannerSearchHighlight((app.plannerSearchIndex ?? 0) - 1);
+    return;
+  }
+
+  if (event.key === "Enter") {
+    if (!menu.hidden && matches.length) {
+      event.preventDefault();
+      const index = app.plannerSearchIndex >= 0 ? app.plannerSearchIndex : 0;
+      selectPlannerCourse(matches[index].code);
+    }
+    return;
+  }
+
+  if (event.key === "Escape") {
+    closePlannerCourseMenu();
+  }
+}
+
+function handlePlannerMenuClick(event) {
+  const option = event.target.closest("[data-planner-course]");
+  if (!option) return;
+  event.preventDefault();
+  selectPlannerCourse(option.dataset.plannerCourse);
+}
+
+function handlePlannerOutsideClick(event) {
+  if (!event.target.closest(".planner-course-combobox")) {
+    closePlannerCourseMenu();
+  }
 }
 
 function addPlannerSearchCourse() {
-  const code = $("#planner-add-results").value;
+  const input = $("#planner-add-search");
+  const raw = input?.value.trim() || "";
+  const rawCode = normalizeCode(raw.split("—")[0]);
+  const exactCourse = app.catalogByCode.get(rawCode)
+    || app.courses.find((course) => plannerCourseDisplay(course).toLowerCase() === raw.toLowerCase());
+  const code = app.plannerSelectedCourseCode || exactCourse?.code;
   const quarter = $("#planner-add-quarter").value;
-  if (!code) return showToast("Choose a course first.");
+
+  if (!code) {
+    openPlannerCourseMenu();
+    return showToast("Choose a course from the search dropdown first.");
+  }
+
+  app.plannerSelectedCourseCode = null;
+  if (input) input.value = "";
+  closePlannerCourseMenu();
+
+  if (app.pendingPlanSlot) {
+    const { item, quarterId } = app.pendingPlanSlot;
+    app.progress.plan[quarterId] = (app.progress.plan[quarterId] || []).filter((entry) => entry !== item);
+    clearPendingPlanSlot();
+    addCourseToPlan(code, quarterId);
+    return;
+  }
+
   addCourseToPlan(code, quarter);
 }
 
 function addCourseToPlan(code, quarterId) {
-  const normalized = code.startsWith("SLOT:") ? code : normalizeCode(code);
+  const normalized = isPlanSlot(code) ? code : normalizeCode(code);
   for (const quarter of QUARTERS) {
     app.progress.plan[quarter.id] = (app.progress.plan[quarter.id] || []).filter((item) => item !== normalized);
   }
@@ -1460,6 +1927,12 @@ function removePlanItem(item, quarterId) {
 }
 
 function handlePlannerClick(event) {
+  const fillSlot = event.target.closest("[data-fill-slot]");
+  if (fillSlot) {
+    event.stopPropagation();
+    beginFillPlanSlot(fillSlot.dataset.fillSlot, fillSlot.dataset.quarter);
+    return;
+  }
   const remove = event.target.closest("[data-remove-plan]");
   if (remove) {
     event.stopPropagation();
@@ -1511,6 +1984,7 @@ async function loadSamplePlan() {
   const ok = await confirmAction("Load the official sample plan? This replaces only your planned quarters. It does not mark any course fulfilled.", "Load sample plan");
   if (!ok) return;
   app.progress.plan = emptyPlan();
+  clearPendingPlanSlot();
   for (const [quarter, items] of Object.entries(app.major.samplePlan.quarters)) app.progress.plan[quarter] = [...items];
   saveProgress();
   renderAll();
@@ -1530,13 +2004,13 @@ function validatePlan() {
   const planIndex = new Map();
   QUARTERS.forEach((quarter, index) => {
     for (const item of app.progress.plan[quarter.id] || []) {
-      if (!item.startsWith("SLOT:")) planIndex.set(item, index);
+      if (!isPlanSlot(item)) planIndex.set(item, index);
     }
   });
 
   QUARTERS.forEach((quarter, index) => {
     for (const code of app.progress.plan[quarter.id] || []) {
-      if (code.startsWith("SLOT:")) continue;
+      if (isPlanSlot(code)) continue;
       const course = getCourse(code);
       for (const group of getPrerequisiteGroups(course)) {
         const satisfied = expandedPrerequisiteOptions(group).some((prerequisite) =>
@@ -1588,7 +2062,7 @@ function renderPlannerInsights(warnings) {
     <article class="insight-card">
       <h2>Credit load</h2>
       <div class="credit-chart">${totals.map(({ quarter, credits }) => `<div class="credit-row"><span>Y${quarter.year} ${quarter.season.slice(0,2)}</span><div class="credit-track"><span style="width:${(credits/max)*100}%"></span></div><strong>${formatNumber(credits)}</strong></div>`).join("")}</div>
-      <p class="requirement-note">Requirement slots from the sample plan have no credit value until you replace them with an actual course.</p>
+      <p class="requirement-note"><strong>${formatNumber(plannedCredits())} / ${app.major.totalCredits}</strong> credits are represented. Requirement placeholders already carry credit values; use “Choose course” to replace each one with an actual UW course.</p>
     </article>`;
 }
 

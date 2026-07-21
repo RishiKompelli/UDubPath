@@ -1166,70 +1166,196 @@
         "CHEM 142",
         "ENGR 101",
         "GEN ST 199",
-        "SLOT:A&H / SSc"
+        "SLOT:5:A&H / SSc"
       ],
       "y1-winter": [
         "MATH 125",
-        "SLOT:English Composition",
+        "SLOT:5:English Composition",
         "CSE 121"
       ],
       "y1-spring": [
         "MATH 126",
         "PHYS 121",
-        "SLOT:Diversity"
+        "SLOT:5:Diversity"
       ],
       "y2-autumn": [
         "PHYS 122",
         "MATH 207",
         "CSE 122",
-        "SLOT:Writing"
+        "SLOT:5:Writing"
       ],
       "y2-winter": [
         "MATH 208",
         "EE 215",
-        "SLOT:Free Elective",
+        "SLOT:1:Free Elective",
         "CSE 123"
       ],
       "y2-spring": [
         "EE 280",
         "EE 241",
-        "SLOT:Free Elective",
-        "SLOT:A&H / SSc"
+        "SLOT:1:Free Elective",
+        "SLOT:5:A&H / SSc"
       ],
       "y3-autumn": [
         "EE 242",
         "EE 271",
         "IND E 315",
-        "SLOT:Free Elective"
+        "SLOT:2:Free Elective"
       ],
       "y3-winter": [
         "EE 201",
         "EE 393",
-        "SLOT:Advanced ECE Elective",
-        "SLOT:Additional Approved NSc"
+        "SLOT:4:Advanced ECE Elective",
+        "SLOT:5:Additional Approved NSc"
       ],
       "y3-spring": [
-        "SLOT:Advanced ECE Elective",
-        "SLOT:Advanced ECE Elective",
-        "SLOT:A&H / SSc",
-        "SLOT:Free Elective"
+        "SLOT:4:Advanced ECE Elective",
+        "SLOT:4:Advanced ECE Elective",
+        "SLOT:5:A&H / SSc",
+        "SLOT:3:Free Elective"
       ],
       "y4-autumn": [
-        "SLOT:Advanced ECE Elective",
-        "SLOT:Advanced ECE Elective",
-        "SLOT:Professional Issues",
-        "SLOT:A&H / SSc"
+        "SLOT:4:Advanced ECE Elective",
+        "SLOT:4:Advanced ECE Elective",
+        "SLOT:5:Professional Issues",
+        "SLOT:5:A&H / SSc"
       ],
       "y4-winter": [
-        "SLOT:Capstone",
-        "SLOT:Advanced ECE Elective",
-        "SLOT:Advanced ECE Elective"
+        "SLOT:5:Capstone",
+        "SLOT:4:Advanced ECE Elective",
+        "SLOT:4:Advanced ECE Elective"
       ],
       "y4-spring": [
-        "SLOT:Capstone",
-        "SLOT:Advanced ECE Elective",
-        "SLOT:A&H / SSc"
+        "SLOT:5:Capstone",
+        "SLOT:4:Advanced ECE Elective",
+        "SLOT:5:A&H / SSc"
+      ]
+    },
+    "creditTotal": 180.0,
+    "note": "Every credit needed to reach the degree total is represented. Replace requirement placeholders with actual approved courses."
+  },
+  "plannerSlotPools": {
+    "A&H / SSc": {
+      "areas": [
+        "A&H",
+        "SSc"
+      ]
+    },
+    "English Composition": {
+      "areas": [
+        "C"
+      ]
+    },
+    "Diversity": {
+      "areas": [
+        "DIV"
+      ]
+    },
+    "Writing": {
+      "areas": [
+        "W"
+      ]
+    },
+    "Free Elective": {
+      "allowAny": true
+    },
+    "Advanced ECE Elective": {
+      "courses": [
+        "EE 233",
+        "CSE 373",
+        "CSE 374",
+        "ENGR 321",
+        "EE 331",
+        "EE 332",
+        "EE 333",
+        "EE 342",
+        "EE 344",
+        "EE 345",
+        "EE 347",
+        "EE 351",
+        "EE 361",
+        "EE 371",
+        "EE 391",
+        "EE 397",
+        "EE 398",
+        "EE 399",
+        "EE 400",
+        "EE 406",
+        "EE 416",
+        "EE 417",
+        "EE 418",
+        "EE 419",
+        "EE 421",
+        "EE 423",
+        "EE 424",
+        "EE 425",
+        "EE 435",
+        "EE 440",
+        "EE 442",
+        "EE 443",
+        "EE 445",
+        "EE 446",
+        "EE 447",
+        "EE 448",
+        "EE 451",
+        "EE 453",
+        "EE 454",
+        "EE 455",
+        "EE 457",
+        "EE 458",
+        "EE 460",
+        "EE 461",
+        "EE 462",
+        "EE 465",
+        "EE 466",
+        "EE 467",
+        "EE 468",
+        "EE 469",
+        "EE 470",
+        "EE 473",
+        "EE 474",
+        "EE 476",
+        "EE 477",
+        "EE 482",
+        "EE 484",
+        "EE 486",
+        "EE 487",
+        "EE 488",
+        "EE 489",
+        "EE 490",
+        "EE 491",
+        "EE 492",
+        "EE 499"
+      ]
+    },
+    "Additional Approved NSc": {
+      "areas": [
+        "NSc"
+      ]
+    },
+    "Professional Issues": {},
+    "Capstone": {
+      "courses": [
+        "EE 420",
+        "EE 436",
+        "EE 437",
+        "EE 449",
+        "EE 452",
+        "EE 456",
+        "EE 463",
+        "EE 464",
+        "EE 475",
+        "EE 478",
+        "EE 496",
+        "EE 497",
+        "EE 498"
       ]
     }
+  },
+  "dataAudit": {
+    "auditedOn": "2026-07-21",
+    "degreeTotalChecked": 180,
+    "samplePlanCredits": 180.0,
+    "officialPlanningNote": "Planning aid only; confirm substitutions, variable-credit courses, and changing elective approvals with the department adviser."
   }
 }

@@ -1661,69 +1661,74 @@
       "y1-autumn": [
         "MATH 124",
         "CSE 121",
-        "SLOT:English Composition"
+        "SLOT:5:English Composition"
       ],
       "y1-winter": [
         "MATH 125",
         "CSE 122",
-        "SLOT:Arts & Humanities"
+        "SLOT:5:Arts & Humanities"
       ],
       "y1-spring": [
         "MATH 126",
         "CSE 123",
-        "SLOT:Approved Natural Science"
+        "SLOT:5:Approved Natural Science"
       ],
       "y2-autumn": [
         "MATH 208",
         "CSE 311",
-        "SLOT:Social Sciences"
+        "SLOT:5:Social Sciences",
+        "SLOT:5:Unassigned graduation credits"
       ],
       "y2-winter": [
         "CSE 312",
         "CSE 331",
         "CSE 391",
-        "SLOT:Writing / Composition"
+        "SLOT:5:Writing / Composition"
       ],
       "y2-spring": [
         "CSE 332",
         "CSE 351",
-        "SLOT:Arts & Humanities"
+        "SLOT:5:Arts & Humanities",
+        "SLOT:4:Unassigned graduation credits"
       ],
       "y3-autumn": [
         "CSE 333",
         "CSE 344",
         "SOC 225",
-        "SLOT:Diversity"
+        "SLOT:5:Diversity"
       ],
       "y3-winter": [
         "CSE 421",
         "CSE 442",
         "CSE 451",
-        "SLOT:Social Sciences"
+        "SLOT:5:Social Sciences"
       ],
       "y3-spring": [
         "CSE 446",
         "CSE 484",
-        "SLOT:Arts & Humanities"
+        "SLOT:5:Arts & Humanities"
       ],
       "y4-autumn": [
         "CSE 444",
         "CSE 447",
-        "SLOT:Writing / Composition"
+        "SLOT:5:Writing / Composition"
       ],
       "y4-winter": [
         "CSE 481",
         "CSE 480",
-        "SLOT:Social Sciences",
-        "SLOT:Free Elective"
+        "SLOT:5:Social Sciences",
+        "SLOT:3:Free Elective"
       ],
       "y4-spring": [
-        "SLOT:CSE Senior Elective",
-        "SLOT:CSE Senior Elective",
-        "SLOT:Free Elective",
-        "SLOT:Free Elective"
+        "SLOT:3:CSE Senior Elective",
+        "SLOT:3:CSE Senior Elective",
+        "SLOT:3:Free Elective",
+        "SLOT:3:Free Elective",
+        "SLOT:5:Unassigned graduation credits"
       ]
-    }
+    },
+    "creditTotal": 180.0,
+    "note": "Every credit needed to reach the degree total is represented. Replace requirement placeholders with actual approved courses."
   },
   "prerequisiteSubstitutions": {
     "MATH 124": [
@@ -1762,5 +1767,69 @@
     "CSE 123": [
       "CSE 143"
     ]
+  },
+  "plannerSlotPools": {
+    "English Composition": {
+      "areas": [
+        "C"
+      ]
+    },
+    "Arts & Humanities": {
+      "areas": [
+        "A&H"
+      ]
+    },
+    "Approved Natural Science": {
+      "courses": [
+        "MATH 124",
+        "MATH 125",
+        "MATH 126",
+        "MATH 134",
+        "MATH 135",
+        "MATH 136",
+        "MATH 208",
+        "PHYS 121",
+        "PHYS 141",
+        "CHEM 142",
+        "CHEM 143",
+        "CHEM 145",
+        "BIOL 180",
+        "BIOL 162",
+        "PHYS 116",
+        "PHYS 119"
+      ],
+      "areas": [
+        "NSc"
+      ]
+    },
+    "Social Sciences": {
+      "areas": [
+        "SSc"
+      ]
+    },
+    "Writing / Composition": {
+      "areas": [
+        "C",
+        "W"
+      ]
+    },
+    "Diversity": {
+      "areas": [
+        "DIV"
+      ]
+    },
+    "Free Elective": {
+      "allowAny": true
+    },
+    "CSE Senior Elective": {},
+    "Unassigned graduation credits": {
+      "allowAny": true
+    }
+  },
+  "dataAudit": {
+    "auditedOn": "2026-07-21",
+    "degreeTotalChecked": 180,
+    "samplePlanCredits": 180.0,
+    "officialPlanningNote": "Planning aid only; confirm substitutions, variable-credit courses, and changing elective approvals with the department adviser."
   }
 }

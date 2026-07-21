@@ -1063,12 +1063,12 @@
         "CHEM 142",
         "ENGR 101",
         "GEN ST 199",
-        "SLOT:A&H / SSc"
+        "SLOT:1:A&H / SSc"
       ],
       "y1-winter": [
         "MATH 125",
         "CHEM 152",
-        "SLOT:English Composition"
+        "SLOT:5:English Composition"
       ],
       "y1-spring": [
         "MATH 126",
@@ -1079,13 +1079,13 @@
         "PHYS 122",
         "AA 210",
         "MATH 207",
-        "SLOT:A&H / SSc / Writing"
+        "SLOT:1:A&H / SSc / Writing"
       ],
       "y2-winter": [
         "PHYS 123",
         "MATH 208",
         "CEE 220",
-        "SLOT:A&H / SSc"
+        "SLOT:4:A&H / SSc"
       ],
       "y2-spring": [
         "IND E 250",
@@ -1098,36 +1098,104 @@
         "IND E 310",
         "IND E 491",
         "EE 215",
-        "SLOT:A&H / SSc"
+        "SLOT:5:A&H / SSc"
       ],
       "y3-winter": [
         "IND E 311",
         "IND E 316",
         "IND E 338",
-        "SLOT:A&H / SSc"
+        "SLOT:5:A&H / SSc"
       ],
       "y3-spring": [
         "IND E 321",
         "IND E 351",
-        "SLOT:IND E 412 or Technical Elective",
-        "SLOT:A&H / SSc"
+        "SLOT:4:IND E 412 or Technical Elective",
+        "SLOT:5:A&H / SSc"
       ],
       "y4-autumn": [
-        "SLOT:IND E 430 or IND E 439",
-        "SLOT:IND E 427 / 455 / Technical Elective",
-        "SLOT:IND E Technical Elective",
-        "SLOT:A&H / SSc"
+        "SLOT:4:IND E 430 or IND E 439",
+        "SLOT:4:IND E 427 / 455 / Technical Elective",
+        "SLOT:3:IND E Technical Elective",
+        "SLOT:5:A&H / SSc"
       ],
       "y4-winter": [
         "IND E 494",
-        "SLOT:IND E Technical Elective",
-        "SLOT:A&H / SSc"
+        "SLOT:3:IND E Technical Elective",
+        "SLOT:5:A&H / SSc"
       ],
       "y4-spring": [
         "IND E 495",
-        "SLOT:IND E Technical Elective",
-        "SLOT:A&H / SSc / DIV"
+        "SLOT:3:IND E Technical Elective",
+        "SLOT:5:A&H / SSc / DIV"
+      ]
+    },
+    "creditTotal": 180.0,
+    "note": "Every credit needed to reach the degree total is represented. Replace requirement placeholders with actual approved courses."
+  },
+  "plannerSlotPools": {
+    "A&H / SSc": {
+      "areas": [
+        "A&H",
+        "SSc"
+      ]
+    },
+    "English Composition": {
+      "areas": [
+        "C"
+      ]
+    },
+    "A&H / SSc / Writing": {
+      "areas": [
+        "W",
+        "A&H",
+        "SSc"
+      ]
+    },
+    "IND E 412 or Technical Elective": {
+      "courses": [
+        "IND E 426",
+        "IND E 470",
+        "IND E 496",
+        "IND E 498",
+        "IND E 499"
+      ]
+    },
+    "IND E 430 or IND E 439": {
+      "courses": [
+        "ENGR 101",
+        "GEN ST 199"
+      ]
+    },
+    "IND E 427 / 455 / Technical Elective": {
+      "courses": [
+        "IND E 426",
+        "IND E 470",
+        "IND E 496",
+        "IND E 498",
+        "IND E 499"
+      ]
+    },
+    "IND E Technical Elective": {
+      "courses": [
+        "IND E 426",
+        "IND E 470",
+        "IND E 496",
+        "IND E 498",
+        "IND E 499"
+      ]
+    },
+    "A&H / SSc / DIV": {
+      "areas": [
+        "A&H",
+        "SSc",
+        "DIV"
       ]
     }
+  },
+  "dataAudit": {
+    "auditedOn": "2026-07-21",
+    "degreeTotalChecked": 180,
+    "samplePlanCredits": 180.0,
+    "officialPlanningNote": "Planning aid only; confirm substitutions, variable-credit courses, and changing elective approvals with the department adviser."
   }
 }

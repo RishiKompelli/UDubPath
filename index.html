@@ -123,11 +123,31 @@
       </div>
 
       <div class="planner-toolbar card-surface">
-        <label class="search-box grow">
-          <span aria-hidden="true">＋</span>
-          <input id="planner-add-search" type="search" placeholder="Search a course to add to your plan">
-        </label>
-        <select id="planner-add-results" aria-label="Matching courses"><option value="">Choose a matching course…</option></select>
+        <div class="planner-course-combobox grow">
+          <div class="search-box planner-search-field">
+            <span aria-hidden="true">＋</span>
+            <input
+              id="planner-add-search"
+              type="search"
+              placeholder="Search a course to add to your plan"
+              autocomplete="off"
+              role="combobox"
+              aria-autocomplete="list"
+              aria-controls="planner-add-menu"
+              aria-expanded="false"
+              aria-label="Search and choose a course"
+            >
+            <button
+              id="planner-course-toggle"
+              class="planner-course-toggle"
+              type="button"
+              aria-label="Show course choices"
+              aria-controls="planner-add-menu"
+              aria-expanded="false"
+            >⌄</button>
+          </div>
+          <div id="planner-add-menu" class="planner-course-menu" role="listbox" hidden></div>
+        </div>
         <select id="planner-add-quarter" aria-label="Quarter"></select>
         <button id="planner-add-button" class="button primary" type="button">Add course</button>
       </div>

@@ -1,0 +1,89 @@
+{
+  "audited": "2026-07-21",
+  "majors": {
+    "uw-seattle-aa": {
+      "name": "Aeronautics & Astronautics",
+      "notes": [
+        "sample plan totals 180/180 credits"
+      ],
+      "issues": []
+    },
+    "uw-seattle-bioe": {
+      "name": "Bioengineering",
+      "notes": [
+        "sample plan totals 180/180 credits"
+      ],
+      "issues": []
+    },
+    "uw-seattle-cheme": {
+      "name": "Chemical Engineering",
+      "notes": [
+        "sample plan totals 180/180 credits"
+      ],
+      "issues": []
+    },
+    "uw-seattle-cive": {
+      "name": "Civil Engineering",
+      "notes": [
+        "sample plan totals 180/180 credits"
+      ],
+      "issues": []
+    },
+    "uw-seattle-cs": {
+      "name": "Computer Science",
+      "notes": [
+        "sample plan totals 180/180 credits"
+      ],
+      "issues": []
+    },
+    "uw-seattle-ece": {
+      "name": "Electrical & Computer Engineering",
+      "notes": [
+        "sample plan totals 180/180 credits"
+      ],
+      "issues": []
+    },
+    "uw-seattle-enve": {
+      "name": "Environmental Engineering",
+      "notes": [
+        "sample plan totals 180/180 credits"
+      ],
+      "issues": []
+    },
+    "uw-seattle-hcde": {
+      "name": "Human Centered Design & Engineering",
+      "notes": [
+        "sample plan totals 180/180 credits"
+      ],
+      "issues": []
+    },
+    "uw-seattle-ise": {
+      "name": "Industrial Engineering",
+      "notes": [
+        "sample plan totals 180/180 credits"
+      ],
+      "issues": []
+    },
+    "uw-seattle-lsj": {
+      "name": "Law, Societies & Justice",
+      "notes": [
+        "sample plan totals 180/180 credits"
+      ],
+      "issues": []
+    },
+    "uw-seattle-mse": {
+      "name": "Materials Science & Engineering",
+      "notes": [
+        "sample plan totals 180/180 credits"
+      ],
+      "issues": []
+    },
+    "uw-seattle-me": {
+      "name": "Mechanical Engineering",
+      "notes": [
+        "sample plan totals 180/180 credits"
+      ],
+      "issues": []
+    }
+  }
+}

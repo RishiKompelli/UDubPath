@@ -1039,29 +1039,29 @@
         "CHEM 142",
         "ENGR 101",
         "GEN ST 199",
-        "SLOT:A&H / SSc"
+        "SLOT:4:A&H / SSc"
       ],
       "y1-winter": [
         "MATH 125",
         "CHEM 152",
-        "SLOT:English Composition"
+        "SLOT:5:English Composition"
       ],
       "y1-spring": [
         "MATH 126",
         "PHYS 121",
-        "SLOT:A&H / SSc"
+        "SLOT:5:A&H / SSc"
       ],
       "y2-autumn": [
         "MATH 207",
         "PHYS 122",
         "AA 210",
-        "SLOT:A&H / SSc"
+        "SLOT:5:A&H / SSc"
       ],
       "y2-winter": [
         "MATH 208",
         "PHYS 123",
         "ME 230",
-        "SLOT:A&H / SSc"
+        "SLOT:5:A&H / SSc"
       ],
       "y2-spring": [
         "AA 260",
@@ -1074,7 +1074,7 @@
         "AA 311",
         "AA 320",
         "AA 395",
-        "SLOT:A&H / SSc"
+        "SLOT:5:A&H / SSc"
       ],
       "y3-winter": [
         "AA 302",
@@ -1090,22 +1090,65 @@
       ],
       "y4-autumn": [
         "AA 460",
-        "SLOT:AA Technical Elective",
-        "SLOT:AA Technical Elective",
-        "SLOT:AA Technical Elective"
+        "SLOT:3:AA Technical Elective",
+        "SLOT:3:AA Technical Elective",
+        "SLOT:3:AA Technical Elective"
       ],
       "y4-winter": [
-        "SLOT:AA 410 or AA 420",
-        "SLOT:AA Technical Elective",
-        "SLOT:AA Technical Elective",
-        "SLOT:Free Elective"
+        "SLOT:4:AA 410 or AA 420",
+        "SLOT:3:AA Technical Elective",
+        "SLOT:3:AA Technical Elective",
+        "SLOT:1:Free Elective"
       ],
       "y4-spring": [
-        "SLOT:AA 411 or AA 421",
-        "SLOT:Free Elective",
-        "SLOT:A&H / SSc",
-        "SLOT:Free Elective"
+        "SLOT:4:AA 411 or AA 421",
+        "SLOT:1:Free Elective",
+        "SLOT:5:A&H / SSc",
+        "SLOT:1:Free Elective"
       ]
-    }
+    },
+    "creditTotal": 180.0,
+    "note": "Every credit needed to reach the degree total is represented. Replace requirement placeholders with actual approved courses."
+  },
+  "plannerSlotPools": {
+    "A&H / SSc": {
+      "areas": [
+        "A&H",
+        "SSc"
+      ]
+    },
+    "English Composition": {
+      "areas": [
+        "C"
+      ]
+    },
+    "AA Technical Elective": {
+      "courses": [
+        "AA 402",
+        "AA 405",
+        "AA 406",
+        "AA 419",
+        "AA 430",
+        "AA 448",
+        "AA 449",
+        "AA 461",
+        "AA 462",
+        "AA 470",
+        "AA 490",
+        "AA 498",
+        "AA 499"
+      ]
+    },
+    "AA 410 or AA 420": {},
+    "Free Elective": {
+      "allowAny": true
+    },
+    "AA 411 or AA 421": {}
+  },
+  "dataAudit": {
+    "auditedOn": "2026-07-21",
+    "degreeTotalChecked": 180,
+    "samplePlanCredits": 180.0,
+    "officialPlanningNote": "Planning aid only; confirm substitutions, variable-credit courses, and changing elective approvals with the department adviser."
   }
 }
