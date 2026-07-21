@@ -119,6 +119,22 @@
       "status": "complete",
       "file": "mechanical-engineering.json",
       "source": "https://www.engr.washington.edu/current/academics/4-year-plans/me-degree-requirements"
+    },
+    {
+      "id": "uw-seattle-biochemistry-bs",
+      "name": "Biochemistry (BS)",
+      "degree": "BS",
+      "status": "complete",
+      "file": "biochemistry-bs.json",
+      "source": "https://chem.washington.edu/bs-biochemistry"
+    },
+    {
+      "id": "uw-seattle-biochemistry-ba",
+      "name": "Biochemistry (BA)",
+      "degree": "BA",
+      "status": "complete",
+      "file": "biochemistry-ba.json",
+      "source": "https://chem.washington.edu/ba-biochemistry"
     }
   ]
 }

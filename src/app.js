@@ -493,9 +493,50 @@ function populateGlobalControls() {
   ).join("");
   majorSelect.value = app.major.id;
 
-  const trackSelect = $("#track-select");
-  trackSelect.innerHTML = app.major.tracks.map((track) => `<option value="${track.id}">${escapeHtml(track.name)}</option>`).join("");
+const trackSelect = $("#track-select");
+const trackField = trackSelect.closest(".select-field");
+const tracks = Array.isArray(app.major.tracks)
+  ? app.major.tracks
+  : [];
+
+if (tracks.length <= 1) {
+  const onlyTrack = tracks[0];
+
+  if (onlyTrack) {
+    app.progress.track = onlyTrack.id;
+  }
+
+  trackSelect.innerHTML = "";
+  trackSelect.value = "";
+  trackSelect.disabled = true;
+
+  if (trackField) {
+    trackField.hidden = true;
+  }
+} else {
+  trackSelect.disabled = false;
+
+  if (trackField) {
+    trackField.hidden = false;
+  }
+
+  trackSelect.innerHTML = tracks
+    .map(
+      (track) =>
+        `<option value="${escapeHtml(track.id)}">${escapeHtml(track.name)}</option>`
+    )
+    .join("");
+
+  const validTrack = tracks.some(
+    (track) => track.id === app.progress.track
+  );
+
+  if (!validTrack) {
+    app.progress.track = tracks[0].id;
+  }
+
   trackSelect.value = app.progress.track;
+}
 
   populateQuarterSelects();
   populateApExamSelect();
@@ -662,12 +703,16 @@ function switchView(view) {
 
 function renderAll() {
   $("#track-select").value = app.progress.track;
-  $("#map-title").textContent = `${app.major.name} · ${trackName(app.progress.track)}`;
+  $("#map-title").textContent = hasAlternateDegreePaths()? `${app.major.name} · ${trackName(app.progress.track)}` : app.major.name;
   renderMap();
   renderRequirements();
   renderPlanner();
   renderCredits();
   renderCatalog();
+}
+
+function hasAlternateDegreePaths() {
+  return (Array.isArray(app.major.tracks) && app.major.tracks.length > 1);
 }
 
 function trackName(id) {
@@ -1819,7 +1864,7 @@ function renderRequirements() {
 
   $("#requirement-summary").innerHTML = [
     metricCard("Degree credits represented", `${formatNumber(degreeCredits)} / ${app.major.totalCredits}`, degreeCredits / app.major.totalCredits, "Courses marked fulfilled plus other completed credits"),
-    metricCard("Requirement sections", `${completedRequirements} / ${requirements.length}`, completedRequirements / requirements.length, `${trackName(app.progress.track)} selected`),
+    metricCard("Requirement sections", `${completedRequirements} / ${requirements.length}`, completedRequirements / requirements.length, hasAlternateDegreePaths()? `${trackName(app.progress.track)} selected` : ""),
     metricCard("Courses fulfilled", fulfilledCourseCodes().length, 0, "Includes UW, AP, Running Start, and transfer credit"),
     metricCard("Available next", availableCount, 0, "Based on fulfilled prerequisites")
   ].join("");

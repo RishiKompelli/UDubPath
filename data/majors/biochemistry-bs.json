@@ -1,0 +1,1311 @@
+{
+  "id": "uw-seattle-biochemistry-bs",
+  "university": "University of Washington Seattle",
+  "name": "Biochemistry (BS)",
+  "degree": "Bachelor of Science with a major in Biochemistry",
+  "catalogYear": "Current UW Chemistry Department requirements",
+  "totalCredits": 193,
+  "sources": [
+    {
+      "label": "UW Chemistry — BS in Biochemistry",
+      "url": "https://chem.washington.edu/bs-biochemistry"
+    },
+    {
+      "label": "UW Chemistry — Biochemistry admissions",
+      "url": "https://chem.washington.edu/undergraduate-prerequisites-and-admissions-biochemistry"
+    },
+    {
+      "label": "UW General Catalog — Biochemistry",
+      "url": "https://www.washington.edu/students/gencat/program/S/Chemistry-117.html"
+    },
+    {
+      "label": "UW course catalog",
+      "url": "https://www.washington.edu/students/crscat/"
+    }
+  ],
+  "tracks": [
+    {
+      "id": "standard",
+      "name": "Biochemistry BS",
+      "description": "In-depth Biochemistry preparation including advanced laboratory work and 11 science-elective credits."
+    }
+  ],
+  "courseOverrides": {
+    "MATH 134": {
+      "title": "Accelerated [Honors] Calculus",
+      "credits": "5",
+      "areas": "NSc, RSN",
+      "offered": "Autumn",
+      "description": "First course in UW's accelerated honors calculus and linear algebra sequence.",
+      "prerequisiteGroups": [],
+      "sourceUrl": "https://www.washington.edu/students/crscat/math.html"
+    },
+    "PHYS 123": {
+      "title": "Waves",
+      "credits": "5",
+      "prerequisiteGroups": [
+        [
+          "MATH 126",
+          "MATH 134"
+        ],
+        [
+          "PHYS 122",
+          "PHYS 142"
+        ]
+      ]
+    },
+    "CHEM 165": {
+      "title": "Honors General Chemistry",
+      "credits": "5",
+      "areas": "NSc, RSN",
+      "offered": "Spring",
+      "description": "Third course in UW's honors general chemistry sequence, overlapping CHEM 162. It is shown for sequence completeness but is not required for the BSME chemistry minimum.",
+      "prerequisiteGroups": [
+        [
+          "CHEM 155"
+        ]
+      ],
+      "sourceUrl": "https://www.washington.edu/students/crscat/chem.html"
+    },
+    "PHYS 143": {
+      "title": "Honors Waves, Light and Heat",
+      "credits": "5",
+      "areas": "NSc",
+      "offered": "Spring",
+      "description": "Honors version of waves, optics, and thermodynamics, covering PHYS 123 material in greater depth.",
+      "prerequisiteGroups": [
+        [
+          "PHYS 142"
+        ],
+        [
+          "MATH 126",
+          "MATH 135"
+        ]
+      ],
+      "sourceUrl": "https://www.washington.edu/students/crscat/phys.html"
+    },
+    "PHYS 121": {
+      "title": "Mechanics",
+      "credits": "5",
+      "prerequisiteGroups": [
+        [
+          "MATH 124",
+          "MATH 134"
+        ]
+      ]
+    },
+    "PHYS 142": {
+      "title": "Honors Electromagnetism",
+      "credits": "5",
+      "areas": "NSc",
+      "offered": "Winter",
+      "description": "Honors version of calculus-based electromagnetism, covering PHYS 122 material in greater depth.",
+      "prerequisiteGroups": [
+        [
+          "PHYS 141"
+        ],
+        [
+          "MATH 125",
+          "MATH 134"
+        ]
+      ],
+      "sourceUrl": "https://www.washington.edu/students/crscat/phys.html"
+    },
+    "MATH 136": {
+      "title": "Accelerated [Honors] Calculus",
+      "credits": "5",
+      "areas": "NSc",
+      "offered": "Spring",
+      "description": "Third course in UW's accelerated honors calculus and linear algebra sequence. The sequence covers material from MATH 124-126, 207, and 208.",
+      "prerequisiteGroups": [
+        [
+          "MATH 135"
+        ]
+      ],
+      "sourceUrl": "https://www.washington.edu/students/crscat/math.html"
+    },
+    "CHEM 152": {
+      "title": "General Chemistry",
+      "credits": "5",
+      "prerequisiteGroups": [
+        [
+          "CHEM 142",
+          "CHEM 143",
+          "CHEM 145"
+        ]
+      ]
+    },
+    "MATH 126": {
+      "title": "Calculus with Analytic Geometry III",
+      "credits": "5",
+      "prerequisiteGroups": [
+        [
+          "MATH 125"
+        ]
+      ]
+    },
+    "CHEM 143": {
+      "title": "Accelerated General Chemistry I",
+      "credits": "6",
+      "areas": "NSc, RSN",
+      "offered": "Autumn",
+      "description": "First half of UW's accelerated two-quarter general chemistry sequence.",
+      "prerequisiteGroups": [],
+      "sourceUrl": "https://www.washington.edu/students/crscat/chem.html",
+      "otherPrerequisites": "CHEM 110 with the required grade, the General Chemistry Placement Exam, or AP Chemistry placement can provide entry. Check the current catalog."
+    },
+    "MATH 124": {
+      "title": "Calculus with Analytic Geometry I",
+      "credits": "5",
+      "prerequisiteGroups": []
+    },
+    "PHYS 122": {
+      "title": "Electromagnetism",
+      "credits": "5",
+      "prerequisiteGroups": [
+        [
+          "MATH 125",
+          "MATH 134"
+        ],
+        [
+          "PHYS 121",
+          "PHYS 141"
+        ]
+      ]
+    },
+    "CHEM 155": {
+      "title": "Honors General Chemistry",
+      "credits": "5",
+      "areas": "NSc, RSN",
+      "offered": "Winter",
+      "description": "Second course in UW's honors general chemistry sequence, overlapping CHEM 152.",
+      "prerequisiteGroups": [
+        [
+          "CHEM 145"
+        ]
+      ],
+      "sourceUrl": "https://www.washington.edu/students/crscat/chem.html"
+    },
+    "CHEM 153": {
+      "title": "Accelerated General Chemistry II",
+      "credits": "6",
+      "areas": "NSc",
+      "offered": "Winter",
+      "description": "Second half of UW's accelerated two-quarter general chemistry sequence.",
+      "prerequisiteGroups": [
+        [
+          "CHEM 143"
+        ]
+      ],
+      "sourceUrl": "https://www.washington.edu/students/crscat/chem.html"
+    },
+    "CHEM 142": {
+      "title": "General Chemistry",
+      "credits": "5",
+      "prerequisiteGroups": [],
+      "otherPrerequisites": "CHEM 110 with the required grade, the General Chemistry Placement Exam, or AP Chemistry placement can provide entry. Check the current catalog."
+    },
+    "PHYS 141": {
+      "title": "Honors Mechanics",
+      "credits": "5",
+      "areas": "NSc",
+      "offered": "Autumn",
+      "description": "Honors version of calculus-based mechanics, covering PHYS 121 material in greater depth.",
+      "prerequisiteGroups": [
+        [
+          "MATH 124",
+          "MATH 134"
+        ]
+      ],
+      "sourceUrl": "https://www.washington.edu/students/crscat/phys.html",
+      "otherPrerequisites": "AP Calculus scores can also provide entry; high-school physics is recommended. Check the current grade and score thresholds."
+    },
+    "CHEM 145": {
+      "title": "Honors General Chemistry",
+      "credits": "5",
+      "areas": "NSc, RSN",
+      "offered": "Autumn",
+      "description": "First course in UW's honors general chemistry sequence, covering CHEM 142 topics with greater mathematical rigor.",
+      "prerequisiteGroups": [],
+      "sourceUrl": "https://www.washington.edu/students/crscat/chem.html",
+      "otherPrerequisites": "Entry can be based on MATH 124 or MATH 134 (which may be concurrent), the Honors General Chemistry placement exam, AP Chemistry, or IB Higher Level Chemistry. Check the current score thresholds."
+    },
+    "MATH 135": {
+      "title": "Accelerated [Honors] Calculus",
+      "credits": "5",
+      "areas": "NSc",
+      "offered": "Winter",
+      "description": "Second course in UW's accelerated honors calculus and linear algebra sequence.",
+      "prerequisiteGroups": [
+        [
+          "MATH 134"
+        ]
+      ],
+      "sourceUrl": "https://www.washington.edu/students/crscat/math.html"
+    },
+    "MATH 125": {
+      "title": "Calculus with Analytic Geometry II",
+      "credits": "5",
+      "prerequisiteGroups": [
+        [
+          "MATH 124"
+        ]
+      ]
+    },
+    "CHEM 239": {
+      "title": "Organic Chemistry",
+      "credits": "4",
+      "areas": "NSc",
+      "offered": "A,W,Sp,S",
+      "prerequisiteGroups": [
+        [
+          "CHEM 238",
+          "CHEM 258"
+        ]
+      ]
+    },
+    "BIOL 180": {
+      "title": "Introductory Biology",
+      "credits": "5",
+      "areas": "NSc",
+      "offered": "A,W,Sp,S",
+      "prerequisiteGroups": []
+    },
+    "BIOL 200": {
+      "title": "Introductory Biology",
+      "credits": "5",
+      "areas": "NSc",
+      "offered": "A,W,Sp,S",
+      "prerequisiteGroups": [
+        [
+          "BIOL 180"
+        ],
+        [
+          "CHEM 143",
+          "CHEM 145",
+          "CHEM 152",
+          "CHEM 153",
+          "CHEM 155",
+          "CHEM 220",
+          "CHEM 223",
+          "CHEM 237"
+        ]
+      ],
+      "otherPrerequisites": "Some approved chemistry choices may be taken concurrently; check the current UW catalog."
+    },
+    "BIOC 405": {
+      "title": "Introduction to Biochemistry",
+      "credits": "3",
+      "areas": "NSc",
+      "offered": "A,W,Sp,S",
+      "prerequisiteGroups": [
+        [
+          "BIOL 200"
+        ],
+        [
+          "CHEM 224",
+          "CHEM 239",
+          "CHEM 259",
+          "CHEM 337"
+        ],
+        [
+          "MATH 124",
+          "MATH 134",
+          "MATH 144"
+        ]
+      ]
+    },
+    "BIOC 406": {
+      "title": "Introduction to Biochemistry",
+      "credits": "3",
+      "areas": "NSc",
+      "offered": "W,Sp",
+      "prerequisiteGroups": [
+        [
+          "BIOC 405"
+        ]
+      ]
+    },
+    "BIOC 426": {
+      "title": "Basic Techniques in Biochemistry",
+      "credits": "4",
+      "areas": "NSc",
+      "offered": "A,W,Sp",
+      "prerequisiteGroups": [
+        [
+          "BIOC 440"
+        ]
+      ],
+      "otherPrerequisites": "BIOC 440 may be taken concurrently according to the catalog. The planner may conservatively place it earlier."
+    },
+    "BIOC 440": {
+      "title": "Biochemistry",
+      "credits": "4",
+      "areas": "NSc",
+      "offered": "A",
+      "prerequisiteGroups": [
+        [
+          "BIOL 200"
+        ],
+        [
+          "CHEM 224",
+          "CHEM 239",
+          "CHEM 259",
+          "CHEM 337"
+        ],
+        [
+          "MATH 124",
+          "MATH 134",
+          "MATH 144"
+        ]
+      ]
+    },
+    "BIOC 441": {
+      "title": "Biochemistry",
+      "credits": "4",
+      "areas": "NSc",
+      "offered": "W",
+      "prerequisiteGroups": [
+        [
+          "BIOC 440"
+        ]
+      ]
+    },
+    "BIOC 442": {
+      "title": "Biochemistry",
+      "credits": "4",
+      "areas": "NSc",
+      "offered": "Sp",
+      "prerequisiteGroups": [
+        [
+          "BIOC 441"
+        ]
+      ]
+    },
+    "GENOME 361": {
+      "title": "Fundamentals of Genetics and Genomics",
+      "credits": "3",
+      "areas": "NSc",
+      "offered": "W,Sp,S",
+      "prerequisiteGroups": [
+        [
+          "BIOL 200"
+        ]
+      ]
+    },
+    "GENOME 372": {
+      "title": "Genomics and Proteomics",
+      "credits": "5",
+      "areas": "NSc",
+      "prerequisiteGroups": []
+    }
+  },
+  "mapGroups": [
+    {
+      "id": "admission",
+      "label": "Biochemistry Admission Checkpoint",
+      "shortLabel": "Admission",
+      "credits": "Before applying",
+      "description": "Regular-admission preparation and grade checks.",
+      "courses": [],
+      "requirementRefs": [
+        {
+          "id": "biochem-admission",
+          "scope": "requirement",
+          "label": "Biochemistry application preparation",
+          "credits": "Before applying"
+        }
+      ]
+    },
+    {
+      "id": "general-education",
+      "label": "General Education Requirements",
+      "shortLabel": "General Education",
+      "credits": "College of Arts & Sciences",
+      "description": "Composition, writing, language, Areas of Inquiry, Reasoning, and Diversity.",
+      "courses": [],
+      "requirementRefs": [
+        {
+          "id": "english-comp",
+          "scope": "item",
+          "label": "English Composition",
+          "credits": "5 cr"
+        },
+        {
+          "id": "writing",
+          "scope": "item",
+          "label": "Additional Writing",
+          "credits": "10 cr"
+        },
+        {
+          "id": "rsn",
+          "scope": "item",
+          "label": "Reasoning",
+          "credits": "5 cr"
+        },
+        {
+          "id": "foreign-language",
+          "scope": "item",
+          "label": "Foreign Language",
+          "credits": "0–15 cr"
+        },
+        {
+          "id": "ah",
+          "scope": "item",
+          "label": "Arts & Humanities",
+          "credits": "20 cr"
+        },
+        {
+          "id": "ssc",
+          "scope": "item",
+          "label": "Social Sciences",
+          "credits": "20 cr"
+        },
+        {
+          "id": "nsc",
+          "scope": "item",
+          "label": "Natural Sciences",
+          "credits": "20 cr"
+        },
+        {
+          "id": "additional-aoi",
+          "scope": "item",
+          "label": "Additional Areas of Inquiry",
+          "credits": "15 cr"
+        },
+        {
+          "id": "div",
+          "scope": "item",
+          "label": "Diversity",
+          "credits": "5 cr"
+        }
+      ]
+    },
+    {
+      "id": "mathematics",
+      "label": "Mathematics",
+      "credits": "15 cr",
+      "description": "Standard or accelerated honors calculus.",
+      "courses": [
+        "MATH 124",
+        "MATH 125",
+        "MATH 126",
+        "MATH 134",
+        "MATH 135",
+        "MATH 136"
+      ]
+    },
+    {
+      "id": "general-chemistry",
+      "label": "General Chemistry",
+      "credits": "12–15 cr",
+      "description": "Standard, accelerated, or honors sequence.",
+      "courses": [
+        "CHEM 142",
+        "CHEM 152",
+        "CHEM 162",
+        "CHEM 143",
+        "CHEM 153",
+        "CHEM 145",
+        "CHEM 155",
+        "CHEM 165"
+      ]
+    },
+    {
+      "id": "organic-chemistry",
+      "label": "Organic Chemistry",
+      "credits": "18 cr",
+      "description": "Lecture and laboratory sequence.",
+      "courses": [
+        "CHEM 237",
+        "CHEM 238",
+        "CHEM 239",
+        "CHEM 241",
+        "CHEM 242",
+        "CHEM 257",
+        "CHEM 258",
+        "CHEM 259",
+        "CHEM 261",
+        "CHEM 262"
+      ]
+    },
+    {
+      "id": "biology-physics",
+      "label": "Biology & Physics",
+      "credits": "22–25 cr",
+      "description": "BIOL 180/200 and one complete physics sequence.",
+      "courses": [
+        "BIOL 180",
+        "BIOL 200",
+        "PHYS 121",
+        "PHYS 122",
+        "PHYS 123",
+        "PHYS 114",
+        "PHYS 115",
+        "PHYS 116",
+        "PHYS 141",
+        "PHYS 142",
+        "PHYS 143"
+      ]
+    },
+    {
+      "id": "biochemistry-core",
+      "label": "Biochemistry & Physical Chemistry",
+      "shortLabel": "Biochemistry Core",
+      "credits": "22–25 cr",
+      "description": "BIOC 440–442, BIOC 426, and one physical chemistry path.",
+      "courses": [
+        "BIOC 440",
+        "BIOC 441",
+        "BIOC 442",
+        "BIOC 426",
+        "CHEM 452",
+        "CHEM 453",
+        "CHEM 455",
+        "CHEM 456",
+        "CHEM 457"
+      ]
+    },
+    {
+      "id": "genome-science",
+      "label": "Genome Science",
+      "credits": "3–5 cr",
+      "description": "Choose GENOME 361 or GENOME 372.",
+      "courses": [
+        "GENOME 361",
+        "GENOME 372"
+      ]
+    },
+    {
+      "id": "science-electives",
+      "label": "Science Electives",
+      "credits": "11 cr",
+      "description": "Current department-approved science elective list.",
+      "courses": [
+        "AMATH 351",
+        "AMATH 352",
+        "AMATH 422",
+        "AMATH 423",
+        "ATM S 358",
+        "ATM S 458",
+        "BIOL 220",
+        "BIOL 355",
+        "BIOL 401",
+        "BIOL 402",
+        "BIOL 411",
+        "BIOL 457",
+        "BIOL 459",
+        "BIOST 310",
+        "BSE 406",
+        "CHEM 312",
+        "CHEM 317",
+        "CHEM 321",
+        "CHEM 416",
+        "CHEM 417",
+        "CHEM 418",
+        "CHEM 425",
+        "CHEM 426",
+        "CHEM 429",
+        "CHEM 430",
+        "CHEM 431",
+        "CHEM 432",
+        "CHEM 434",
+        "CHEM 436",
+        "CHEM 458",
+        "CHEM 460",
+        "CHEM 461",
+        "CHEM 462",
+        "CHEM 463",
+        "CHEM 464",
+        "CHEM 465",
+        "CHEM 484",
+        "CHEM 485",
+        "CHEM 486",
+        "CHEM 491",
+        "CHEM 399",
+        "CHEM 499",
+        "BIOC 499",
+        "CSE 427",
+        "ENV H 405",
+        "ENV H 432",
+        "ESS 316",
+        "ESS 457",
+        "GENOME 372",
+        "GENOME 373",
+        "GENOME 465",
+        "IMMUN 441",
+        "MATH 207",
+        "MATH 208",
+        "MEDCH 327",
+        "MICROM 402",
+        "MICROM 410",
+        "MICROM 411",
+        "MICROM 412",
+        "MICROM 431",
+        "MICROM 445",
+        "MSE 471",
+        "MSE 475",
+        "NEUSCI 404",
+        "Q SCI 381",
+        "STAT 311"
+      ]
+    },
+    {
+      "id": "free-electives",
+      "label": "Free Electives",
+      "credits": "To reach 193 cr",
+      "description": "Other approved coursework needed for the degree total.",
+      "courses": [],
+      "requirementRefs": [
+        {
+          "id": "total",
+          "scope": "requirement",
+          "label": "Total degree credits",
+          "credits": "193 cr"
+        }
+      ]
+    }
+  ],
+  "requirements": [
+    {
+      "id": "biochem-admission",
+      "title": "Biochemistry Admission Checkpoint",
+      "displayCredits": "Before applying",
+      "targetCredits": 0,
+      "type": "group",
+      "note": "Biochemistry is capacity-constrained. Direct first-year and direct-transfer pathways have separate procedures. This section tracks the regular-admission academic preparation.",
+      "items": [
+        {
+          "id": "admission-general-chem",
+          "label": "Complete one general chemistry sequence",
+          "type": "path-choice",
+          "paths": [
+            {
+              "label": "Standard general chemistry",
+              "courses": [
+                "CHEM 142",
+                "CHEM 152",
+                "CHEM 162"
+              ]
+            },
+            {
+              "label": "Accelerated general chemistry",
+              "courses": [
+                "CHEM 143",
+                "CHEM 153"
+              ]
+            },
+            {
+              "label": "Honors general chemistry",
+              "courses": [
+                "CHEM 145",
+                "CHEM 155",
+                "CHEM 165"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "admission-biology",
+          "label": "Introductory Biology",
+          "type": "all",
+          "courses": [
+            "BIOL 180"
+          ]
+        },
+        {
+          "id": "admission-math",
+          "label": "First two calculus courses",
+          "type": "path-choice",
+          "paths": [
+            {
+              "label": "Standard calculus",
+              "courses": [
+                "MATH 124",
+                "MATH 125"
+              ]
+            },
+            {
+              "label": "Accelerated honors calculus",
+              "courses": [
+                "MATH 134",
+                "MATH 135"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "admission-course-grades",
+          "label": "Minimum 2.0 in each admission course",
+          "type": "check"
+        },
+        {
+          "id": "admission-gpa",
+          "label": "Minimum 2.80 admission-course GPA",
+          "type": "check"
+        }
+      ]
+    },
+    {
+      "id": "general-education",
+      "title": "General Education Requirements",
+      "displayCredits": "College of Arts & Sciences",
+      "targetCredits": 0,
+      "type": "group",
+      "items": [
+        {
+          "id": "english-comp",
+          "label": "English Composition",
+          "type": "bucket",
+          "targetCredits": 5,
+          "area": "C"
+        },
+        {
+          "id": "writing",
+          "label": "Additional Writing",
+          "type": "bucket",
+          "targetCredits": 10,
+          "area": "W"
+        },
+        {
+          "id": "rsn",
+          "label": "Reasoning",
+          "type": "bucket",
+          "targetCredits": 5,
+          "area": "RSN"
+        },
+        {
+          "id": "foreign-language",
+          "label": "Foreign language through the third quarter",
+          "type": "bucket",
+          "targetCredits": 15,
+          "area": "FL",
+          "note": "Enter manual credits or mark fulfilled when high-school, AP, placement, or college language work satisfies this."
+        },
+        {
+          "id": "ah",
+          "label": "Arts & Humanities",
+          "type": "bucket",
+          "targetCredits": 20,
+          "area": "A&H"
+        },
+        {
+          "id": "ssc",
+          "label": "Social Sciences",
+          "type": "bucket",
+          "targetCredits": 20,
+          "area": "SSc"
+        },
+        {
+          "id": "nsc",
+          "label": "Natural Sciences",
+          "type": "bucket",
+          "targetCredits": 20,
+          "area": "NSc",
+          "note": "Most Biochemistry supporting courses contribute toward this university requirement."
+        },
+        {
+          "id": "additional-aoi",
+          "label": "Additional Areas of Inquiry",
+          "type": "additional-bucket",
+          "targetCredits": 15,
+          "baseCredits": 60,
+          "area": "A&H/SSc/NSc"
+        },
+        {
+          "id": "div",
+          "label": "Diversity",
+          "type": "bucket",
+          "targetCredits": 5,
+          "area": "DIV",
+          "note": "May overlap another general-education requirement."
+        }
+      ]
+    },
+    {
+      "id": "mathematics",
+      "title": "Mathematics",
+      "displayCredits": "15 cr",
+      "targetCredits": 15,
+      "type": "group",
+      "items": [
+        {
+          "id": "calculus-sequence",
+          "label": "Complete one calculus sequence",
+          "type": "path-choice",
+          "paths": [
+            {
+              "label": "Standard calculus",
+              "courses": [
+                "MATH 124",
+                "MATH 125",
+                "MATH 126"
+              ]
+            },
+            {
+              "label": "Accelerated honors calculus",
+              "courses": [
+                "MATH 134",
+                "MATH 135",
+                "MATH 136"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "general-chemistry",
+      "title": "General Chemistry",
+      "displayCredits": "12–15 cr",
+      "targetCredits": 12,
+      "type": "group",
+      "items": [
+        {
+          "id": "general-chem-sequence",
+          "label": "Complete one general chemistry sequence",
+          "type": "path-choice",
+          "paths": [
+            {
+              "label": "Standard general chemistry",
+              "courses": [
+                "CHEM 142",
+                "CHEM 152",
+                "CHEM 162"
+              ]
+            },
+            {
+              "label": "Accelerated general chemistry",
+              "courses": [
+                "CHEM 143",
+                "CHEM 153"
+              ]
+            },
+            {
+              "label": "Honors general chemistry",
+              "courses": [
+                "CHEM 145",
+                "CHEM 155",
+                "CHEM 165"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "organic-chemistry",
+      "title": "Organic Chemistry",
+      "displayCredits": "18 cr",
+      "targetCredits": 18,
+      "type": "group",
+      "items": [
+        {
+          "id": "organic-chem-sequence",
+          "label": "Lecture and laboratory sequence",
+          "type": "path-choice",
+          "paths": [
+            {
+              "label": "Standard organic chemistry",
+              "courses": [
+                "CHEM 237",
+                "CHEM 238",
+                "CHEM 239",
+                "CHEM 241",
+                "CHEM 242"
+              ]
+            },
+            {
+              "label": "Honors organic chemistry",
+              "courses": [
+                "CHEM 257",
+                "CHEM 258",
+                "CHEM 259",
+                "CHEM 261",
+                "CHEM 262"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "biology",
+      "title": "Biology",
+      "displayCredits": "10 cr",
+      "targetCredits": 10,
+      "type": "group",
+      "items": [
+        {
+          "id": "biology-fixed",
+          "label": "Introductory Biology",
+          "type": "all",
+          "courses": [
+            "BIOL 180",
+            "BIOL 200"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "physics",
+      "title": "Physics",
+      "displayCredits": "12–15 cr",
+      "targetCredits": 12,
+      "type": "group",
+      "items": [
+        {
+          "id": "physics-sequence",
+          "label": "Complete one physics sequence",
+          "type": "path-choice",
+          "paths": [
+            {
+              "label": "Calculus-based physics — recommended",
+              "courses": [
+                "PHYS 121",
+                "PHYS 122",
+                "PHYS 123"
+              ]
+            },
+            {
+              "label": "Algebra-based physics",
+              "courses": [
+                "PHYS 114",
+                "PHYS 115",
+                "PHYS 116"
+              ]
+            },
+            {
+              "label": "Honors physics",
+              "courses": [
+                "PHYS 141",
+                "PHYS 142",
+                "PHYS 143"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "grade-standards",
+      "title": "Major Grade Standards",
+      "displayCredits": "Required",
+      "targetCredits": 0,
+      "type": "group",
+      "items": [
+        {
+          "id": "major-course-minimum",
+          "label": "Minimum 2.0 in each required CHEM, BIOL, and BIOC course",
+          "type": "check"
+        },
+        {
+          "id": "major-gpa",
+          "label": "Minimum 2.50 cumulative major GPA",
+          "type": "check"
+        },
+        {
+          "id": "overall-gpa",
+          "label": "Minimum 2.50 overall GPA",
+          "type": "check"
+        }
+      ]
+    },
+    {
+      "id": "outside-major",
+      "title": "College of Arts & Sciences Outside-Major Credits",
+      "displayCredits": "90 cr outside major department",
+      "targetCredits": 0,
+      "type": "group",
+      "items": [
+        {
+          "id": "outside-major-check",
+          "label": "At least 90 credits outside the major department",
+          "type": "check"
+        }
+      ]
+    },
+    {
+      "id": "biochemistry-core",
+      "title": "Biochemistry",
+      "displayCredits": "16 cr",
+      "targetCredits": 16,
+      "type": "group",
+      "items": [
+        {
+          "id": "bioc-sequence",
+          "label": "Biochemistry sequence",
+          "type": "all",
+          "courses": [
+            "BIOC 440",
+            "BIOC 441",
+            "BIOC 442"
+          ]
+        },
+        {
+          "id": "bioc-lab",
+          "label": "Biochemistry laboratory",
+          "type": "all",
+          "courses": [
+            "BIOC 426"
+          ],
+          "note": "An approved research experience may be petitioned as an exemption from BIOC 426."
+        },
+        {
+          "id": "bioc-sequence-gpa",
+          "label": "Minimum 2.50 GPA across BIOC 440, 441, and 442",
+          "type": "check"
+        }
+      ]
+    },
+    {
+      "id": "physical-chemistry",
+      "title": "Physical Chemistry",
+      "displayCredits": "6–9 cr",
+      "targetCredits": 6,
+      "type": "group",
+      "items": [
+        {
+          "id": "physical-chem-sequence",
+          "label": "Complete one physical chemistry sequence",
+          "type": "path-choice",
+          "paths": [
+            {
+              "label": "Physical chemistry for biochemists",
+              "courses": [
+                "CHEM 452",
+                "CHEM 453"
+              ]
+            },
+            {
+              "label": "Full physical chemistry",
+              "courses": [
+                "CHEM 455",
+                "CHEM 456",
+                "CHEM 457"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "genome-science",
+      "title": "Genome Science",
+      "displayCredits": "3–5 cr",
+      "targetCredits": 3,
+      "type": "group",
+      "items": [
+        {
+          "id": "genome-choice",
+          "label": "Choose one Genome Science course",
+          "type": "one",
+          "courses": [
+            "GENOME 361",
+            "GENOME 372"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "science-electives",
+      "title": "Science Electives",
+      "displayCredits": "11 cr",
+      "targetCredits": 11,
+      "type": "group",
+      "items": [
+        {
+          "id": "science-elective-pool",
+          "label": "Approved upper-division science electives",
+          "type": "pool",
+          "minCredits": 11,
+          "courses": [
+            "AMATH 351",
+            "AMATH 352",
+            "AMATH 422",
+            "AMATH 423",
+            "ATM S 358",
+            "ATM S 458",
+            "BIOL 220",
+            "BIOL 355",
+            "BIOL 401",
+            "BIOL 402",
+            "BIOL 411",
+            "BIOL 457",
+            "BIOL 459",
+            "BIOST 310",
+            "BSE 406",
+            "CHEM 312",
+            "CHEM 317",
+            "CHEM 321",
+            "CHEM 416",
+            "CHEM 417",
+            "CHEM 418",
+            "CHEM 425",
+            "CHEM 426",
+            "CHEM 429",
+            "CHEM 430",
+            "CHEM 431",
+            "CHEM 432",
+            "CHEM 434",
+            "CHEM 436",
+            "CHEM 458",
+            "CHEM 460",
+            "CHEM 461",
+            "CHEM 462",
+            "CHEM 463",
+            "CHEM 464",
+            "CHEM 465",
+            "CHEM 484",
+            "CHEM 485",
+            "CHEM 486",
+            "CHEM 491",
+            "CHEM 399",
+            "CHEM 499",
+            "BIOC 499",
+            "CSE 427",
+            "ENV H 405",
+            "ENV H 432",
+            "ESS 316",
+            "ESS 457",
+            "GENOME 372",
+            "GENOME 373",
+            "GENOME 465",
+            "IMMUN 441",
+            "MATH 207",
+            "MATH 208",
+            "MEDCH 327",
+            "MICROM 402",
+            "MICROM 410",
+            "MICROM 411",
+            "MICROM 412",
+            "MICROM 431",
+            "MICROM 445",
+            "MSE 471",
+            "MSE 475",
+            "NEUSCI 404",
+            "Q SCI 381",
+            "STAT 311"
+          ],
+          "note": "Up to 9 approved advanced-research credits may count. Only one of BIOST 310, Q SCI 381, and STAT 311 may count. Overlapping MATH/AMATH pairs cannot both count."
+        }
+      ]
+    },
+    {
+      "id": "total",
+      "title": "Total Degree Credits",
+      "displayCredits": "193 cr",
+      "targetCredits": 193,
+      "type": "total",
+      "note": "The UW Biochemistry BS requires at least 193 total credits."
+    }
+  ],
+  "samplePlan": {
+    "name": "Official department sample plan, updated for current CHEM 239 credits",
+    "quarters": {
+      "y1-autumn": [
+        "MATH 124",
+        "CHEM 142",
+        "SLOT:5:Foreign Language"
+      ],
+      "y1-winter": [
+        "MATH 125",
+        "CHEM 152",
+        "SLOT:5:Foreign Language"
+      ],
+      "y1-spring": [
+        "MATH 126",
+        "CHEM 162",
+        "SLOT:5:Foreign Language",
+        "SLOT:2:Free Elective"
+      ],
+      "y2-autumn": [
+        "BIOL 180",
+        "CHEM 237",
+        "SLOT:7:Free Elective"
+      ],
+      "y2-winter": [
+        "BIOL 200",
+        "CHEM 238",
+        "CHEM 241",
+        "SLOT:5:Social Sciences"
+      ],
+      "y2-spring": [
+        "CHEM 239",
+        "CHEM 242",
+        "SLOT:5:English Composition",
+        "SLOT:5:Arts & Humanities"
+      ],
+      "y3-autumn": [
+        "BIOC 440",
+        "PHYS 121",
+        "SLOT:5:Social Sciences",
+        "SLOT:2:Free Elective"
+      ],
+      "y3-winter": [
+        "BIOC 441",
+        "PHYS 122",
+        "SLOT:5:Arts & Humanities",
+        "SLOT:3:Free Elective"
+      ],
+      "y3-spring": [
+        "BIOC 442",
+        "PHYS 123",
+        "SLOT:5:Arts & Humanities / Writing",
+        "SLOT:3:Free Elective"
+      ],
+      "y4-autumn": [
+        "BIOC 426",
+        "SLOT:5:Social Sciences / Writing",
+        "SLOT:8:Science Elective"
+      ],
+      "y4-winter": [
+        "CHEM 452",
+        "SLOT:3:Science Elective",
+        "SLOT:5:Arts & Humanities",
+        "SLOT:4:Free Elective"
+      ],
+      "y4-spring": [
+        "CHEM 453",
+        "GENOME 361",
+        "SLOT:5:Social Sciences",
+        "SLOT:3:Free Elective"
+      ]
+    }
+  },
+  "prerequisiteSubstitutions": {
+    "MATH 124": [
+      "MATH 134"
+    ],
+    "MATH 125": [
+      "MATH 135",
+      "MATH 136"
+    ],
+    "MATH 126": [
+      "MATH 136"
+    ],
+    "MATH 207": [
+      "MATH 136"
+    ],
+    "MATH 208": [
+      "MATH 136"
+    ],
+    "PHYS 121": [
+      "PHYS 141"
+    ],
+    "PHYS 122": [
+      "PHYS 142"
+    ],
+    "PHYS 123": [
+      "PHYS 143"
+    ],
+    "CHEM 142": [
+      "CHEM 143",
+      "CHEM 145"
+    ],
+    "CHEM 152": [
+      "CHEM 153",
+      "CHEM 155"
+    ]
+  }
+}
