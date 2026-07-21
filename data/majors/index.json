@@ -23,6 +23,14 @@
       "status": "complete",
       "file": "computer-science.json",
       "source": "https://www.cs.washington.edu/academics/undergraduate/degree-requirements/"
+    },
+    {
+      "id": "uw-seattle-lsj",
+      "name": "Law, Societies & Justice",
+      "degree": "BA",
+      "status": "complete",
+      "file": "law-societies-justice.json",
+      "source": "https://lsj.washington.edu/lsj-gold-curriculum-requirements"
     }
   ]
 }

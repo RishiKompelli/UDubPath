@@ -917,8 +917,21 @@ function areaMatches(course, area) {
   const text = String(course.areas || "").toUpperCase();
   if (area === "A&H") return text.includes("A&H") || text.includes("VLPA");
   if (area === "SSc") return text.includes("SSC") || text.includes("I&S");
-  if (area === "A&H/SSc") return areaMatches(course, "A&H") || areaMatches(course, "SSc");
-  if (area === "C") return /(^|[,\s])C($|[,\s])/.test(text) || text.includes("COMPOSITION");
+  
+  if (area === "A&H/SSc") {
+    return areaMatches(course, "A&H") || areaMatches(course, "SSc");
+  }
+
+  if (area === "A&H/SSc/NSc") {
+    return (
+      areaMatches(course, "A&H") || areaMatches(course, "SSc") || areaMatches(course, "NSc")
+    );
+  }
+
+  if (area === "C") {
+    return /(^|[,\s])C($|[,\s])/.test(text) || text.includes("COMPOSITION");
+  }
+  
   return text.includes(area.toUpperCase());
 }
 
@@ -990,11 +1003,246 @@ function evaluateItem(item) {
     target = item.targetCredits;
     satisfied ||= current >= target;
     label = `${formatNumber(current)}/${target} credits`;
+  } else if (item.type === "check") {
+    current = overridden ? 1 : 0;
+    target = 1;
+    satisfied = overridden;
+    label = satisfied ? "Confirmed" : "Confirm manually";
   }
-  return { satisfied, current, target, label, completed, credits, overridden };
+return { satisfied, current, target, label, completed, credits, overridden };
+}
+
+function courseLevel(code) {
+  const match = normalizeCode(code).match(/\s(\d{3})[A-Z]?$/);
+  return match ? Number(match[1]) : 0;
+}
+
+function evaluateExclusiveItem(item, usedCodes) {
+  const overridden = Boolean(
+    app.progress.requirementOverrides[item.id]
+  );
+
+  const courses = (item.courses || []).map(normalizeCode);
+
+  const available = courses.filter(
+    (code) => isFulfilled(code) && !usedCodes.has(code)
+  );
+
+  let completed = [];
+  let current = 0;
+  let target = 1;
+  let label = "";
+  let satisfied = overridden;
+
+  if (item.type === "all") {
+    completed = available;
+    current = completed.length;
+    target = courses.length;
+    satisfied ||= current >= target;
+    label = `${current}/${target} courses`;
+  } else if (item.type === "one") {
+    completed = available.slice(0, 1);
+    current = completed.length;
+    target = 1;
+    satisfied ||= current >= 1;
+    label = satisfied ? "Satisfied" : "Choose one";
+  } else if (item.type === "count") {
+    const needed = Number(item.minCount || 1);
+
+    completed = available.slice(
+      0,
+      Math.min(available.length, needed)
+    );
+
+    current = completed.length;
+    target = needed;
+    satisfied ||= current >= target;
+    label = `${current}/${target} courses`;
+  } else if (item.type === "count-credit-level") {
+    const neededCount = Number(item.minCount || 0);
+    const neededCredits = Number(item.minCredits || 0);
+    const minimumLevel = Number(item.minLevel || 400);
+    const neededAtLevel = Number(item.minLevelCount || 0);
+
+    const highLevel = available.filter(
+      (code) => courseLevel(code) >= minimumLevel
+    );
+
+    const other = available.filter(
+      (code) => courseLevel(code) < minimumLevel
+    );
+
+    completed.push(
+      ...highLevel.slice(0, neededAtLevel)
+    );
+
+    const remaining = [
+      ...highLevel.slice(neededAtLevel),
+      ...other
+    ];
+
+    for (const code of remaining) {
+      const credits = completed.reduce(
+        (sum, entry) => (
+          sum + numericCredits(getCourse(entry).credits)
+        ),
+        0
+      );
+
+      const levelCount = completed.filter(
+        (entry) => courseLevel(entry) >= minimumLevel
+      ).length;
+
+      const requirementsMet = (
+        completed.length >= neededCount
+        && credits >= neededCredits
+        && levelCount >= neededAtLevel
+      );
+
+      if (requirementsMet) {
+        break;
+      }
+
+      completed.push(code);
+    }
+
+    const credits = completed.reduce(
+      (sum, code) => (
+        sum + numericCredits(getCourse(code).credits)
+      ),
+      0
+    );
+
+    const levelCount = completed.filter(
+      (code) => courseLevel(code) >= minimumLevel
+    ).length;
+
+    current = Math.min(
+      neededCount
+        ? completed.length / neededCount
+        : 1,
+      neededCredits
+        ? credits / neededCredits
+        : 1,
+      neededAtLevel
+        ? levelCount / neededAtLevel
+        : 1
+    );
+
+    target = 1;
+
+    satisfied ||= (
+      completed.length >= neededCount
+      && credits >= neededCredits
+      && levelCount >= neededAtLevel
+    );
+
+    label = (
+      `${completed.length}/${neededCount} courses`
+      + ` · ${formatNumber(credits)}/${neededCredits} cr`
+      + ` · ${levelCount}/${neededAtLevel}`
+      + ` at ${minimumLevel}-level`
+    );
+  } else if (item.type === "check") {
+    current = overridden ? 1 : 0;
+    target = 1;
+    satisfied = overridden;
+    label = satisfied
+      ? "Confirmed"
+      : "Confirm manually";
+  } else {
+    return evaluateItem(item);
+  }
+
+  if (!overridden) {
+    completed.forEach(
+      (code) => usedCodes.add(code)
+    );
+  }
+
+  const credits = completed.reduce(
+    (sum, code) => (
+      sum + numericCredits(getCourse(code).credits)
+    ),
+    0
+  );
+
+  return {
+    satisfied,
+    current,
+    target,
+    label,
+    completed,
+    credits,
+    overridden
+  };
+}
+
+function evaluateExclusiveSet(setId) {
+  const usedCodes = new Set();
+  const results = new Map();
+
+  const requirements = getActiveRequirements()
+    .filter(
+      (requirement) => (
+        requirement.exclusiveSet === setId
+      )
+    )
+    .sort(
+      (a, b) => (
+        Number(a.exclusivePriority || 0)
+        - Number(b.exclusivePriority || 0)
+      )
+    );
+
+  for (const requirement of requirements) {
+    const overridden = Boolean(
+      app.progress.requirementOverrides[
+        requirement.id
+      ]
+    );
+
+    const allocationSet = overridden
+      ? new Set()
+      : usedCodes;
+
+    const items = (requirement.items || []).map(
+      (item) => (
+        evaluateExclusiveItem(
+          item,
+          allocationSet
+        )
+      )
+    );
+
+    const current = items.filter(
+      (item) => item.satisfied
+    ).length;
+
+    results.set(
+      requirement.id,
+      {
+        satisfied: (
+          overridden
+          || current === items.length
+        ),
+        current,
+        target: items.length,
+        items,
+        label: `${current}/${items.length} parts`
+      }
+    );
+  }
+
+  return results;
 }
 
 function evaluateRequirement(requirement) {
+  if (requirement.exclusiveSet) {
+    return evaluateExclusiveSet(
+      requirement.exclusiveSet
+    ).get(requirement.id);
+  }
   const overridden = Boolean(app.progress.requirementOverrides[requirement.id]);
   if (requirement.type === "group") {
     const items = requirement.items.map(evaluateItem);
