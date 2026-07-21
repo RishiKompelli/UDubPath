@@ -1,0 +1,1766 @@
+{
+  "id": "uw-seattle-cs",
+  "university": "University of Washington Seattle",
+  "name": "Computer Science",
+  "degree": "Bachelor of Science in Computer Science",
+  "catalogYear": "Current Allen School requirements",
+  "totalCredits": 180,
+  "sources": [
+    {
+      "label": "Allen School degree requirements",
+      "url": "https://www.cs.washington.edu/academics/undergraduate/degree-requirements/"
+    },
+    {
+      "label": "Computer Science graduation requirements PDF",
+      "url": "https://s3-us-west-2.amazonaws.com/www-cse-public/ugrad/curriculum/CS__Fall23.pdf"
+    },
+    {
+      "label": "Allen School core and elective course lists",
+      "url": "https://www.cs.washington.edu/academics/undergraduate/degree-requirements/courses/"
+    },
+    {
+      "label": "Allen School capstone offerings",
+      "url": "https://www.cs.washington.edu/academics/undergraduate/degree-requirements/capstones/"
+    },
+    {
+      "label": "UW CSE course catalog",
+      "url": "https://www.washington.edu/students/crscat/cse.html"
+    },
+    {
+      "label": "Allen School current UW admissions",
+      "url": "https://www.cs.washington.edu/academics/undergraduate/admissions/current-uw/"
+    }
+  ],
+  "tracks": [
+    {
+      "id": "standard",
+      "name": "Standard Computer Science",
+      "description": "Complete the standard 33-credit CSE core and senior-elective structure."
+    },
+    {
+      "id": "data-science",
+      "name": "Computer Science — Data Science option",
+      "description": "Complete the transcriptable Data Science option within the same 180-credit degree."
+    }
+  ],
+  "courseOverrides": {
+    "MATH 124": {
+      "title": "Calculus with Analytic Geometry I",
+      "credits": "5",
+      "prerequisiteGroups": []
+    },
+    "MATH 125": {
+      "title": "Calculus with Analytic Geometry II",
+      "credits": "5",
+      "prerequisiteGroups": [
+        [
+          "MATH 124"
+        ]
+      ]
+    },
+    "MATH 126": {
+      "title": "Calculus with Analytic Geometry III",
+      "credits": "5",
+      "prerequisiteGroups": [
+        [
+          "MATH 125"
+        ]
+      ]
+    },
+    "MATH 134": {
+      "title": "Accelerated [Honors] Calculus",
+      "credits": "5",
+      "areas": "NSc, RSN",
+      "offered": "Autumn",
+      "description": "First course in UW's accelerated honors calculus and linear algebra sequence.",
+      "prerequisiteGroups": [],
+      "sourceUrl": "https://www.washington.edu/students/crscat/math.html"
+    },
+    "MATH 135": {
+      "title": "Accelerated [Honors] Calculus",
+      "credits": "5",
+      "areas": "NSc",
+      "offered": "Winter",
+      "description": "Second course in UW's accelerated honors calculus and linear algebra sequence.",
+      "prerequisiteGroups": [
+        [
+          "MATH 134"
+        ]
+      ],
+      "sourceUrl": "https://www.washington.edu/students/crscat/math.html"
+    },
+    "MATH 136": {
+      "title": "Accelerated [Honors] Calculus",
+      "credits": "5",
+      "areas": "NSc",
+      "offered": "Spring",
+      "description": "Third course in UW's accelerated honors calculus and linear algebra sequence. The sequence covers material from MATH 124-126, 207, and 208.",
+      "prerequisiteGroups": [
+        [
+          "MATH 135"
+        ]
+      ],
+      "sourceUrl": "https://www.washington.edu/students/crscat/math.html"
+    },
+    "MATH 208": {
+      "title": "Matrix Algebra with Applications",
+      "credits": "4",
+      "prerequisiteGroups": []
+    },
+    "PHYS 121": {
+      "title": "Mechanics",
+      "credits": "5",
+      "prerequisiteGroups": [
+        [
+          "MATH 124",
+          "MATH 134"
+        ]
+      ]
+    },
+    "PHYS 141": {
+      "title": "Honors Mechanics",
+      "credits": "5",
+      "areas": "NSc",
+      "offered": "Autumn",
+      "description": "Honors version of calculus-based mechanics, covering PHYS 121 material in greater depth.",
+      "prerequisiteGroups": [
+        [
+          "MATH 124",
+          "MATH 134"
+        ]
+      ],
+      "sourceUrl": "https://www.washington.edu/students/crscat/phys.html",
+      "otherPrerequisites": "AP Calculus scores can also provide entry; high-school physics is recommended. Check the current grade and score thresholds."
+    },
+    "CHEM 142": {
+      "title": "General Chemistry",
+      "credits": "5",
+      "prerequisiteGroups": [],
+      "otherPrerequisites": "CHEM 110 with the required grade, the General Chemistry Placement Exam, or AP Chemistry placement can provide entry. Check the current catalog."
+    },
+    "CHEM 143": {
+      "title": "Accelerated General Chemistry I",
+      "credits": "6",
+      "areas": "NSc, RSN",
+      "offered": "Autumn",
+      "description": "First half of UW's accelerated two-quarter general chemistry sequence.",
+      "prerequisiteGroups": [],
+      "sourceUrl": "https://www.washington.edu/students/crscat/chem.html",
+      "otherPrerequisites": "CHEM 110 with the required grade, the General Chemistry Placement Exam, or AP Chemistry placement can provide entry. Check the current catalog."
+    },
+    "CHEM 145": {
+      "title": "Honors General Chemistry",
+      "credits": "5",
+      "areas": "NSc, RSN",
+      "offered": "Autumn",
+      "description": "First course in UW's honors general chemistry sequence, covering CHEM 142 topics with greater mathematical rigor.",
+      "prerequisiteGroups": [],
+      "sourceUrl": "https://www.washington.edu/students/crscat/chem.html",
+      "otherPrerequisites": "Entry can be based on MATH 124 or MATH 134 (which may be concurrent), the Honors General Chemistry placement exam, AP Chemistry, or IB Higher Level Chemistry. Check the current score thresholds."
+    },
+    "CSE 121": {
+      "title": "Introduction to Computer Programming I",
+      "credits": "4",
+      "offered": "A,W,Sp,S",
+      "prerequisiteGroups": [],
+      "otherPrerequisites": "Recommended: Allen School Guided Self-Placement."
+    },
+    "CSE 122": {
+      "title": "Introduction to Computer Programming II",
+      "credits": "4",
+      "offered": "A,W,Sp,S",
+      "prerequisiteGroups": [],
+      "otherPrerequisites": "Recommended: CSE 121 or Allen School Guided Self-Placement."
+    },
+    "CSE 123": {
+      "title": "Introduction to Computer Programming III",
+      "credits": "4",
+      "offered": "A,W,Sp,S",
+      "prerequisiteGroups": [],
+      "otherPrerequisites": "Recommended: CSE 122 or Allen School Guided Self-Placement."
+    },
+    "CSE 142": {
+      "title": "Computer Programming I",
+      "credits": "4",
+      "prerequisiteGroups": []
+    },
+    "CSE 143": {
+      "title": "Computer Programming II",
+      "credits": "5",
+      "prerequisiteGroups": [
+        [
+          "CSE 142"
+        ]
+      ]
+    },
+    "CSE 311": {
+      "title": "Foundations of Computing I",
+      "credits": "4",
+      "prerequisiteGroups": [
+        [
+          "CSE 123",
+          "CSE 143"
+        ],
+        [
+          "MATH 126",
+          "MATH 135"
+        ]
+      ]
+    },
+    "CSE 312": {
+      "title": "Foundations of Computing II",
+      "credits": "4",
+      "prerequisiteGroups": [
+        [
+          "CSE 311"
+        ]
+      ]
+    },
+    "CSE 331": {
+      "title": "Software Design and Implementation",
+      "credits": "4",
+      "prerequisiteGroups": [
+        [
+          "CSE 123",
+          "CSE 143"
+        ]
+      ]
+    },
+    "CSE 332": {
+      "title": "Data Structures and Parallelism",
+      "credits": "4",
+      "prerequisiteGroups": [
+        [
+          "CSE 311"
+        ]
+      ]
+    },
+    "CSE 333": {
+      "title": "Systems Programming",
+      "credits": "4",
+      "prerequisiteGroups": [
+        [
+          "CSE 351"
+        ]
+      ]
+    },
+    "CSE 340": {
+      "title": "Interaction Programming",
+      "credits": "4",
+      "prerequisiteGroups": [
+        [
+          "CSE 123",
+          "CSE 143"
+        ]
+      ]
+    },
+    "CSE 341": {
+      "title": "Programming Languages",
+      "credits": "4",
+      "prerequisiteGroups": [
+        [
+          "CSE 123",
+          "CSE 143"
+        ]
+      ]
+    },
+    "CSE 344": {
+      "title": "Introduction to Data Management",
+      "credits": "4",
+      "prerequisiteGroups": [
+        [
+          "CSE 311"
+        ]
+      ]
+    },
+    "CSE 351": {
+      "title": "The Hardware/Software Interface",
+      "credits": "4",
+      "prerequisiteGroups": [
+        [
+          "CSE 123",
+          "CSE 143"
+        ]
+      ]
+    },
+    "CSE 391": {
+      "title": "System and Software Tools",
+      "credits": "1",
+      "prerequisiteGroups": [
+        [
+          "CSE 122",
+          "CSE 123",
+          "CSE 143"
+        ]
+      ],
+      "otherPrerequisites": "Recommended with or before CSE 351."
+    },
+    "CSE 421": {
+      "title": "Introduction to Algorithms",
+      "credits": "3",
+      "prerequisiteGroups": [
+        [
+          "CSE 312"
+        ],
+        [
+          "CSE 332"
+        ]
+      ]
+    },
+    "CSE 442": {
+      "title": "Data Visualization",
+      "credits": "4",
+      "prerequisiteGroups": [
+        [
+          "CSE 332"
+        ]
+      ]
+    },
+    "CSE 444": {
+      "title": "Database Systems Internals",
+      "credits": "4",
+      "prerequisiteGroups": [
+        [
+          "CSE 332"
+        ],
+        [
+          "CSE 344",
+          "CSE 414"
+        ]
+      ]
+    },
+    "CSE 446": {
+      "title": "Machine Learning",
+      "credits": "4",
+      "prerequisiteGroups": [
+        [
+          "CSE 332"
+        ],
+        [
+          "MATH 208",
+          "MATH 136"
+        ],
+        [
+          "STAT 390",
+          "STAT 391",
+          "CSE 312"
+        ]
+      ]
+    },
+    "CSE 447": {
+      "title": "Natural Language Processing",
+      "credits": "4",
+      "prerequisiteGroups": [
+        [
+          "CSE 312"
+        ],
+        [
+          "CSE 332"
+        ]
+      ],
+      "otherPrerequisites": "CSE 446 is recommended before or concurrently."
+    },
+    "CSE 451": {
+      "title": "Introduction to Operating Systems",
+      "credits": "4",
+      "prerequisiteGroups": [
+        [
+          "CSE 332"
+        ],
+        [
+          "CSE 333"
+        ],
+        [
+          "CSE 351"
+        ]
+      ]
+    },
+    "CSE 455": {
+      "title": "Computer Vision",
+      "credits": "4",
+      "prerequisiteGroups": [
+        [
+          "CSE 332"
+        ]
+      ]
+    },
+    "CSE 484": {
+      "title": "Computer Security",
+      "credits": "4",
+      "prerequisiteGroups": [
+        [
+          "CSE 332"
+        ],
+        [
+          "CSE 351"
+        ]
+      ]
+    },
+    "CSE 428": {
+      "title": "Computational Biology Capstone",
+      "credits": "5",
+      "prerequisiteGroups": [
+        [
+          "CSE 312"
+        ],
+        [
+          "CSE 331"
+        ],
+        [
+          "CSE 332"
+        ]
+      ]
+    },
+    "CSE 475": {
+      "title": "Embedded Systems Capstone",
+      "credits": "5",
+      "prerequisiteGroups": [
+        [
+          "EE 271",
+          "CSE 369"
+        ],
+        [
+          "EE 472",
+          "CSE 474"
+        ]
+      ]
+    },
+    "CSE 481": {
+      "title": "Capstone Software Design",
+      "credits": "5",
+      "prerequisiteGroups": [
+        [
+          "CSE 312"
+        ],
+        [
+          "CSE 332"
+        ],
+        [
+          "CSE 351"
+        ],
+        [
+          "CSE 331",
+          "CSE 333",
+          "CSE 369"
+        ]
+      ]
+    },
+    "CSE 482": {
+      "title": "Capstone Software Design to Empower Underserved Populations",
+      "credits": "5",
+      "areas": "DIV",
+      "prerequisiteGroups": [
+        [
+          "CSE 332"
+        ],
+        [
+          "CSE 351"
+        ],
+        [
+          "CSE 331",
+          "CSE 352"
+        ]
+      ]
+    },
+    "SOC 225": {
+      "title": "Data and Society",
+      "credits": "3-5",
+      "prerequisiteGroups": []
+    },
+    "BIOL 162": {
+      "title": "General Biology credit by examination",
+      "credits": "5",
+      "prerequisiteGroups": []
+    },
+    "PHYS 116": {
+      "title": "Physics course credit by examination",
+      "credits": "4",
+      "prerequisiteGroups": []
+    },
+    "PHYS 119": {
+      "title": "Physics laboratory credit by examination",
+      "credits": "1",
+      "prerequisiteGroups": []
+    }
+  },
+  "mapGroups": [
+    {
+      "id": "admission",
+      "label": "Allen School Admission Checkpoint",
+      "shortLabel": "Admission",
+      "credits": "Current UW applicants",
+      "description": "Application prerequisites for current UW students. Direct-to-major freshmen do not use this checkpoint.",
+      "courses": [],
+      "requirementRefs": [
+        {
+          "id": "cse-admission",
+          "scope": "requirement",
+          "label": "Current UW applicant prerequisites",
+          "credits": "Before application"
+        }
+      ]
+    },
+    {
+      "id": "general-education",
+      "label": "General Education Component",
+      "shortLabel": "General Education",
+      "credits": "University requirements",
+      "description": "Language skills, diversity, reasoning and writing, and Areas of Inquiry.",
+      "courses": [],
+      "requirementRefs": [
+        {
+          "id": "english-comp",
+          "scope": "item",
+          "label": "English Composition",
+          "credits": "5 cr"
+        },
+        {
+          "id": "foreign-language",
+          "scope": "item",
+          "label": "Foreign Language",
+          "credits": "0–15 cr"
+        },
+        {
+          "id": "writing",
+          "scope": "item",
+          "label": "Writing in Context",
+          "credits": "10 cr"
+        },
+        {
+          "id": "ah",
+          "scope": "item",
+          "label": "Arts & Humanities",
+          "credits": "20 cr"
+        },
+        {
+          "id": "ssc",
+          "scope": "item",
+          "label": "Social Sciences",
+          "credits": "20 cr"
+        },
+        {
+          "id": "nsc",
+          "scope": "item",
+          "label": "Natural Sciences",
+          "credits": "20 cr"
+        },
+        {
+          "id": "additional-coursework",
+          "scope": "item",
+          "label": "Additional Coursework",
+          "credits": "15 cr"
+        },
+        {
+          "id": "div",
+          "scope": "item",
+          "label": "Diversity",
+          "credits": "5 cr"
+        }
+      ]
+    },
+    {
+      "id": "math-science",
+      "label": "Mathematics & Science Component",
+      "shortLabel": "Math & Science",
+      "credits": "20–23 cr",
+      "description": "Calculus, linear algebra, and one approved natural-science path.",
+      "courses": [
+        "MATH 124",
+        "MATH 125",
+        "MATH 126",
+        "MATH 134",
+        "MATH 135",
+        "MATH 136",
+        "MATH 208",
+        "PHYS 121",
+        "PHYS 141",
+        "CHEM 142",
+        "CHEM 143",
+        "CHEM 145",
+        "BIOL 180",
+        "BIOL 162",
+        "PHYS 116",
+        "PHYS 119"
+      ]
+    },
+    {
+      "id": "fundamentals",
+      "label": "Computer Science Fundamentals",
+      "shortLabel": "Fundamentals",
+      "credits": "24–25 cr",
+      "description": "Required programming, theory, software, data structures, and hardware/software courses.",
+      "courses": [
+        "CSE 123",
+        "CSE 143",
+        "CSE 311",
+        "CSE 312",
+        "CSE 331",
+        "CSE 332",
+        "CSE 351",
+        "CSE 391"
+      ]
+    },
+    {
+      "id": "options",
+      "label": "Core & Electives",
+      "shortLabel": "Core & Electives",
+      "credits": "33 cr",
+      "description": "The visible courses change with the Standard CS or Data Science option.",
+      "courses": [
+        "CSE 333",
+        "CSE 340",
+        "CSE 341",
+        "CSE 344",
+        "CSE 369",
+        "CSE 371",
+        "STAT 391",
+        "CSE 401",
+        "CSE 402",
+        "CSE 403",
+        "CSE 421",
+        "CSE 422",
+        "CSE 426",
+        "CSE 427",
+        "CSE 431",
+        "CSE 434",
+        "CSE 438",
+        "CSE 440",
+        "CSE 442",
+        "CSE 443",
+        "CSE 444",
+        "CSE 446",
+        "CSE 447",
+        "CSE 451",
+        "CSE 452",
+        "CSE 453",
+        "CSE 455",
+        "CSE 457",
+        "CSE 458",
+        "CSE 461",
+        "CSE 462",
+        "CSE 469",
+        "CSE 470",
+        "CSE 473",
+        "CSE 474",
+        "CSE 478",
+        "CSE 484",
+        "CSE 486",
+        "CSE 493",
+        "CSE 428",
+        "CSE 460",
+        "CSE 475",
+        "CSE 481",
+        "CSE 482",
+        "CSE 441",
+        "CSE 450",
+        "CSE 454",
+        "CSE 456",
+        "CSE 459",
+        "CSE 464",
+        "CSE 467",
+        "CSE 472",
+        "CSE 480",
+        "CSE 487",
+        "CSE 488",
+        "CSE 490",
+        "CSE 495",
+        "CSE 496",
+        "CSE 498",
+        "AMATH 401",
+        "AMATH 402",
+        "AMATH 403",
+        "AMATH 422",
+        "AMATH 423",
+        "AMATH 483",
+        "BIOEN 485",
+        "DXARTS 460",
+        "DXARTS 461",
+        "DXARTS 462",
+        "DXARTS 463",
+        "MUSIC 400",
+        "MUSIC 401",
+        "MUSIC 402",
+        "MUSIC 403",
+        "EE 331",
+        "EE 332",
+        "EE 341",
+        "ENGR 321",
+        "ENTRE 432",
+        "GEOG 360",
+        "GEOG 460",
+        "GEOG 463",
+        "GEOG 465",
+        "INFO 446",
+        "INFO 454",
+        "INFO 464",
+        "LING 472",
+        "MATH 318",
+        "MATH 334",
+        "MATH 335",
+        "MATH 336",
+        "MATH 402",
+        "MATH 403",
+        "MATH 404",
+        "MATH 407",
+        "MATH 408",
+        "MATH 409",
+        "MATH 414",
+        "MATH 415",
+        "MATH 424",
+        "MATH 425",
+        "MATH 426",
+        "MATH 435",
+        "MATH 436",
+        "MATH 441",
+        "MATH 442",
+        "MATH 461",
+        "MATH 462",
+        "MATH 464",
+        "MATH 465",
+        "MATH 466",
+        "STAT 341",
+        "STAT 342",
+        "STAT 395",
+        "STAT 396",
+        "STAT 421",
+        "STAT 491",
+        "CSE 301",
+        "CSE 394",
+        "CSE 492",
+        "GEN ST 350",
+        "SOC 225"
+      ]
+    },
+    {
+      "id": "free-electives",
+      "label": "Free Electives",
+      "credits": "To reach 180 cr",
+      "description": "Any approved coursework needed to reach the university graduation total.",
+      "courses": [],
+      "requirementRefs": [
+        {
+          "id": "total",
+          "scope": "requirement",
+          "label": "Total degree credits",
+          "credits": "180 cr"
+        }
+      ]
+    }
+  ],
+  "requirements": [
+    {
+      "id": "cse-admission",
+      "title": "Allen School current UW admission checkpoint",
+      "displayCredits": "Before application",
+      "targetCredits": 0,
+      "type": "group",
+      "note": "Applies to current UW student applicants, not direct-to-major freshmen.",
+      "items": [
+        {
+          "id": "admission-calc",
+          "label": "Calculus sequence",
+          "type": "path-choice",
+          "paths": [
+            {
+              "label": "Standard calculus",
+              "courses": [
+                "MATH 124",
+                "MATH 125",
+                "MATH 126"
+              ]
+            },
+            {
+              "label": "Accelerated honors calculus",
+              "courses": [
+                "MATH 134",
+                "MATH 135",
+                "MATH 136"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "admission-programming",
+          "label": "Computer programming prerequisite",
+          "type": "one",
+          "courses": [
+            "CSE 123",
+            "CSE 143"
+          ]
+        },
+        {
+          "id": "admission-composition",
+          "label": "English composition",
+          "type": "bucket",
+          "targetCredits": 5,
+          "area": "C"
+        },
+        {
+          "id": "admission-science",
+          "label": "Approved natural science",
+          "type": "path-choice",
+          "paths": [
+            {
+              "label": "PHYS 121",
+              "courses": [
+                "PHYS 121"
+              ]
+            },
+            {
+              "label": "Honors physics",
+              "courses": [
+                "PHYS 141"
+              ]
+            },
+            {
+              "label": "CHEM 142",
+              "courses": [
+                "CHEM 142"
+              ]
+            },
+            {
+              "label": "Accelerated chemistry",
+              "courses": [
+                "CHEM 143"
+              ]
+            },
+            {
+              "label": "Honors chemistry",
+              "courses": [
+                "CHEM 145"
+              ]
+            },
+            {
+              "label": "BIOL 180",
+              "courses": [
+                "BIOL 180"
+              ]
+            },
+            {
+              "label": "AP Biology credit",
+              "courses": [
+                "BIOL 162"
+              ]
+            },
+            {
+              "label": "AP Physics credit",
+              "courses": [
+                "PHYS 116",
+                "PHYS 119"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "general-education",
+      "title": "General Education Component",
+      "displayCredits": "University requirements",
+      "targetCredits": 0,
+      "type": "group",
+      "items": [
+        {
+          "id": "english-comp",
+          "label": "English Composition",
+          "type": "bucket",
+          "targetCredits": 5,
+          "area": "C"
+        },
+        {
+          "id": "foreign-language",
+          "label": "Foreign language through the third quarter",
+          "type": "bucket",
+          "targetCredits": 15,
+          "area": "FL",
+          "note": "This is 0–15 credits depending on prior preparation. Mark fulfilled if high-school or college language study satisfies it."
+        },
+        {
+          "id": "reasoning",
+          "label": "Reasoning",
+          "type": "one",
+          "courses": [
+            "MATH 124",
+            "MATH 134",
+            "CSE 311"
+          ],
+          "note": "Required CSE and MATH coursework satisfies this requirement."
+        },
+        {
+          "id": "writing",
+          "label": "UW-approved writing courses or additional composition",
+          "type": "bucket",
+          "targetCredits": 10,
+          "area": "W"
+        },
+        {
+          "id": "ah",
+          "label": "Arts & Humanities",
+          "type": "bucket",
+          "targetCredits": 20,
+          "area": "A&H"
+        },
+        {
+          "id": "ssc",
+          "label": "Social Sciences",
+          "type": "bucket",
+          "targetCredits": 20,
+          "area": "SSc"
+        },
+        {
+          "id": "nsc",
+          "label": "Natural Sciences",
+          "type": "bucket",
+          "targetCredits": 20,
+          "area": "NSc",
+          "note": "Required mathematics, science, and up to 12 credits of CSE 121–123 can count."
+        },
+        {
+          "id": "additional-coursework",
+          "label": "Additional Coursework",
+          "type": "pool",
+          "minCredits": 15,
+          "courses": [
+            "MATH 124",
+            "MATH 125",
+            "MATH 126",
+            "MATH 134",
+            "MATH 135",
+            "MATH 136",
+            "MATH 208",
+            "PHYS 121",
+            "PHYS 141",
+            "CHEM 142",
+            "CHEM 143",
+            "CHEM 145",
+            "BIOL 180",
+            "BIOL 162",
+            "PHYS 116",
+            "PHYS 119",
+            "CSE 121",
+            "CSE 122",
+            "CSE 123",
+            "CSE 142",
+            "CSE 143"
+          ],
+          "note": "Other eligible coursework can be marked manually fulfilled."
+        },
+        {
+          "id": "div",
+          "label": "Diversity",
+          "type": "bucket",
+          "targetCredits": 5,
+          "area": "DIV",
+          "note": "May overlap with another requirement."
+        }
+      ]
+    },
+    {
+      "id": "math-science",
+      "title": "Mathematics & Science Component",
+      "displayCredits": "20–23 cr",
+      "targetCredits": 20,
+      "type": "group",
+      "items": [
+        {
+          "id": "calculus",
+          "label": "Calculus with Analytic Geometry",
+          "type": "path-choice",
+          "paths": [
+            {
+              "label": "Standard calculus",
+              "courses": [
+                "MATH 124",
+                "MATH 125",
+                "MATH 126"
+              ]
+            },
+            {
+              "label": "Accelerated honors calculus",
+              "courses": [
+                "MATH 134",
+                "MATH 135",
+                "MATH 136"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "linear-algebra",
+          "label": "Linear algebra",
+          "type": "path-choice",
+          "paths": [
+            {
+              "label": "MATH 208",
+              "courses": [
+                "MATH 208"
+              ]
+            },
+            {
+              "label": "Waived by MATH 136",
+              "courses": [
+                "MATH 134",
+                "MATH 135",
+                "MATH 136"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "natural-science",
+          "label": "One approved natural-science path",
+          "type": "path-choice",
+          "paths": [
+            {
+              "label": "PHYS 121",
+              "courses": [
+                "PHYS 121"
+              ]
+            },
+            {
+              "label": "Honors physics",
+              "courses": [
+                "PHYS 141"
+              ]
+            },
+            {
+              "label": "CHEM 142",
+              "courses": [
+                "CHEM 142"
+              ]
+            },
+            {
+              "label": "Accelerated chemistry",
+              "courses": [
+                "CHEM 143"
+              ]
+            },
+            {
+              "label": "Honors chemistry",
+              "courses": [
+                "CHEM 145"
+              ]
+            },
+            {
+              "label": "BIOL 180",
+              "courses": [
+                "BIOL 180"
+              ]
+            },
+            {
+              "label": "AP Biology credit",
+              "courses": [
+                "BIOL 162"
+              ]
+            },
+            {
+              "label": "AP Physics credit",
+              "courses": [
+                "PHYS 116",
+                "PHYS 119"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fundamentals",
+      "title": "Computer Science Fundamentals",
+      "displayCredits": "24–25 cr",
+      "targetCredits": 24,
+      "type": "group",
+      "items": [
+        {
+          "id": "intro-programming",
+          "label": "Introductory programming",
+          "type": "one",
+          "courses": [
+            "CSE 123",
+            "CSE 143"
+          ]
+        },
+        {
+          "id": "fundamentals-fixed",
+          "label": "Required Computer Science fundamentals",
+          "type": "all",
+          "courses": [
+            "CSE 311",
+            "CSE 312",
+            "CSE 331",
+            "CSE 332",
+            "CSE 351"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cs-standard",
+      "track": "standard",
+      "title": "Standard Computer Science Core & Electives",
+      "sectionTitle": "Core & Electives",
+      "displayCredits": "33 cr",
+      "targetCredits": 33,
+      "type": "group",
+      "items": [
+        {
+          "id": "standard-four-400-core",
+          "label": "At least four 400-level CSE Core courses",
+          "type": "count",
+          "minCount": 4,
+          "courses": [
+            "CSE 401",
+            "CSE 402",
+            "CSE 403",
+            "CSE 421",
+            "CSE 422",
+            "CSE 426",
+            "CSE 427",
+            "CSE 431",
+            "CSE 434",
+            "CSE 438",
+            "CSE 440",
+            "CSE 442",
+            "CSE 443",
+            "CSE 444",
+            "CSE 446",
+            "CSE 447",
+            "CSE 451",
+            "CSE 452",
+            "CSE 453",
+            "CSE 455",
+            "CSE 457",
+            "CSE 458",
+            "CSE 461",
+            "CSE 462",
+            "CSE 469",
+            "CSE 470",
+            "CSE 473",
+            "CSE 474",
+            "CSE 478",
+            "CSE 484",
+            "CSE 486",
+            "CSE 493"
+          ]
+        },
+        {
+          "id": "standard-six-total-core",
+          "label": "At least six total CSE Core courses",
+          "type": "count",
+          "minCount": 6,
+          "courses": [
+            "CSE 333",
+            "CSE 340",
+            "CSE 341",
+            "CSE 344",
+            "CSE 369",
+            "CSE 371",
+            "STAT 391",
+            "CSE 401",
+            "CSE 402",
+            "CSE 403",
+            "CSE 421",
+            "CSE 422",
+            "CSE 426",
+            "CSE 427",
+            "CSE 431",
+            "CSE 434",
+            "CSE 438",
+            "CSE 440",
+            "CSE 442",
+            "CSE 443",
+            "CSE 444",
+            "CSE 446",
+            "CSE 447",
+            "CSE 451",
+            "CSE 452",
+            "CSE 453",
+            "CSE 455",
+            "CSE 457",
+            "CSE 458",
+            "CSE 461",
+            "CSE 462",
+            "CSE 469",
+            "CSE 470",
+            "CSE 473",
+            "CSE 474",
+            "CSE 478",
+            "CSE 484",
+            "CSE 486",
+            "CSE 493"
+          ],
+          "note": "Includes the four 400-level core courses plus at least two additional 300- or 400-level core courses."
+        },
+        {
+          "id": "standard-seven-core-capstone",
+          "label": "At least seven total Core/Capstone selections",
+          "type": "count",
+          "minCount": 7,
+          "courses": [
+            "CSE 333",
+            "CSE 340",
+            "CSE 341",
+            "CSE 344",
+            "CSE 369",
+            "CSE 371",
+            "STAT 391",
+            "CSE 401",
+            "CSE 402",
+            "CSE 403",
+            "CSE 421",
+            "CSE 422",
+            "CSE 426",
+            "CSE 427",
+            "CSE 431",
+            "CSE 434",
+            "CSE 438",
+            "CSE 440",
+            "CSE 442",
+            "CSE 443",
+            "CSE 444",
+            "CSE 446",
+            "CSE 447",
+            "CSE 451",
+            "CSE 452",
+            "CSE 453",
+            "CSE 455",
+            "CSE 457",
+            "CSE 458",
+            "CSE 461",
+            "CSE 462",
+            "CSE 469",
+            "CSE 470",
+            "CSE 473",
+            "CSE 474",
+            "CSE 478",
+            "CSE 484",
+            "CSE 486",
+            "CSE 493",
+            "CSE 428",
+            "CSE 460",
+            "CSE 475",
+            "CSE 481",
+            "CSE 482"
+          ],
+          "note": "The seventh selection may be an additional Core course or one approved capstone."
+        },
+        {
+          "id": "standard-elective-credits",
+          "label": "At least 33 approved CSE Core and Senior Elective credits",
+          "type": "pool",
+          "minCredits": 33,
+          "courses": [
+            "CSE 333",
+            "CSE 340",
+            "CSE 341",
+            "CSE 344",
+            "CSE 369",
+            "CSE 371",
+            "STAT 391",
+            "CSE 401",
+            "CSE 402",
+            "CSE 403",
+            "CSE 421",
+            "CSE 422",
+            "CSE 426",
+            "CSE 427",
+            "CSE 431",
+            "CSE 434",
+            "CSE 438",
+            "CSE 440",
+            "CSE 442",
+            "CSE 443",
+            "CSE 444",
+            "CSE 446",
+            "CSE 447",
+            "CSE 451",
+            "CSE 452",
+            "CSE 453",
+            "CSE 455",
+            "CSE 457",
+            "CSE 458",
+            "CSE 461",
+            "CSE 462",
+            "CSE 469",
+            "CSE 470",
+            "CSE 473",
+            "CSE 474",
+            "CSE 478",
+            "CSE 484",
+            "CSE 486",
+            "CSE 493",
+            "CSE 428",
+            "CSE 460",
+            "CSE 475",
+            "CSE 481",
+            "CSE 482",
+            "CSE 441",
+            "CSE 450",
+            "CSE 454",
+            "CSE 456",
+            "CSE 459",
+            "CSE 464",
+            "CSE 467",
+            "CSE 472",
+            "CSE 480",
+            "CSE 487",
+            "CSE 488",
+            "CSE 490",
+            "CSE 495",
+            "CSE 496",
+            "CSE 498",
+            "AMATH 401",
+            "AMATH 402",
+            "AMATH 403",
+            "AMATH 422",
+            "AMATH 423",
+            "AMATH 483",
+            "BIOEN 485",
+            "DXARTS 460",
+            "DXARTS 461",
+            "DXARTS 462",
+            "DXARTS 463",
+            "MUSIC 400",
+            "MUSIC 401",
+            "MUSIC 402",
+            "MUSIC 403",
+            "EE 331",
+            "EE 332",
+            "EE 341",
+            "ENGR 321",
+            "ENTRE 432",
+            "GEOG 360",
+            "GEOG 460",
+            "GEOG 463",
+            "GEOG 465",
+            "INFO 446",
+            "INFO 454",
+            "INFO 464",
+            "LING 472",
+            "MATH 318",
+            "MATH 334",
+            "MATH 335",
+            "MATH 336",
+            "MATH 402",
+            "MATH 403",
+            "MATH 404",
+            "MATH 407",
+            "MATH 408",
+            "MATH 409",
+            "MATH 414",
+            "MATH 415",
+            "MATH 424",
+            "MATH 425",
+            "MATH 426",
+            "MATH 435",
+            "MATH 436",
+            "MATH 441",
+            "MATH 442",
+            "MATH 461",
+            "MATH 462",
+            "MATH 464",
+            "MATH 465",
+            "MATH 466",
+            "STAT 341",
+            "STAT 342",
+            "STAT 395",
+            "STAT 396",
+            "STAT 421",
+            "STAT 491",
+            "CSE 301",
+            "CSE 394",
+            "CSE 492",
+            "GEN ST 350"
+          ],
+          "note": "Some seminar, internship, and research courses have special credit limits. The Allen School list controls if a course changes."
+        }
+      ]
+    },
+    {
+      "id": "cs-data-science",
+      "track": "data-science",
+      "title": "Computer Science — Data Science option",
+      "sectionTitle": "Core & Electives",
+      "displayCredits": "33 cr + SOC 225",
+      "targetCredits": 33,
+      "type": "group",
+      "items": [
+        {
+          "id": "ds-society",
+          "label": "Data and Society",
+          "type": "all",
+          "courses": [
+            "SOC 225"
+          ]
+        },
+        {
+          "id": "ds-fixed-core",
+          "label": "Required Data Science core",
+          "type": "all",
+          "courses": [
+            "CSE 421",
+            "CSE 444",
+            "CSE 446",
+            "CSE 442"
+          ]
+        },
+        {
+          "id": "ds-elective",
+          "label": "One Data Science elective",
+          "type": "one",
+          "courses": [
+            "CSE 427",
+            "CSE 455",
+            "CSE 484",
+            "CSE 447"
+          ]
+        },
+        {
+          "id": "ds-six-total-core",
+          "label": "At least six total CSE Core courses",
+          "type": "count",
+          "minCount": 6,
+          "courses": [
+            "CSE 333",
+            "CSE 340",
+            "CSE 341",
+            "CSE 344",
+            "CSE 369",
+            "CSE 371",
+            "STAT 391",
+            "CSE 401",
+            "CSE 402",
+            "CSE 403",
+            "CSE 421",
+            "CSE 422",
+            "CSE 426",
+            "CSE 427",
+            "CSE 431",
+            "CSE 434",
+            "CSE 438",
+            "CSE 440",
+            "CSE 442",
+            "CSE 443",
+            "CSE 444",
+            "CSE 446",
+            "CSE 447",
+            "CSE 451",
+            "CSE 452",
+            "CSE 453",
+            "CSE 455",
+            "CSE 457",
+            "CSE 458",
+            "CSE 461",
+            "CSE 462",
+            "CSE 469",
+            "CSE 470",
+            "CSE 473",
+            "CSE 474",
+            "CSE 478",
+            "CSE 484",
+            "CSE 486",
+            "CSE 493"
+          ]
+        },
+        {
+          "id": "ds-seven-core-capstone",
+          "label": "At least seven total Core/Capstone selections",
+          "type": "count",
+          "minCount": 7,
+          "courses": [
+            "CSE 333",
+            "CSE 340",
+            "CSE 341",
+            "CSE 344",
+            "CSE 369",
+            "CSE 371",
+            "STAT 391",
+            "CSE 401",
+            "CSE 402",
+            "CSE 403",
+            "CSE 421",
+            "CSE 422",
+            "CSE 426",
+            "CSE 427",
+            "CSE 431",
+            "CSE 434",
+            "CSE 438",
+            "CSE 440",
+            "CSE 442",
+            "CSE 443",
+            "CSE 444",
+            "CSE 446",
+            "CSE 447",
+            "CSE 451",
+            "CSE 452",
+            "CSE 453",
+            "CSE 455",
+            "CSE 457",
+            "CSE 458",
+            "CSE 461",
+            "CSE 462",
+            "CSE 469",
+            "CSE 470",
+            "CSE 473",
+            "CSE 474",
+            "CSE 478",
+            "CSE 484",
+            "CSE 486",
+            "CSE 493",
+            "CSE 428",
+            "CSE 460",
+            "CSE 475",
+            "CSE 481",
+            "CSE 482"
+          ]
+        },
+        {
+          "id": "ds-elective-credits",
+          "label": "At least 33 approved CSE Core and Senior Elective credits",
+          "type": "pool",
+          "minCredits": 33,
+          "courses": [
+            "CSE 333",
+            "CSE 340",
+            "CSE 341",
+            "CSE 344",
+            "CSE 369",
+            "CSE 371",
+            "STAT 391",
+            "CSE 401",
+            "CSE 402",
+            "CSE 403",
+            "CSE 421",
+            "CSE 422",
+            "CSE 426",
+            "CSE 427",
+            "CSE 431",
+            "CSE 434",
+            "CSE 438",
+            "CSE 440",
+            "CSE 442",
+            "CSE 443",
+            "CSE 444",
+            "CSE 446",
+            "CSE 447",
+            "CSE 451",
+            "CSE 452",
+            "CSE 453",
+            "CSE 455",
+            "CSE 457",
+            "CSE 458",
+            "CSE 461",
+            "CSE 462",
+            "CSE 469",
+            "CSE 470",
+            "CSE 473",
+            "CSE 474",
+            "CSE 478",
+            "CSE 484",
+            "CSE 486",
+            "CSE 493",
+            "CSE 428",
+            "CSE 460",
+            "CSE 475",
+            "CSE 481",
+            "CSE 482",
+            "CSE 441",
+            "CSE 450",
+            "CSE 454",
+            "CSE 456",
+            "CSE 459",
+            "CSE 464",
+            "CSE 467",
+            "CSE 472",
+            "CSE 480",
+            "CSE 487",
+            "CSE 488",
+            "CSE 490",
+            "CSE 495",
+            "CSE 496",
+            "CSE 498",
+            "AMATH 401",
+            "AMATH 402",
+            "AMATH 403",
+            "AMATH 422",
+            "AMATH 423",
+            "AMATH 483",
+            "BIOEN 485",
+            "DXARTS 460",
+            "DXARTS 461",
+            "DXARTS 462",
+            "DXARTS 463",
+            "MUSIC 400",
+            "MUSIC 401",
+            "MUSIC 402",
+            "MUSIC 403",
+            "EE 331",
+            "EE 332",
+            "EE 341",
+            "ENGR 321",
+            "ENTRE 432",
+            "GEOG 360",
+            "GEOG 460",
+            "GEOG 463",
+            "GEOG 465",
+            "INFO 446",
+            "INFO 454",
+            "INFO 464",
+            "LING 472",
+            "MATH 318",
+            "MATH 334",
+            "MATH 335",
+            "MATH 336",
+            "MATH 402",
+            "MATH 403",
+            "MATH 404",
+            "MATH 407",
+            "MATH 408",
+            "MATH 409",
+            "MATH 414",
+            "MATH 415",
+            "MATH 424",
+            "MATH 425",
+            "MATH 426",
+            "MATH 435",
+            "MATH 436",
+            "MATH 441",
+            "MATH 442",
+            "MATH 461",
+            "MATH 462",
+            "MATH 464",
+            "MATH 465",
+            "MATH 466",
+            "STAT 341",
+            "STAT 342",
+            "STAT 395",
+            "STAT 396",
+            "STAT 421",
+            "STAT 491",
+            "CSE 301",
+            "CSE 394",
+            "CSE 492",
+            "GEN ST 350"
+          ],
+          "note": "SOC 225 is separate from the 33 CSE elective credits."
+        }
+      ]
+    },
+    {
+      "id": "total",
+      "title": "Total degree credits",
+      "displayCredits": "180 cr",
+      "targetCredits": 180,
+      "type": "total",
+      "note": "Free electives and other approved coursework bring the degree total to 180 credits."
+    }
+  ],
+  "samplePlan": {
+    "name": "Suggested four-year CS plan (Data Science-compatible)",
+    "quarters": {
+      "y1-autumn": [
+        "MATH 124",
+        "CSE 121",
+        "SLOT:English Composition"
+      ],
+      "y1-winter": [
+        "MATH 125",
+        "CSE 122",
+        "SLOT:Arts & Humanities"
+      ],
+      "y1-spring": [
+        "MATH 126",
+        "CSE 123",
+        "SLOT:Approved Natural Science"
+      ],
+      "y2-autumn": [
+        "MATH 208",
+        "CSE 311",
+        "SLOT:Social Sciences"
+      ],
+      "y2-winter": [
+        "CSE 312",
+        "CSE 331",
+        "CSE 391",
+        "SLOT:Writing / Composition"
+      ],
+      "y2-spring": [
+        "CSE 332",
+        "CSE 351",
+        "SLOT:Arts & Humanities"
+      ],
+      "y3-autumn": [
+        "CSE 333",
+        "CSE 344",
+        "SOC 225",
+        "SLOT:Diversity"
+      ],
+      "y3-winter": [
+        "CSE 421",
+        "CSE 442",
+        "CSE 451",
+        "SLOT:Social Sciences"
+      ],
+      "y3-spring": [
+        "CSE 446",
+        "CSE 484",
+        "SLOT:Arts & Humanities"
+      ],
+      "y4-autumn": [
+        "CSE 444",
+        "CSE 447",
+        "SLOT:Writing / Composition"
+      ],
+      "y4-winter": [
+        "CSE 481",
+        "CSE 480",
+        "SLOT:Social Sciences",
+        "SLOT:Free Elective"
+      ],
+      "y4-spring": [
+        "SLOT:CSE Senior Elective",
+        "SLOT:CSE Senior Elective",
+        "SLOT:Free Elective",
+        "SLOT:Free Elective"
+      ]
+    }
+  },
+  "prerequisiteSubstitutions": {
+    "MATH 124": [
+      "MATH 134"
+    ],
+    "MATH 125": [
+      "MATH 135",
+      "MATH 136"
+    ],
+    "MATH 126": [
+      "MATH 136"
+    ],
+    "MATH 207": [
+      "MATH 136"
+    ],
+    "MATH 208": [
+      "MATH 136"
+    ],
+    "PHYS 121": [
+      "PHYS 141"
+    ],
+    "PHYS 122": [
+      "PHYS 142"
+    ],
+    "PHYS 123": [
+      "PHYS 143"
+    ],
+    "CHEM 142": [
+      "CHEM 143",
+      "CHEM 145"
+    ],
+    "CHEM 152": [
+      "CHEM 153",
+      "CHEM 155"
+    ],
+    "CSE 123": [
+      "CSE 143"
+    ]
+  }
+}
