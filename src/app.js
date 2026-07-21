@@ -5,15 +5,19 @@ const QUARTERS = [
   { id: "y1-autumn", year: 1, season: "Autumn" },
   { id: "y1-winter", year: 1, season: "Winter" },
   { id: "y1-spring", year: 1, season: "Spring" },
+  { id: "y1-summer", year: 1, season: "Summer" },
   { id: "y2-autumn", year: 2, season: "Autumn" },
   { id: "y2-winter", year: 2, season: "Winter" },
   { id: "y2-spring", year: 2, season: "Spring" },
+  { id: "y2-summer", year: 2, season: "Summer" },
   { id: "y3-autumn", year: 3, season: "Autumn" },
   { id: "y3-winter", year: 3, season: "Winter" },
   { id: "y3-spring", year: 3, season: "Spring" },
+  { id: "y3-summer", year: 3, season: "Summer" },
   { id: "y4-autumn", year: 4, season: "Autumn" },
   { id: "y4-winter", year: 4, season: "Winter" },
-  { id: "y4-spring", year: 4, season: "Spring" }
+  { id: "y4-spring", year: 4, season: "Spring" },
+  { id: "y4-summer", year: 4, season: "Summer" }
 ];
 
 const OFFICIAL_COURSE_OVERLAP_GROUPS = [
@@ -227,12 +231,82 @@ function emptyPlan() {
   return Object.fromEntries(QUARTERS.map((quarter) => [quarter.id, []]));
 }
 
+function summerQuarterForYear(year) {
+  return QUARTERS.find((quarter) => quarter.year === Number(year) && quarter.season === "Summer");
+}
+
+function summerQuarterYear(quarterId) {
+  const quarter = QUARTERS.find((entry) => entry.id === quarterId);
+  return quarter?.season === "Summer" ? quarter.year : null;
+}
+
+function summerQuarterExpanded(year) {
+  const numericYear = Number(year);
+  const saved = app.progress?.summerExpanded?.[numericYear];
+  if (typeof saved === "boolean") return saved;
+  const summer = summerQuarterForYear(numericYear);
+  return Boolean(summer && (app.progress?.plan?.[summer.id] || []).length);
+}
+
+function setSummerQuarterExpanded(year, expanded) {
+  app.progress.summerExpanded = app.progress.summerExpanded || {};
+  app.progress.summerExpanded[Number(year)] = Boolean(expanded);
+}
+
+function plannerSelectableQuarters(extraQuarterId = null) {
+  return QUARTERS.filter((quarter) => (
+    quarter.season !== "Summer"
+    || summerQuarterExpanded(quarter.year)
+    || quarter.id === extraQuarterId
+  ));
+}
+
+function shortQuarterLabel(quarterId) {
+  const quarter = QUARTERS.find((entry) => entry.id === quarterId);
+  return quarter ? `Y${quarter.year} ${quarter.season}` : quarterId;
+}
+
+function requirementHasPlannedCourses(requirement) {
+  const planned = Object.values(app.progress.plan || {})
+    .flat()
+    .filter((item) => !isPlanSlot(item))
+    .map(normalizeCode)
+    .filter((code) => !isFulfilled(code));
+
+  if (requirement.type === "total") return planned.length > 0;
+
+  for (const item of requirement.items || []) {
+    const explicitCodes = [
+      ...(item.courses || []),
+      ...(item.paths || []).flatMap((path) => path.courses || [])
+    ].map(normalizeCode);
+
+    if (planned.some((code) => explicitCodes.includes(code))) return true;
+    if (item.area && planned.some((code) => areaMatches(getCourse(code), item.area))) return true;
+  }
+
+  const requirementCodes = (requirement.courses || []).map(normalizeCode);
+  return planned.some((code) => requirementCodes.includes(code));
+}
+
+function renderRequirementCourseChoice(code) {
+  const normalized = normalizeCode(code);
+  const planned = !isFulfilled(normalized) ? plannedQuarter(normalized) : null;
+  return `
+    <label class="requirement-course ${planned ? "planned" : ""}" title="${escapeHtml(getCourse(normalized).title)}">
+      <input type="checkbox" data-requirement-course="${escapeHtml(normalized)}" ${isFulfilled(normalized) ? "checked" : ""}>
+      <span>${escapeHtml(normalized)}</span>
+      ${planned ? `<span class="requirement-course-planned">${escapeHtml(shortQuarterLabel(planned))}</span>` : ""}
+    </label>`;
+}
+
 function createDefaultProgress() {
   return {
     version: 5,
     track: "standard",
     fulfilled: {},
     plan: emptyPlan(),
+    summerExpanded: {},
     requirementOverrides: {},
     manualCredits: {},
     fulfillmentSources: {},
@@ -256,6 +330,7 @@ function loadProgress() {
       ...parsed,
       fulfilled: { ...defaults.fulfilled, ...(parsed.fulfilled || {}) },
       plan: { ...defaults.plan, ...(parsed.plan || {}) },
+      summerExpanded: { ...defaults.summerExpanded, ...(parsed.summerExpanded || {}) },
       requirementOverrides: { ...defaults.requirementOverrides, ...(parsed.requirementOverrides || {}) },
       manualCredits: { ...defaults.manualCredits, ...(parsed.manualCredits || {}) },
       fulfillmentSources: { ...defaults.fulfillmentSources, ...(parsed.fulfillmentSources || {}) },
@@ -428,9 +503,15 @@ function populateGlobalControls() {
   updateDataBadge();
 }
 
-function populateQuarterSelects() {
-  const options = QUARTERS.map((quarter) => `<option value="${quarter.id}">Year ${quarter.year} · ${quarter.season}</option>`).join("");
-  $("#planner-add-quarter").innerHTML = options;
+function populateQuarterSelects(extraQuarterId = null) {
+  const select = $("#planner-add-quarter");
+  if (!select) return;
+  const previous = extraQuarterId || select.value;
+  const quarters = plannerSelectableQuarters(extraQuarterId);
+  select.innerHTML = quarters.map((quarter) => (
+    `<option value="${quarter.id}">Year ${quarter.year} · ${quarter.season}</option>`
+  )).join("");
+  if (quarters.some((quarter) => quarter.id === previous)) select.value = previous;
 }
 
 function populateCatalogFilters() {
@@ -1308,7 +1389,7 @@ function renderCoursePanel() {
     <div class="detail-section">
       <h3>Add to four-year plan</h3>
       <div class="plan-add-row">
-        <select data-panel-quarter>${QUARTERS.map((quarter) => `<option value="${quarter.id}" ${planQuarter === quarter.id ? "selected" : ""}>Year ${quarter.year} · ${quarter.season}</option>`).join("")}</select>
+        <select data-panel-quarter>${plannerSelectableQuarters(planQuarter).map((quarter) => `<option value="${quarter.id}" ${planQuarter === quarter.id ? "selected" : ""}>Year ${quarter.year} · ${quarter.season}</option>`).join("")}</select>
         <button class="button primary" data-panel-action="add-plan" data-code="${escapeHtml(course.code)}">${planQuarter ? "Move" : "Add"}</button>
       </div>
     </div>
@@ -1757,6 +1838,7 @@ function metricCard(label, value, ratio, caption) {
 
 function renderRequirementCard(requirement, evaluation) {
   const percent = evaluation.target ? Math.min(100, (evaluation.current / evaluation.target) * 100) : 0;
+  const hasPlanned = !evaluation.satisfied && requirementHasPlannedCourses(requirement);
   let body = "";
   if (requirement.type === "group") {
     body = `<div class="requirement-items">${requirement.items.map((item, index) => renderRequirementItem(item, evaluation.items[index])).join("")}</div>`;
@@ -1775,9 +1857,9 @@ function renderRequirementCard(requirement, evaluation) {
   }
 
   const displayTitle = requirement.sectionTitle || requirement.title;
-  return `<article id="requirement-${safeId(requirement.id)}" class="requirement-card ${evaluation.satisfied ? "complete" : ""}">
+  return `<article id="requirement-${safeId(requirement.id)}" class="requirement-card ${evaluation.satisfied ? "complete" : hasPlanned ? "planned" : ""}">
     <div class="requirement-head">
-      <div><div class="eyebrow">${evaluation.satisfied ? "COMPLETE" : "IN PROGRESS"}</div><h2>${escapeHtml(displayTitle)}</h2>${requirement.sectionTitle && requirement.title !== requirement.sectionTitle ? `<p class="requirement-track-name">${escapeHtml(requirement.title)}</p>` : ""}</div>
+      <div><div class="eyebrow">${evaluation.satisfied ? "COMPLETE" : hasPlanned ? "PLANNED" : "IN PROGRESS"}</div><h2>${escapeHtml(displayTitle)}</h2>${requirement.sectionTitle && requirement.title !== requirement.sectionTitle ? `<p class="requirement-track-name">${escapeHtml(requirement.title)}</p>` : ""}</div>
       <div class="requirement-score">${requirement.displayCredits ? `<span class="requirement-credit-pill">${escapeHtml(requirement.displayCredits)}</span>` : ""}<span>${escapeHtml(evaluation.label)}</span></div>
     </div>
     <div class="progress-bar"><span style="width:${percent}%"></span></div>
@@ -1790,13 +1872,17 @@ function renderRequirementCard(requirement, evaluation) {
 function renderRequirementItem(item, evaluation) {
   const courses = item.courses || [];
   const showManual = item.type === "bucket" || item.type === "additional-bucket";
+  const plannedAreaCourses = item.area
+    ? Object.values(app.progress.plan || {})
+        .flat()
+        .filter((entry) => !isPlanSlot(entry))
+        .map(normalizeCode)
+        .filter((code) => !isFulfilled(code) && areaMatches(getCourse(code), item.area))
+    : [];
   const pathHtml = item.type === "path-choice" ? `<div class="requirement-paths">${(evaluation.paths || []).map((path) => `
     <div class="requirement-path ${path.satisfied ? "satisfied" : ""}">
       <div class="requirement-path-head"><strong>${escapeHtml(path.label)}</strong><span>${path.completed.length}/${path.courses.length}</span></div>
-      <div class="requirement-course-list">${path.courses.map((code) => `
-        <label class="requirement-course" title="${escapeHtml(getCourse(code).title)}">
-          <input type="checkbox" data-requirement-course="${escapeHtml(code)}" ${isFulfilled(code) ? "checked" : ""}> ${escapeHtml(code)}
-        </label>`).join("")}</div>
+      <div class="requirement-course-list">${path.courses.map(renderRequirementCourseChoice).join("")}</div>
     </div>`).join("")}</div>` : "";
   return `<div id="requirement-item-${safeId(item.id)}" class="requirement-item ${evaluation.satisfied ? "satisfied" : ""}">
     <div class="requirement-item-head">
@@ -1804,10 +1890,8 @@ function renderRequirementItem(item, evaluation) {
       <span class="requirement-item-status">${escapeHtml(evaluation.label)}</span>
     </div>
     ${pathHtml}
-    ${courses.length ? `<div class="requirement-course-list">${courses.map((code) => `
-      <label class="requirement-course" title="${escapeHtml(getCourse(code).title)}">
-        <input type="checkbox" data-requirement-course="${escapeHtml(code)}" ${isFulfilled(code) ? "checked" : ""}> ${escapeHtml(code)}
-      </label>`).join("")}</div>` : ""}
+    ${courses.length ? `<div class="requirement-course-list">${courses.map(renderRequirementCourseChoice).join("")}</div>` : ""}
+    ${plannedAreaCourses.length ? `<div class="requirement-planned-area"><strong>Planned:</strong> ${plannedAreaCourses.map((code) => `${escapeHtml(code)} · ${escapeHtml(shortQuarterLabel(plannedQuarter(code)))}`).join(" · ")}</div>` : ""}
     ${showManual ? manualCreditInput(item.id, app.progress.manualCredits[item.id] || 0, item.targetCredits) : ""}
     ${item.note ? `<p class="requirement-note">${escapeHtml(item.note)}</p>` : ""}
     <label class="requirement-manual"><input type="checkbox" data-requirement-override="${escapeHtml(item.id)}" ${app.progress.requirementOverrides[item.id] ? "checked" : ""}> Already fulfilled by another approved course or credit</label>
@@ -1928,17 +2012,50 @@ function clearPendingPlanSlot() {
 }
 
 function renderPlanner() {
-  const addButton = $("#planner-add-button");
-  if (addButton) addButton.textContent = app.pendingPlanSlot ? "Use course for requirement" : "Add course";
   const warnings = validatePlan();
-  $("#planner-grid").innerHTML = [1,2,3,4].map((year) => {
-    const quarters = QUARTERS.filter((quarter) => quarter.year === year);
-    const yearCredits = quarters.reduce((sum, quarter) => sum + quarterCredits(quarter.id), 0);
-    return `<section class="plan-year">
-      <div class="year-heading"><h2>Year ${year}</h2><span>${formatNumber(yearCredits)} planned credits</span></div>
-      <div class="year-quarters">${quarters.map((quarter) => renderQuarter(quarter, warnings)).join("")}</div>
+  $("#planner-grid").innerHTML = [1, 2, 3, 4].map((year) => {
+    const standardQuarters = QUARTERS.filter(
+      (quarter) => quarter.year === year && quarter.season !== "Summer"
+    );
+    const summerQuarter = summerQuarterForYear(year);
+    const summerOpen = summerQuarterExpanded(year);
+    const yearQuarters = QUARTERS.filter((quarter) => quarter.year === year);
+    const yearCredits = yearQuarters.reduce(
+      (sum, quarter) => sum + quarterCredits(quarter.id),
+      0
+    );
+    const summerCredits = summerQuarter ? quarterCredits(summerQuarter.id) : 0;
+    const summerItems = summerQuarter ? (app.progress.plan[summerQuarter.id] || []).length : 0;
+    const summerSummary = summerCredits
+      ? ` · ${formatNumber(summerCredits)} cr`
+      : summerItems
+        ? ` · ${summerItems} item${summerItems === 1 ? "" : "s"}`
+        : "";
+
+    return `<section class="plan-year ${summerOpen ? "summer-open" : ""}">
+      <div class="year-heading">
+        <div class="year-heading-copy">
+          <h2>Year ${year}</h2>
+          <span>${formatNumber(yearCredits)} planned credits</span>
+        </div>
+        <button
+          class="summer-quarter-toggle ${summerItems ? "has-content" : ""}"
+          type="button"
+          data-toggle-summer="${year}"
+          aria-expanded="${summerOpen ? "true" : "false"}"
+        >
+          <span class="summer-toggle-symbol">${summerOpen ? "−" : "+"}</span>
+          ${summerOpen ? "Hide Summer" : "Summer quarter"}${summerSummary}
+        </button>
+      </div>
+      <div class="year-quarters ${summerOpen ? "has-summer" : ""}">
+        ${standardQuarters.map((quarter) => renderQuarter(quarter, warnings)).join("")}
+        ${summerOpen && summerQuarter ? renderQuarter(summerQuarter, warnings) : ""}
+      </div>
     </section>`;
   }).join("");
+
+  populateQuarterSelects();
   renderPlannerInsights(warnings);
   updatePlannerSearchResults();
 }
@@ -2185,6 +2302,8 @@ function addCourseToPlan(code, quarterId, options = {}) {
 
   if (options.clearPendingSlot) clearPendingPlanSlot();
   app.progress.plan = proposed;
+  const summerYear = summerQuarterYear(quarterId);
+  if (summerYear) setSummerQuarterExpanded(summerYear, true);
   saveProgress();
   renderAll();
   showToast(`${normalized} added to ${quarterLabel(quarterId)}.`);
@@ -2211,6 +2330,16 @@ function removePlanItem(item, quarterId) {
 }
 
 function handlePlannerClick(event) {
+  const summerToggle = event.target.closest("[data-toggle-summer]");
+  if (summerToggle) {
+    event.preventDefault();
+    const year = Number(summerToggle.dataset.toggleSummer);
+    setSummerQuarterExpanded(year, !summerQuarterExpanded(year));
+    saveProgress();
+    renderPlanner();
+    return;
+  }
+
   const fillSlot = event.target.closest("[data-fill-slot]");
   if (fillSlot) {
     event.stopPropagation();
@@ -2268,17 +2397,22 @@ async function loadSamplePlan() {
   const ok = await confirmAction("Load the official sample plan? This replaces only your planned quarters. It does not mark any course fulfilled.", "Load sample plan");
   if (!ok) return;
   app.progress.plan = emptyPlan();
-  clearPendingPlanSlot();
-  for (const [quarter, items] of Object.entries(app.major.samplePlan.quarters)) app.progress.plan[quarter] = [...items];
+  app.progress.summerExpanded = {};
+  for (const [quarter, items] of Object.entries(app.major.samplePlan.quarters)) {
+    app.progress.plan[quarter] = [...items];
+    const summerYear = summerQuarterYear(quarter);
+    if (summerYear && items.length) setSummerQuarterExpanded(summerYear, true);
+  }
   saveProgress();
   renderAll();
-  showToast("Official sample plan loaded. Every item remains editable.");
+  showToast("Official sample plan loaded. Every course on the plan is automatically marked Planned; nothing is marked completed.");
 }
 
 async function clearPlan() {
   const ok = await confirmAction("Remove every course from the four-year plan? Fulfilled courses and requirement overrides will remain unchanged.", "Clear plan");
   if (!ok) return;
   app.progress.plan = emptyPlan();
+  app.progress.summerExpanded = {};
   saveProgress();
   renderAll();
 }
@@ -2321,12 +2455,19 @@ function offeringIncludes(offered, season) {
     if (season === "Autumn") return normalized.includes("a");
     if (season === "Winter") return normalized.includes("w");
     if (season === "Spring") return normalized.includes("sp");
+    if (season === "Summer") return normalized.replaceAll("sp", "").includes("s");
   }
   return markers[season].some((marker) => marker.length > 1 && text.includes(marker));
 }
 
 function renderPlannerInsights(warnings) {
-  const totals = QUARTERS.map((quarter) => ({ quarter, credits: quarterCredits(quarter.id) }));
+  const totals = QUARTERS
+    .filter((quarter) => (
+      quarter.season !== "Summer"
+      || summerQuarterExpanded(quarter.year)
+      || quarterCredits(quarter.id) > 0
+    ))
+    .map((quarter) => ({ quarter, credits: quarterCredits(quarter.id) }));
   const max = Math.max(18, ...totals.map((entry) => entry.credits));
   $("#planner-insights").innerHTML = `
     <article class="insight-card">
@@ -2619,7 +2760,7 @@ function renderCatalogPanel() {
     <div class="detail-section">
       <h3>Add to four-year plan</h3>
       <div class="plan-add-row">
-        <select data-catalog-quarter>${QUARTERS.map((quarter) => `<option value="${quarter.id}" ${planQuarter === quarter.id ? "selected" : ""}>Y${quarter.year} ${quarter.season}</option>`).join("")}</select>
+        <select data-catalog-quarter>${plannerSelectableQuarters(planQuarter).map((quarter) => `<option value="${quarter.id}" ${planQuarter === quarter.id ? "selected" : ""}>Y${quarter.year} ${quarter.season}</option>`).join("")}</select>
         <button class="button primary" data-catalog-panel="add" data-code="${escapeHtml(course.code)}">${planQuarter ? "Move" : "Add"}</button>
       </div>
     </div>
@@ -2706,6 +2847,7 @@ async function importProgress(event) {
       ...parsed.progress,
       fulfilled: { ...defaults.fulfilled, ...(parsed.progress.fulfilled || {}) },
       plan: { ...defaults.plan, ...(parsed.progress.plan || {}) },
+      summerExpanded: { ...defaults.summerExpanded, ...(parsed.progress.summerExpanded || {}) },
       requirementOverrides: { ...defaults.requirementOverrides, ...(parsed.progress.requirementOverrides || {}) },
       manualCredits: { ...defaults.manualCredits, ...(parsed.progress.manualCredits || {}) },
       fulfillmentSources: { ...defaults.fulfillmentSources, ...(parsed.progress.fulfillmentSources || {}) },

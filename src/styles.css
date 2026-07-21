@@ -301,8 +301,20 @@ main { max-width: 1680px; margin: 0 auto; padding: 30px 28px 56px; }
 .year-heading { display: flex; justify-content: space-between; align-items: center; padding: 14px 17px; background: var(--uw-purple-2); color: white; }
 .year-heading h2 { margin: 0; font-size: 16px; }
 .year-heading span { color: #d8cdea; font-size: 12px; }
-.year-quarters { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); }
-.quarter { min-height: 270px; padding: 14px; border-right: 1px solid var(--line); }
+.year-quarters {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: start;
+}
+.quarter {
+  min-height: 270px;
+  max-height: 900px;
+  padding: 14px;
+  border-right: 1px solid var(--line);
+
+  resize: both;
+  overflow: auto;
+}
 .quarter:last-child { border-right: 0; }
 .quarter.drag-over { background: var(--uw-purple-soft); }
 .quarter-head { display: flex; justify-content: space-between; margin-bottom: 11px; }
@@ -842,3 +854,122 @@ footer { padding: 22px 28px 40px; color: var(--muted); font-size: 11px; text-ali
   }
 }
 
+
+
+/* Optional Summer quarter in the four-year planner */
+.year-heading-copy {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  min-width: 0;
+}
+
+.summer-quarter-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 34px;
+  padding: 7px 11px;
+  border: 1px solid rgba(255, 255, 255, 0.34);
+  border-radius: 9px;
+  background: rgba(255, 255, 255, 0.09);
+  color: white;
+  font: inherit;
+  font-size: 11px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.summer-quarter-toggle:hover,
+.summer-quarter-toggle:focus-visible {
+  background: rgba(255, 255, 255, 0.18);
+  outline: none;
+}
+
+.summer-quarter-toggle.has-content {
+  border-color: rgba(255, 197, 54, 0.8);
+}
+
+.summer-toggle-symbol {
+  display: grid;
+  width: 20px;
+  height: 20px;
+  place-items: center;
+  border-radius: 50%;
+  background: white;
+  color: var(--uw-purple);
+  font-size: 16px;
+  line-height: 1;
+}
+
+.year-quarters.has-summer {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.year-quarters.has-summer .quarter:nth-child(3) {
+  border-right: 1px solid var(--line);
+}
+
+.requirement-card.planned {
+  border-color: #cfc2e7;
+  box-shadow: inset 0 3px 0 var(--uw-purple);
+}
+
+.requirement-course.planned {
+  border-color: #c9b8e5;
+  background: #f8f4ff;
+}
+
+.requirement-course-planned {
+  padding: 2px 5px;
+  border-radius: 999px;
+  background: var(--uw-purple-soft);
+  color: var(--uw-purple);
+  font-size: 8px;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.requirement-planned-area {
+  margin-top: 8px;
+  padding: 7px 9px;
+  border: 1px solid #d9cdec;
+  border-radius: 8px;
+  background: #faf7ff;
+  color: var(--uw-purple);
+  font-size: 10px;
+  line-height: 1.45;
+}
+
+@media (max-width: 1000px) {
+  .year-heading {
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .year-heading-copy {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .year-quarters.has-summer {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .year-heading {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .summer-quarter-toggle {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .year-quarters.has-summer {
+    grid-template-columns: 1fr;
+  }
+}

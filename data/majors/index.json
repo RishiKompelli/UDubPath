@@ -1,38 +1,6 @@
 {
   "majors": [
     {
-      "id": "uw-seattle-me",
-      "name": "Mechanical Engineering",
-      "degree": "BSME",
-      "status": "complete",
-      "file": "mechanical-engineering.json",
-      "source": "https://www.engr.washington.edu/current/academics/4-year-plans/me-degree-requirements"
-    },
-    {
-      "id": "uw-seattle-mse",
-      "name": "Materials Science & Engineering",
-      "degree": "BSMSE",
-      "status": "complete",
-      "file": "materials-science-engineering.json",
-      "source": "https://www.engr.washington.edu/current/academics/4-year-plans/mse-degree-requirements"
-    },
-    {
-      "id": "uw-seattle-cs",
-      "name": "Computer Science",
-      "degree": "BSCS",
-      "status": "complete",
-      "file": "computer-science.json",
-      "source": "https://www.cs.washington.edu/academics/undergraduate/degree-requirements/"
-    },
-    {
-      "id": "uw-seattle-lsj",
-      "name": "Law, Societies & Justice",
-      "degree": "BA",
-      "status": "complete",
-      "file": "law-societies-justice.json",
-      "source": "https://lsj.washington.edu/lsj-gold-curriculum-requirements"
-    },
-    {
       "id": "uw-seattle-aa",
       "name": "Aeronautics & Astronautics",
       "degree": "BSAAE",
@@ -49,6 +17,22 @@
       "source": "https://www.engr.washington.edu/current/academics/4-year-plans/bioe-degree-requirements"
     },
     {
+      "id": "uw-seattle-biology-ba",
+      "name": "Biology (BA)",
+      "degree": "BA",
+      "status": "complete",
+      "file": "biology-ba.json",
+      "source": "https://biology.washington.edu/degree-requirements-fall-2026-onwards"
+    },
+    {
+      "id": "uw-seattle-biology-bs",
+      "name": "Biology (BS)",
+      "degree": "BS",
+      "status": "complete",
+      "file": "biology-bs.json",
+      "source": "https://biology.washington.edu/degree-requirements-fall-2026-onwards"
+    },
+    {
       "id": "uw-seattle-cheme",
       "name": "Chemical Engineering",
       "degree": "BSChemE",
@@ -63,6 +47,14 @@
       "status": "complete",
       "file": "civil-engineering.json",
       "source": "https://www.engr.washington.edu/current/academics/4-year-plans/cive-degree-requirements"
+    },
+    {
+      "id": "uw-seattle-cs",
+      "name": "Computer Science",
+      "degree": "BSCS",
+      "status": "complete",
+      "file": "computer-science.json",
+      "source": "https://www.cs.washington.edu/academics/undergraduate/degree-requirements/"
     },
     {
       "id": "uw-seattle-ece",
@@ -97,20 +89,36 @@
       "source": "https://www.engr.washington.edu/current/academics/4-year-plans/ise-degree-requirements"
     },
     {
-      "id": "uw-seattle-biology-bs",
-      "name": "Biology (BS)",
-      "degree": "BS",
-      "status": "complete",
-      "file": "biology-bs.json",
-      "source": "https://biology.washington.edu/degree-requirements-fall-2026-onwards"
-    },
-    {
-      "id": "uw-seattle-biology-ba",
-      "name": "Biology (BA)",
+      "id": "uw-seattle-lsj",
+      "name": "Law, Societies & Justice",
       "degree": "BA",
       "status": "complete",
-      "file": "biology-ba.json",
-      "source": "https://biology.washington.edu/degree-requirements-fall-2026-onwards"
+      "file": "law-societies-justice.json",
+      "source": "https://lsj.washington.edu/lsj-gold-curriculum-requirements"
+    },
+    {
+      "id": "uw-seattle-mse",
+      "name": "Materials Science & Engineering",
+      "degree": "BSMSE",
+      "status": "complete",
+      "file": "materials-science-engineering.json",
+      "source": "https://www.engr.washington.edu/current/academics/4-year-plans/mse-degree-requirements"
+    },
+    {
+      "id": "uw-seattle-math-bs",
+      "name": "Mathematics (BS)",
+      "degree": "BS",
+      "status": "complete",
+      "file": "mathematics-bs.json",
+      "source": "https://math.washington.edu/bs-mathematics-major-requirements-0"
+    },
+    {
+      "id": "uw-seattle-me",
+      "name": "Mechanical Engineering",
+      "degree": "BSME",
+      "status": "complete",
+      "file": "mechanical-engineering.json",
+      "source": "https://www.engr.washington.edu/current/academics/4-year-plans/me-degree-requirements"
     }
   ]
 }

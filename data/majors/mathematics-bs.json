@@ -1,0 +1,1337 @@
+{
+  "id": "uw-seattle-math-bs",
+  "university": "University of Washington Seattle",
+  "name": "Mathematics",
+  "degree": "Bachelor of Science in Mathematics",
+  "catalogYear": "Students admitted to the major Winter 2026 or after",
+  "totalCredits": 180,
+  "sources": [
+    {
+      "label": "B.S. Mathematics major requirements — Winter 2026 onward",
+      "url": "https://math.washington.edu/bs-mathematics-major-requirements-0"
+    },
+    {
+      "label": "Mathematics major declaration pathways",
+      "url": "https://math.washington.edu/math-major-declaration"
+    },
+    {
+      "label": "UW Mathematics course catalog",
+      "url": "https://www.washington.edu/students/crscat/math.html"
+    },
+    {
+      "label": "College of Arts & Sciences graduation requirements",
+      "url": "https://www.washington.edu/students/gencat/program/S/college_arts_sciences.html"
+    }
+  ],
+  "tracks": [
+    {
+      "id": "standard",
+      "name": "B.S. Mathematics",
+      "description": "Current 74–88 credit B.S. Mathematics curriculum for students admitted Winter 2026 or later."
+    }
+  ],
+  "courseOverrides": {
+    "MATH 124": {
+      "title": "Calculus with Analytic Geometry I",
+      "credits": "5",
+      "prerequisiteGroups": [],
+      "offered": "A,W,Sp,S",
+      "areas": "NSc, RSN",
+      "otherPrerequisites": "Requires placement or an accepted prerequisite route."
+    },
+    "MATH 125": {
+      "title": "Calculus with Analytic Geometry II",
+      "credits": "5",
+      "prerequisiteGroups": [
+        [
+          "MATH 124"
+        ]
+      ],
+      "offered": "A,W,Sp,S",
+      "areas": "NSc"
+    },
+    "MATH 126": {
+      "title": "Calculus with Analytic Geometry III",
+      "credits": "5",
+      "prerequisiteGroups": [
+        [
+          "MATH 125"
+        ]
+      ],
+      "offered": "A,W,Sp,S",
+      "areas": "NSc"
+    },
+    "MATH 134": {
+      "title": "Accelerated [Honors] Calculus",
+      "credits": "5",
+      "prerequisiteGroups": [],
+      "offered": "A",
+      "areas": "NSc, RSN",
+      "otherPrerequisites": "First course of the accelerated honors sequence."
+    },
+    "MATH 135": {
+      "title": "Accelerated [Honors] Calculus",
+      "credits": "5",
+      "prerequisiteGroups": [
+        [
+          "MATH 134"
+        ]
+      ],
+      "offered": "W",
+      "areas": "NSc"
+    },
+    "MATH 136": {
+      "title": "Accelerated [Honors] Calculus",
+      "credits": "5",
+      "prerequisiteGroups": [
+        [
+          "MATH 135"
+        ]
+      ],
+      "offered": "Sp",
+      "areas": "NSc"
+    },
+    "MATH 200": {
+      "title": "Discrete Mathematics I",
+      "credits": "5",
+      "prerequisiteGroups": [],
+      "offered": "A,W,Sp,S",
+      "areas": "NSc, RSN",
+      "otherPrerequisites": "Recommended: Mathematics Guided Self-Placement."
+    },
+    "MATH 207": {
+      "title": "Introduction to Differential Equations",
+      "credits": "4",
+      "prerequisiteGroups": [
+        [
+          "MATH 125"
+        ]
+      ],
+      "offered": "A,W,Sp,S",
+      "areas": "NSc"
+    },
+    "MATH 208": {
+      "title": "Matrix Algebra with Applications",
+      "credits": "4",
+      "prerequisiteGroups": [],
+      "offered": "A,W,Sp,S",
+      "areas": "NSc, RSN",
+      "otherPrerequisites": "Recommended: Mathematics Guided Self-Placement."
+    },
+    "MATH 224": {
+      "title": "Advanced Multivariable Calculus",
+      "credits": "4",
+      "prerequisiteGroups": [
+        [
+          "MATH 126",
+          "MATH 136"
+        ]
+      ],
+      "offered": "A,W,Sp,S",
+      "areas": "NSc"
+    },
+    "MATH 300": {
+      "title": "Introduction to Mathematical Reasoning",
+      "credits": "4",
+      "prerequisiteGroups": [
+        [
+          "MATH 126",
+          "MATH 136"
+        ]
+      ],
+      "offered": "A,W,Sp,S",
+      "areas": "NSc"
+    },
+    "MATH 327": {
+      "title": "Introductory Real Analysis I",
+      "credits": "4",
+      "prerequisiteGroups": [
+        [
+          "MATH 300",
+          "MATH 334"
+        ]
+      ],
+      "offered": "A,W,Sp,S",
+      "areas": "NSc"
+    },
+    "MATH 334": {
+      "title": "Accelerated [Honors] Advanced Calculus",
+      "credits": "5",
+      "prerequisiteGroups": [
+        [
+          "MATH 136",
+          "MATH 126"
+        ],
+        [
+          "MATH 136",
+          "MATH 207"
+        ],
+        [
+          "MATH 136",
+          "MATH 208"
+        ]
+      ],
+      "offered": "A",
+      "areas": "NSc"
+    },
+    "MATH 335": {
+      "title": "Accelerated [Honors] Advanced Calculus",
+      "credits": "5",
+      "prerequisiteGroups": [
+        [
+          "MATH 334"
+        ]
+      ],
+      "offered": "W",
+      "areas": "NSc"
+    },
+    "MATH 336": {
+      "title": "Accelerated [Honors] Advanced Calculus",
+      "credits": "5",
+      "prerequisiteGroups": [
+        [
+          "MATH 335"
+        ]
+      ],
+      "offered": "Sp",
+      "areas": "NSc"
+    },
+    "MATH 402": {
+      "title": "Introduction to Modern Algebra",
+      "credits": "4",
+      "prerequisiteGroups": [
+        [
+          "MATH 334",
+          "MATH 300"
+        ],
+        [
+          "MATH 334",
+          "MATH 208",
+          "MATH 136"
+        ]
+      ],
+      "offered": "A,W,S",
+      "areas": "NSc"
+    },
+    "MATH 403": {
+      "title": "Introduction to Modern Algebra",
+      "credits": "4",
+      "prerequisiteGroups": [
+        [
+          "MATH 402"
+        ]
+      ],
+      "offered": "W,Sp",
+      "areas": "NSc"
+    },
+    "MATH 404": {
+      "title": "Introduction to Modern Algebra",
+      "credits": "4",
+      "prerequisiteGroups": [
+        [
+          "MATH 403"
+        ]
+      ],
+      "offered": "Sp",
+      "areas": "NSc"
+    },
+    "MATH 407": {
+      "title": "Linear Optimization",
+      "credits": "4",
+      "prerequisiteGroups": [
+        [
+          "MATH 136",
+          "MATH 208",
+          "AMATH 352"
+        ]
+      ],
+      "offered": "A,W",
+      "areas": "NSc"
+    },
+    "MATH 408": {
+      "title": "Nonlinear Optimization",
+      "credits": "4",
+      "prerequisiteGroups": [
+        [
+          "MATH 327",
+          "MATH 334"
+        ],
+        [
+          "MATH 407",
+          "MATH 464"
+        ]
+      ],
+      "offered": "W",
+      "areas": "NSc"
+    },
+    "MATH 409": {
+      "title": "Discrete Optimization",
+      "credits": "4",
+      "prerequisiteGroups": [
+        [
+          "MATH 407"
+        ],
+        [
+          "MATH 300",
+          "MATH 334"
+        ]
+      ],
+      "offered": "Sp",
+      "areas": "NSc"
+    },
+    "MATH 424": {
+      "title": "Fundamental Concepts of Analysis",
+      "credits": "4",
+      "prerequisiteGroups": [
+        [
+          "MATH 327",
+          "MATH 335"
+        ]
+      ],
+      "offered": "A,W,Sp,S",
+      "areas": "NSc"
+    },
+    "MATH 425": {
+      "title": "Fundamental Concepts of Analysis",
+      "credits": "4",
+      "prerequisiteGroups": [
+        [
+          "MATH 136",
+          "MATH 208"
+        ],
+        [
+          "MATH 335",
+          "MATH 424"
+        ]
+      ],
+      "offered": "W,Sp",
+      "areas": "NSc"
+    },
+    "MATH 426": {
+      "title": "Fundamental Concepts of Analysis",
+      "credits": "4",
+      "prerequisiteGroups": [
+        [
+          "MATH 425"
+        ]
+      ],
+      "offered": "Sp",
+      "areas": "NSc"
+    },
+    "MATH 427": {
+      "title": "Complex Analysis",
+      "credits": "4",
+      "prerequisiteGroups": [
+        [
+          "MATH 327",
+          "MATH 335"
+        ]
+      ],
+      "offered": "A,S",
+      "areas": "NSc"
+    },
+    "MATH 428": {
+      "title": "Complex Analysis",
+      "credits": "4",
+      "prerequisiteGroups": [
+        [
+          "MATH 427"
+        ]
+      ],
+      "offered": "W",
+      "areas": "NSc"
+    },
+    "MATH 441": {
+      "title": "Topology",
+      "credits": "4",
+      "prerequisiteGroups": [
+        [
+          "MATH 327",
+          "MATH 335"
+        ]
+      ],
+      "offered": "A,S",
+      "areas": "NSc"
+    },
+    "MATH 442": {
+      "title": "Differential Geometry",
+      "credits": "4",
+      "prerequisiteGroups": [
+        [
+          "MATH 441"
+        ],
+        [
+          "MATH 334",
+          "MATH 208"
+        ],
+        [
+          "MATH 334",
+          "MATH 224"
+        ]
+      ],
+      "offered": "W",
+      "areas": "NSc"
+    },
+    "MATH 443": {
+      "title": "Differential Geometry",
+      "credits": "4",
+      "prerequisiteGroups": [
+        [
+          "MATH 442"
+        ]
+      ],
+      "offered": "Sp",
+      "areas": "NSc"
+    },
+    "MATH 461": {
+      "title": "Combinatorial Theory I",
+      "credits": "4",
+      "prerequisiteGroups": [
+        [
+          "MATH 334",
+          "MATH 300"
+        ],
+        [
+          "MATH 334",
+          "MATH 136",
+          "MATH 208"
+        ]
+      ],
+      "areas": "NSc"
+    },
+    "MATH 462": {
+      "title": "Combinatorial Theory II",
+      "credits": "4",
+      "prerequisiteGroups": [
+        [
+          "MATH 461",
+          "CSE 421"
+        ]
+      ],
+      "areas": "NSc"
+    },
+    "MATH 464": {
+      "title": "Numerical Analysis I",
+      "credits": "4",
+      "prerequisiteGroups": [
+        [
+          "MATH 136",
+          "MATH 126"
+        ],
+        [
+          "MATH 136",
+          "MATH 208"
+        ]
+      ],
+      "offered": "A",
+      "areas": "NSc"
+    },
+    "MATH 465": {
+      "title": "Numerical Analysis II",
+      "credits": "4",
+      "prerequisiteGroups": [
+        [
+          "MATH 464"
+        ]
+      ],
+      "offered": "W",
+      "areas": "NSc"
+    },
+    "MATH 491": {
+      "title": "Introduction to Stochastic Processes I",
+      "credits": "4",
+      "prerequisiteGroups": [
+        [
+          "MATH 394",
+          "STAT 394",
+          "STAT 340"
+        ],
+        [
+          "MATH 395",
+          "STAT 395",
+          "MATH 396",
+          "STAT 396"
+        ]
+      ],
+      "offered": "A",
+      "areas": "NSc"
+    },
+    "MATH 492": {
+      "title": "Introduction to Stochastic Processes II",
+      "credits": "4",
+      "prerequisiteGroups": [
+        [
+          "MATH 491",
+          "STAT 491"
+        ]
+      ],
+      "areas": "NSc"
+    },
+    "MATH 493": {
+      "title": "Stochastic Calculus for Option Pricing",
+      "credits": "4",
+      "prerequisiteGroups": [
+        [
+          "MATH 491",
+          "STAT 491"
+        ]
+      ],
+      "areas": "NSc"
+    },
+    "MATH 301": {
+      "title": "Elementary Number Theory",
+      "credits": "4",
+      "prerequisiteGroups": [
+        [
+          "MATH 136",
+          "MATH 334",
+          "MATH 126"
+        ],
+        [
+          "MATH 136",
+          "MATH 334",
+          "MATH 300"
+        ]
+      ],
+      "areas": "NSc"
+    },
+    "MATH 318": {
+      "title": "Advanced Linear Algebra: Tools and Applications",
+      "credits": "4",
+      "prerequisiteGroups": [
+        [
+          "MATH 208",
+          "MATH 136"
+        ]
+      ],
+      "areas": "NSc"
+    },
+    "MATH 340": {
+      "title": "Abstract Linear Algebra",
+      "credits": "4",
+      "prerequisiteGroups": [
+        [
+          "MATH 334",
+          "MATH 208"
+        ],
+        [
+          "MATH 334",
+          "MATH 300"
+        ]
+      ],
+      "areas": "NSc"
+    },
+    "MATH 394": {
+      "title": "Probability I",
+      "credits": "4",
+      "prerequisiteGroups": [
+        [
+          "MATH 126",
+          "MATH 136"
+        ]
+      ],
+      "offered": "A,W,Sp,S",
+      "areas": "NSc"
+    },
+    "MATH 420": {
+      "title": "History of Mathematics",
+      "credits": "4",
+      "prerequisiteGroups": [
+        [
+          "MATH 126",
+          "MATH 136"
+        ]
+      ],
+      "areas": "NSc, DIV"
+    },
+    "MATH 303": {
+      "title": "Introduction to Mathematical Thinking",
+      "credits": "4",
+      "areas": "NSc"
+    },
+    "MATH 315": {
+      "title": "Study Abroad Mathematics 3",
+      "credits": "1-10, max. 15"
+    },
+    "MATH 380": {
+      "title": "Intermediate Topics in Undergraduate Mathematics",
+      "credits": "3-5, max. 12",
+      "areas": "NSc"
+    },
+    "MATH 381": {
+      "title": "Discrete Mathematical Modeling",
+      "credits": "4",
+      "areas": "NSc",
+      "offered": "AW."
+    },
+    "MATH 395": {
+      "title": "Probability II",
+      "credits": "4",
+      "areas": "NSc",
+      "offered": "jointly with STAT 395; WSpS."
+    },
+    "MATH 396": {
+      "title": "Finite Markov Chains and Monte-Carlo Methods",
+      "credits": "4",
+      "areas": "NSc",
+      "offered": "jointly with STAT 396; Sp."
+    },
+    "MATH 415": {
+      "title": "Study Abroad Mathematics 4",
+      "credits": "1-10, max. 15"
+    },
+    "MATH 480": {
+      "title": "Advanced Topics in Undergraduate Mathematics",
+      "credits": "3-5, max. 12"
+    },
+    "MATH 496": {
+      "title": "Honors Senior Thesis",
+      "credits": "1-5",
+      "areas": "NSc, W",
+      "offered": "W."
+    },
+    "AMATH 383": {
+      "title": "Introduction to Continuous Mathematical Modeling",
+      "credits": "3",
+      "areas": "NSc",
+      "offered": "AWS."
+    },
+    "AMATH 402": {
+      "title": "Introduction to Dynamical Systems and Chaos",
+      "credits": "4",
+      "areas": "NSc, W",
+      "offered": "W."
+    },
+    "AMATH 403": {
+      "title": "Methods for Partial Differential Equations",
+      "credits": "4",
+      "areas": "NSc",
+      "offered": "Sp."
+    },
+    "CSE 332": {
+      "title": "Data Structures and Parallelism",
+      "credits": "4"
+    },
+    "CSE 333": {
+      "title": "Systems Programming",
+      "credits": "4",
+      "areas": "C"
+    },
+    "CSE 373": {
+      "title": "Data Structures and Algorithms",
+      "credits": "4"
+    },
+    "CSE 374": {
+      "title": "Intermediate Programming Concepts and Tools",
+      "credits": "3",
+      "areas": "C"
+    },
+    "CSE 417": {
+      "title": "Algorithms and Computational Complexity",
+      "credits": "3"
+    },
+    "CSE 421": {
+      "title": "Introduction to Algorithms",
+      "credits": "3"
+    },
+    "ECON 400": {
+      "title": "Advanced Microeconomics",
+      "credits": "5",
+      "areas": "NSc"
+    },
+    "ECON 424": {
+      "title": "Computational Finance and Financial Econometrics",
+      "credits": "5",
+      "areas": "NSc"
+    },
+    "ECON 484": {
+      "title": "Econometrics and Data Science",
+      "credits": "5",
+      "areas": "NSc"
+    },
+    "PHYS 321": {
+      "title": "Electromagnetism I",
+      "credits": "4",
+      "areas": "NSc",
+      "offered": "ASp."
+    },
+    "PHYS 322": {
+      "title": "Electromagnetism II",
+      "credits": "4",
+      "areas": "NSc",
+      "offered": "WS."
+    },
+    "PHYS 324": {
+      "title": "Quantum Mechanics I",
+      "credits": "4",
+      "areas": "NSc",
+      "offered": "AS."
+    },
+    "PHIL 470": {
+      "title": "Intermediate Logic",
+      "credits": "5",
+      "areas": "SSc, NSc, RSN"
+    },
+    "PHIL 471": {
+      "title": "Advanced Logic",
+      "credits": "5",
+      "areas": "SSc, NSc"
+    },
+    "PHIL 472": {
+      "title": "Axiomatic Set Theory",
+      "credits": "5",
+      "areas": "SSc, NSc"
+    }
+  },
+  "mapGroups": [
+    {
+      "id": "admission",
+      "label": "Mathematics Major Declaration",
+      "shortLabel": "Admission",
+      "credits": "Before declaring",
+      "description": "Early Entrance or Standard Entry pathway, including grade requirements.",
+      "courses": [],
+      "requirementRefs": [
+        {
+          "id": "math-admission",
+          "scope": "requirement",
+          "label": "Declaration pathway",
+          "credits": "Before declaring"
+        }
+      ]
+    },
+    {
+      "id": "general-education",
+      "label": "General Education Requirements",
+      "shortLabel": "General Education",
+      "credits": "College of Arts & Sciences",
+      "description": "Composition, language, writing, reasoning, Areas of Inquiry, and Diversity.",
+      "courses": [],
+      "requirementRefs": [
+        {
+          "id": "english-comp",
+          "scope": "item",
+          "label": "English Composition",
+          "credits": "5 cr"
+        },
+        {
+          "id": "foreign-language",
+          "scope": "item",
+          "label": "Foreign Language",
+          "credits": "0–15 cr"
+        },
+        {
+          "id": "reasoning",
+          "scope": "item",
+          "label": "Reasoning",
+          "credits": "5 cr"
+        },
+        {
+          "id": "writing",
+          "scope": "item",
+          "label": "Additional Writing",
+          "credits": "10 cr"
+        },
+        {
+          "id": "ah",
+          "scope": "item",
+          "label": "Arts & Humanities",
+          "credits": "20 cr"
+        },
+        {
+          "id": "ssc",
+          "scope": "item",
+          "label": "Social Sciences",
+          "credits": "20 cr"
+        },
+        {
+          "id": "nsc",
+          "scope": "item",
+          "label": "Natural Sciences",
+          "credits": "20 cr"
+        },
+        {
+          "id": "additional-aoi",
+          "scope": "item",
+          "label": "Additional Areas of Inquiry",
+          "credits": "15 cr"
+        },
+        {
+          "id": "div",
+          "scope": "item",
+          "label": "Diversity",
+          "credits": "5 cr"
+        }
+      ]
+    },
+    {
+      "id": "calculus-linear",
+      "label": "Calculus, Differential Equations & Linear Algebra",
+      "shortLabel": "Calculus & Linear Algebra",
+      "credits": "15–23 cr",
+      "description": "Choose the standard five-course route or the accelerated honors calculus sequence.",
+      "courses": [
+        "MATH 124",
+        "MATH 125",
+        "MATH 126",
+        "MATH 207",
+        "MATH 208",
+        "MATH 134",
+        "MATH 135",
+        "MATH 136"
+      ]
+    },
+    {
+      "id": "proof-analysis-core",
+      "label": "Proof & Analysis Core",
+      "shortLabel": "Proof & Analysis",
+      "credits": "15–21 cr",
+      "description": "Choose the standard proof/analysis route or accelerated advanced honors sequence.",
+      "courses": [
+        "MATH 200",
+        "MATH 224",
+        "MATH 300",
+        "MATH 327",
+        "MATH 424",
+        "MATH 334",
+        "MATH 335",
+        "MATH 336"
+      ]
+    },
+    {
+      "id": "advanced-sequences",
+      "label": "Advanced Mathematics Sequences",
+      "shortLabel": "Advanced Sequences",
+      "credits": "5–6 sequence courses",
+      "description": "Complete two three-quarter or three two-quarter sequences, including at least one sequence in algebra, analysis, topology/geometry, or complex analysis.",
+      "courses": [
+        "MATH 402",
+        "MATH 403",
+        "MATH 404",
+        "MATH 425",
+        "MATH 426",
+        "MATH 427",
+        "MATH 428",
+        "MATH 441",
+        "MATH 442",
+        "MATH 443",
+        "MATH 407",
+        "MATH 408",
+        "MATH 409",
+        "MATH 461",
+        "MATH 462",
+        "MATH 464",
+        "MATH 465",
+        "MATH 491",
+        "MATH 492",
+        "MATH 493"
+      ]
+    },
+    {
+      "id": "major-electives",
+      "label": "Mathematics Major Electives",
+      "shortLabel": "Major Electives",
+      "credits": "44 cr combined with sequences",
+      "description": "A total of 11 advanced-sequence and approved elective courses. No more than two MATH 380/480 special-topic courses.",
+      "courses": [
+        "MATH 301",
+        "MATH 303",
+        "MATH 315",
+        "MATH 318",
+        "MATH 335",
+        "MATH 336",
+        "MATH 340",
+        "MATH 380",
+        "MATH 381",
+        "MATH 394",
+        "MATH 395",
+        "MATH 396",
+        "MATH 415",
+        "MATH 420",
+        "MATH 480",
+        "MATH 496"
+      ]
+    },
+    {
+      "id": "outside-options",
+      "label": "Approved Outside-Department Options",
+      "shortLabel": "Outside Options",
+      "credits": "Up to 2 courses",
+      "description": "With adviser approval, up to two listed courses from one outside department may replace Math electives.",
+      "courses": [
+        "AMATH 383",
+        "AMATH 402",
+        "AMATH 403",
+        "CSE 332",
+        "CSE 333",
+        "CSE 373",
+        "CSE 374",
+        "CSE 417",
+        "CSE 421",
+        "ECON 400",
+        "ECON 424",
+        "ECON 484",
+        "E E 416",
+        "E E 418",
+        "PHYS 321",
+        "PHYS 322",
+        "PHYS 324",
+        "PHIL 470",
+        "PHIL 471",
+        "PHIL 472"
+      ]
+    },
+    {
+      "id": "additional-checks",
+      "label": "Additional Degree Checks",
+      "credits": "Residency and GPA",
+      "description": "UW Seattle Mathematics residency, grade, outside-department, and continuation requirements.",
+      "courses": [],
+      "requirementRefs": [
+        {
+          "id": "math-policies",
+          "scope": "requirement",
+          "label": "Major policies",
+          "credits": "Manual checks"
+        },
+        {
+          "id": "outside-department",
+          "scope": "requirement",
+          "label": "Credits outside MATH",
+          "credits": "At least 90 cr"
+        }
+      ]
+    },
+    {
+      "id": "free-electives",
+      "label": "Free Electives",
+      "credits": "To reach 180 cr",
+      "description": "Additional coursework needed to reach the baccalaureate credit total and the 90-credit outside-MATH requirement.",
+      "courses": [],
+      "requirementRefs": [
+        {
+          "id": "total",
+          "scope": "requirement",
+          "label": "Total degree credits",
+          "credits": "180 cr"
+        }
+      ]
+    }
+  ],
+  "requirements": [
+    {
+      "id": "math-admission",
+      "title": "Mathematics Major Declaration",
+      "displayCredits": "Before declaring",
+      "targetCredits": 0,
+      "type": "group",
+      "note": "Courses must be completed when declaring. AP/IB and Washington community-college equivalencies may be used where UW awards the listed course credit.",
+      "items": [
+        {
+          "id": "admission-path",
+          "label": "Complete one declaration pathway",
+          "type": "path-choice",
+          "paths": [
+            {
+              "label": "Early Entrance — MATH 200",
+              "courses": [
+                "MATH 208",
+                "MATH 200"
+              ]
+            },
+            {
+              "label": "Early Entrance — MATH 300",
+              "courses": [
+                "MATH 208",
+                "MATH 300"
+              ]
+            },
+            {
+              "label": "Standard Entry — standard calculus + MATH 200",
+              "courses": [
+                "MATH 124",
+                "MATH 125",
+                "MATH 126",
+                "MATH 208",
+                "MATH 200"
+              ]
+            },
+            {
+              "label": "Standard Entry — standard calculus + MATH 300",
+              "courses": [
+                "MATH 124",
+                "MATH 125",
+                "MATH 126",
+                "MATH 208",
+                "MATH 300"
+              ]
+            },
+            {
+              "label": "Standard Entry — accelerated honors calculus",
+              "courses": [
+                "MATH 134",
+                "MATH 135",
+                "MATH 136"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "admission-grade-check",
+          "label": "Declaration grade requirement confirmed",
+          "type": "check",
+          "note": "Early Entrance requires at least 3.8 in both courses. Standard Entry requires at least 2.0 in each required course and at least a 3.20 cumulative GPA across those courses."
+        }
+      ]
+    },
+    {
+      "id": "general-education",
+      "title": "General Education Requirements",
+      "displayCredits": "College of Arts & Sciences",
+      "targetCredits": 0,
+      "type": "group",
+      "items": [
+        {
+          "id": "english-comp",
+          "label": "English Composition",
+          "type": "bucket",
+          "targetCredits": 5,
+          "area": "C"
+        },
+        {
+          "id": "foreign-language",
+          "label": "Foreign language through the third college quarter",
+          "type": "bucket",
+          "targetCredits": 15,
+          "area": "FL",
+          "note": "This is 0–15 credits depending on high-school preparation, placement, AP/IB, or college coursework."
+        },
+        {
+          "id": "reasoning",
+          "label": "Reasoning",
+          "type": "bucket",
+          "targetCredits": 5,
+          "area": "RSN",
+          "note": "Required mathematics courses normally satisfy this requirement."
+        },
+        {
+          "id": "writing",
+          "label": "Additional Writing",
+          "type": "bucket",
+          "targetCredits": 10,
+          "area": "W"
+        },
+        {
+          "id": "ah",
+          "label": "Arts & Humanities",
+          "type": "bucket",
+          "targetCredits": 20,
+          "area": "A&H"
+        },
+        {
+          "id": "ssc",
+          "label": "Social Sciences",
+          "type": "bucket",
+          "targetCredits": 20,
+          "area": "SSc"
+        },
+        {
+          "id": "nsc",
+          "label": "Natural Sciences",
+          "type": "bucket",
+          "targetCredits": 20,
+          "area": "NSc",
+          "note": "Required MATH courses contribute heavily to this area."
+        },
+        {
+          "id": "additional-aoi",
+          "label": "Additional Areas of Inquiry",
+          "type": "additional-bucket",
+          "targetCredits": 15,
+          "baseCredits": 60,
+          "area": "A&H/SSc/NSc"
+        },
+        {
+          "id": "div",
+          "label": "Diversity",
+          "type": "bucket",
+          "targetCredits": 5,
+          "area": "DIV",
+          "note": "May overlap with another requirement."
+        }
+      ]
+    },
+    {
+      "id": "math-core",
+      "title": "Mathematics Core",
+      "displayCredits": "30–44 cr",
+      "targetCredits": 30,
+      "type": "group",
+      "items": [
+        {
+          "id": "calc-linear-path",
+          "label": "Calculus, differential equations, and linear algebra",
+          "type": "path-choice",
+          "paths": [
+            {
+              "label": "Standard route",
+              "courses": [
+                "MATH 124",
+                "MATH 125",
+                "MATH 126",
+                "MATH 207",
+                "MATH 208"
+              ]
+            },
+            {
+              "label": "Accelerated honors route",
+              "courses": [
+                "MATH 134",
+                "MATH 135",
+                "MATH 136"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "proof-analysis-path",
+          "label": "Proof and analysis core",
+          "type": "path-choice",
+          "paths": [
+            {
+              "label": "Standard route",
+              "courses": [
+                "MATH 200",
+                "MATH 224",
+                "MATH 300",
+                "MATH 327",
+                "MATH 424"
+              ]
+            },
+            {
+              "label": "Accelerated advanced honors route",
+              "courses": [
+                "MATH 334",
+                "MATH 335",
+                "MATH 336"
+              ]
+            }
+          ],
+          "note": "MATH 335 may also be used as one upper-division elective. MATH 336 may also be used as MATH 427 or as one upper-division elective."
+        }
+      ]
+    },
+    {
+      "id": "advanced-electives",
+      "title": "Advanced Core & Electives",
+      "displayCredits": "44 cr · 11 courses",
+      "targetCredits": 44,
+      "type": "group",
+      "note": "Complete 11 courses among advanced sequences and major electives. Courses used in the regular core are not counted again except for the department's explicit MATH 335/336 allowances.",
+      "items": [
+        {
+          "id": "advanced-course-count",
+          "label": "Eleven approved advanced-sequence and major-elective courses",
+          "type": "count",
+          "minCount": 11,
+          "courses": [
+            "MATH 301",
+            "MATH 303",
+            "MATH 315",
+            "MATH 318",
+            "MATH 335",
+            "MATH 336",
+            "MATH 340",
+            "MATH 380",
+            "MATH 381",
+            "MATH 394",
+            "MATH 395",
+            "MATH 396",
+            "MATH 402",
+            "MATH 403",
+            "MATH 404",
+            "MATH 407",
+            "MATH 408",
+            "MATH 409",
+            "MATH 415",
+            "MATH 420",
+            "MATH 425",
+            "MATH 426",
+            "MATH 427",
+            "MATH 428",
+            "MATH 441",
+            "MATH 442",
+            "MATH 443",
+            "MATH 461",
+            "MATH 462",
+            "MATH 464",
+            "MATH 465",
+            "MATH 480",
+            "MATH 491",
+            "MATH 492",
+            "MATH 493",
+            "MATH 496"
+          ]
+        },
+        {
+          "id": "sequence-structure-check",
+          "label": "Advanced sequence structure confirmed",
+          "type": "check",
+          "note": "Complete two three-quarter sequences or three two-quarter sequences, totaling 5–6 sequence courses. At least one sequence must be Modern Algebra, Concepts of Analysis, Topology & Geometry, or Complex Analysis. MATH 424 may act as the first Analysis course, which increases the separate elective count."
+        },
+        {
+          "id": "special-topic-limit",
+          "label": "Special-topic and outside-department limits confirmed",
+          "type": "check",
+          "note": "No more than two MATH 380/480 courses. Up to two approved courses from one outside department may be used only after Mathematics advising applies them to the major."
+        }
+      ]
+    },
+    {
+      "id": "math-policies",
+      "title": "Mathematics Major Policies",
+      "displayCredits": "Residency and grades",
+      "targetCredits": 0,
+      "type": "group",
+      "items": [
+        {
+          "id": "math-minimum-grades",
+          "label": "Minimum 2.0 numerical grade in every course applied to the major",
+          "type": "check"
+        },
+        {
+          "id": "math-major-gpa",
+          "label": "Minimum 2.00 cumulative GPA in all UW Mathematics courses",
+          "type": "check"
+        },
+        {
+          "id": "math-residency",
+          "label": "At least 18 graded credits of 300-level or higher MATH taken at UW Seattle",
+          "type": "check"
+        },
+        {
+          "id": "math-quarterly-progress",
+          "label": "At least one major course completed each enrolled quarter except Summer",
+          "type": "check"
+        }
+      ]
+    },
+    {
+      "id": "outside-department",
+      "title": "Credits Outside the Mathematics Department",
+      "displayCredits": "At least 90 cr",
+      "targetCredits": 90,
+      "type": "group",
+      "note": "The College of Arts & Sciences requires at least 90 of the 180 degree credits outside the major department.",
+      "items": [
+        {
+          "id": "outside-math-credits",
+          "label": "At least 90 credits outside MATH",
+          "type": "bucket",
+          "targetCredits": 90,
+          "area": "OUTSIDE-MAJOR"
+        }
+      ]
+    },
+    {
+      "id": "total",
+      "title": "Total Degree Credits",
+      "displayCredits": "180 cr",
+      "targetCredits": 180,
+      "type": "total",
+      "note": "Free electives and general-education courses bring the full degree plan to at least 180 credits."
+    }
+  ],
+  "samplePlan": {
+    "name": "Suggested four-year B.S. Mathematics plan — standard route",
+    "quarters": {
+      "y1-autumn": [
+        "MATH 124",
+        "SLOT:5:English Composition",
+        "SLOT:5:Arts & Humanities"
+      ],
+      "y1-winter": [
+        "MATH 125",
+        "SLOT:5:Foreign Language",
+        "SLOT:5:Social Sciences"
+      ],
+      "y1-spring": [
+        "MATH 126",
+        "MATH 208",
+        "SLOT:5:Foreign Language",
+        "SLOT:1:Free Elective"
+      ],
+      "y2-autumn": [
+        "MATH 200",
+        "MATH 300",
+        "SLOT:5:Foreign Language",
+        "SLOT:1:Free Elective"
+      ],
+      "y2-winter": [
+        "MATH 224",
+        "MATH 327",
+        "SLOT:5:Arts & Humanities",
+        "SLOT:2:Free Elective"
+      ],
+      "y2-spring": [
+        "MATH 207",
+        "MATH 424",
+        "SLOT:5:Social Sciences",
+        "SLOT:2:Free Elective"
+      ],
+      "y3-autumn": [
+        "MATH 402",
+        "MATH 407",
+        "SLOT:5:Additional Writing",
+        "SLOT:2:Free Elective"
+      ],
+      "y3-winter": [
+        "MATH 403",
+        "MATH 408",
+        "SLOT:5:Arts & Humanities",
+        "SLOT:2:Free Elective"
+      ],
+      "y3-spring": [
+        "MATH 404",
+        "MATH 409",
+        "SLOT:5:Social Sciences",
+        "SLOT:2:Free Elective"
+      ],
+      "y4-autumn": [
+        "MATH 301",
+        "MATH 318",
+        "SLOT:5:Additional Writing",
+        "SLOT:2:Free Elective"
+      ],
+      "y4-winter": [
+        "MATH 340",
+        "MATH 394",
+        "SLOT:5:Arts & Humanities / Diversity",
+        "SLOT:2:Free Elective"
+      ],
+      "y4-spring": [
+        "MATH 420",
+        "SLOT:5:Social Sciences",
+        "SLOT:6:Free Elective"
+      ]
+    }
+  },
+  "prerequisiteSubstitutions": {
+    "MATH 124": [
+      "MATH 134"
+    ],
+    "MATH 125": [
+      "MATH 135",
+      "MATH 136"
+    ],
+    "MATH 126": [
+      "MATH 136"
+    ],
+    "MATH 207": [
+      "MATH 136"
+    ],
+    "MATH 208": [
+      "MATH 136"
+    ]
+  }
+}
