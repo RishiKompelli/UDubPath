@@ -791,3 +791,54 @@ footer { padding: 22px 28px 40px; color: var(--muted); font-size: 11px; text-ali
   }
 }
 
+/* Easier degree-map scrolling and panning */
+.map-scroll-stack {
+  min-width: 0;
+}
+
+.map-scroll-top {
+  height: 20px;
+  margin-bottom: 7px;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  border-radius: 9px;
+  scrollbar-gutter: stable;
+}
+
+.map-scroll-top-content {
+  height: 1px;
+  pointer-events: none;
+}
+
+.map-scroll.pan-enabled,
+.map-scroll.panning {
+  cursor: grab;
+}
+
+.map-scroll.panning {
+  cursor: grabbing;
+  user-select: none;
+}
+
+.map-scroll.panning * {
+  cursor: grabbing !important;
+}
+
+#pan-map-button[aria-pressed="true"] {
+  border-color: var(--uw-purple);
+  background: var(--uw-purple-soft);
+  color: var(--uw-purple);
+}
+
+.course-node,
+.map-requirement-node,
+.map-plan-slot-node {
+  cursor: pointer;
+}
+
+@media (max-width: 980px) {
+  .map-scroll-stack {
+    width: 100%;
+  }
+}
+

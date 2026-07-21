@@ -84,13 +84,19 @@
         </div>
         <label class="toggle-field"><input id="show-all-connections" type="checkbox"><span>Show every connection</span></label>
         <button id="fit-map-button" class="button secondary" type="button">Fit map</button>
+        <button id="pan-map-button" class="button secondary" type="button" aria-pressed="false">Pan map: off</button>
       </div>
 
       <div class="map-layout">
-        <div id="map-scroll" class="map-scroll card-surface">
-          <div id="map-stage" class="map-stage">
-            <svg id="map-edges" class="map-edges" aria-hidden="true"></svg>
-            <div id="map-columns" class="map-columns"></div>
+        <div class="map-scroll-stack">
+          <div id="map-scroll-top" class="map-scroll-top card-surface" aria-label="Horizontal map scrollbar">
+            <div id="map-scroll-top-content" class="map-scroll-top-content"></div>
+          </div>
+          <div id="map-scroll" class="map-scroll card-surface">
+            <div id="map-stage" class="map-stage">
+              <svg id="map-edges" class="map-edges" aria-hidden="true"></svg>
+              <div id="map-columns" class="map-columns"></div>
+            </div>
           </div>
         </div>
         <aside id="course-panel" class="course-panel card-surface" aria-live="polite"></aside>

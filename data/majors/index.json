@@ -95,6 +95,22 @@
       "status": "complete",
       "file": "industrial-engineering.json",
       "source": "https://www.engr.washington.edu/current/academics/4-year-plans/ise-degree-requirements"
+    },
+    {
+      "id": "uw-seattle-biology-bs",
+      "name": "Biology (BS)",
+      "degree": "BS",
+      "status": "complete",
+      "file": "biology-bs.json",
+      "source": "https://biology.washington.edu/degree-requirements-fall-2026-onwards"
+    },
+    {
+      "id": "uw-seattle-biology-ba",
+      "name": "Biology (BA)",
+      "degree": "BA",
+      "status": "complete",
+      "file": "biology-ba.json",
+      "source": "https://biology.washington.edu/degree-requirements-fall-2026-onwards"
     }
   ]
 }

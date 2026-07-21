@@ -16,6 +16,156 @@ const QUARTERS = [
   { id: "y4-spring", year: 4, season: "Spring" }
 ];
 
+const OFFICIAL_COURSE_OVERLAP_GROUPS = [
+  ["PHYS 114", "PHYS 117", "PHYS 121", "PHYS 141"],
+  ["PHYS 115", "PHYS 118", "PHYS 122", "PHYS 142"],
+  ["PHYS 116", "PHYS 119", "PHYS 123", "PHYS 143"],
+  ["CHEM 120", "CHEM 142", "CHEM 143", "CHEM 145"],
+  ["CHEM 152", "CHEM 153", "CHEM 155"],
+  ["CHEM 162", "CHEM 165"],
+  ["MATH 124", "MATH 134"],
+  ["MATH 125", "MATH 135"],
+  ["MATH 126", "MATH 136"],
+  ["MATH 207", "MATH 135", "MATH 136"],
+  ["MATH 208", "MATH 136"],
+  ["CSE 123", "CSE 143"]
+];
+
+function clonePlan(plan = app.progress.plan) {
+  return Object.fromEntries(
+    QUARTERS.map((quarter) => [quarter.id, [...(plan?.[quarter.id] || [])]])
+  );
+}
+
+function planQuarterIndex(quarterId) {
+  return QUARTERS.findIndex((quarter) => quarter.id === quarterId);
+}
+
+function courseOverlapGroups() {
+  const groups = OFFICIAL_COURSE_OVERLAP_GROUPS.map((group) => group.map(normalizeCode));
+  for (const [standard, substitutes] of Object.entries(app.major.prerequisiteSubstitutions || {})) {
+    for (const substitute of substitutes || []) {
+      groups.push([normalizeCode(standard), normalizeCode(substitute)]);
+    }
+  }
+
+  const seen = new Set();
+  return groups.filter((group) => {
+    const key = [...new Set(group)].sort().join("|");
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}
+
+function planCourseIndex(plan) {
+  const result = new Map();
+  QUARTERS.forEach((quarter, index) => {
+    for (const item of plan?.[quarter.id] || []) {
+      if (!isPlanSlot(item)) result.set(normalizeCode(item), index);
+    }
+  });
+  return result;
+}
+
+function prerequisitePlanConflicts(plan) {
+  const conflicts = [];
+  const courseIndex = planCourseIndex(plan);
+
+  QUARTERS.forEach((quarter, quarterIndex) => {
+    for (const rawCode of plan?.[quarter.id] || []) {
+      if (isPlanSlot(rawCode)) continue;
+      const code = normalizeCode(rawCode);
+      const groups = getPrerequisiteGroups(code);
+
+      groups.forEach((group, groupIndex) => {
+        const options = [...new Set(group.flatMap((prerequisite) => [
+          normalizeCode(prerequisite),
+          ...prerequisiteSubstitutes(prerequisite)
+        ]))];
+
+        const satisfied = options.some((option) => (
+          isFulfilled(option)
+          || (courseIndex.has(option) && courseIndex.get(option) < quarterIndex)
+        ));
+
+        if (!satisfied) {
+          conflicts.push({
+            key: `prereq:${quarter.id}:${code}:${groupIndex}`,
+            type: "prerequisite",
+            code,
+            quarter: quarter.id,
+            options,
+            message: `${code} needs ${options.join(" or ")} fulfilled by AP/IB, Running Start/transfer, completed credit, or planned in an earlier quarter.`
+          });
+        }
+      });
+    }
+  });
+
+  return conflicts;
+}
+
+function overlapPlanConflicts(plan) {
+  const conflicts = [];
+  const groups = courseOverlapGroups();
+
+  for (const quarter of QUARTERS) {
+    const codes = new Set(
+      (plan?.[quarter.id] || [])
+        .filter((item) => !isPlanSlot(item))
+        .map(normalizeCode)
+    );
+
+    groups.forEach((group, groupIndex) => {
+      const present = [...new Set(group.filter((code) => codes.has(code)))];
+      if (present.length < 2) return;
+      const sorted = [...present].sort();
+      conflicts.push({
+        key: `overlap:${quarter.id}:${groupIndex}:${sorted.join("+")}`,
+        type: "overlap",
+        code: sorted.join(" / "),
+        quarter: quarter.id,
+        courses: sorted,
+        message: `${sorted.join(" and ")} cannot be planned in the same quarter because they are overlapping or equivalent course paths.`
+      });
+    });
+  }
+
+  return conflicts;
+}
+
+function structuralPlanConflicts(plan) {
+  return [...prerequisitePlanConflicts(plan), ...overlapPlanConflicts(plan)];
+}
+
+function newlyIntroducedPlanConflicts(currentPlan, proposedPlan) {
+  const currentKeys = new Set(structuralPlanConflicts(currentPlan).map((conflict) => conflict.key));
+  return structuralPlanConflicts(proposedPlan).filter((conflict) => !currentKeys.has(conflict.key));
+}
+
+function showPlanConflict(conflict) {
+  if (!conflict) return;
+  showToast(conflict.message);
+}
+
+function proposedPlanWithCourse(code, quarterId, replaceItem = null) {
+  const normalized = isPlanSlot(code) ? code : normalizeCode(code);
+  const proposed = clonePlan();
+
+  for (const quarter of QUARTERS) {
+    proposed[quarter.id] = (proposed[quarter.id] || []).filter((item) => item !== normalized);
+  }
+
+  if (replaceItem) {
+    proposed[quarterId] = (proposed[quarterId] || []).filter((item) => item !== replaceItem);
+  }
+
+  proposed[quarterId] = proposed[quarterId] || [];
+  proposed[quarterId].push(normalized);
+  return proposed;
+}
+
 const app = {
   majorIndex: null,
   major: null,
@@ -32,7 +182,14 @@ const app = {
   catalogLimit: 60,
   confirmResolver: null,
   mapRenderToken: 0,
-  pendingPlanSlot: null
+  pendingPlanSlot: null,
+  plannerSelectedCourseCode: null,
+  plannerSearchMatches: [],
+  plannerSearchIndex: -1,
+  mapPanEnabled: false,
+  mapPanState: null,
+  mapDidPan: false,
+  mapScrollSyncing: false
 };
 
 const $ = (selector, parent = document) => parent.querySelector(selector);
@@ -317,7 +474,16 @@ function bindEvents() {
   $("#available-only").addEventListener("change", renderMap);
   $("#show-all-connections").addEventListener("change", drawMapEdges);
   $("#fit-map-button").addEventListener("click", () => $("#map-scroll").scrollTo({ left: 0, top: 0, behavior: "smooth" }));
-  $("#map-columns").addEventListener("click", handleMapClick);
+  $("#pan-map-button").addEventListener("click", toggleMapPan);
+  $("#map-scroll").addEventListener("click", handleMapClick);
+  $("#map-scroll").addEventListener("scroll", syncMapScrollFromMain, { passive: true });
+  $("#map-scroll-top").addEventListener("scroll", syncMapScrollFromTop, { passive: true });
+  $("#map-scroll").addEventListener("pointerdown", startMapPan);
+  $("#map-scroll").addEventListener("pointermove", moveMapPan);
+  $("#map-scroll").addEventListener("pointerup", endMapPan);
+  $("#map-scroll").addEventListener("pointercancel", endMapPan);
+  $("#map-scroll").addEventListener("contextmenu", (event) => event.preventDefault());
+  updatePanButton();
   $("#course-panel").addEventListener("click", handleCoursePanelClick);
   $("#course-panel").addEventListener("change", handleCoursePanelChange);
 
@@ -805,6 +971,91 @@ function newlyUnlockedBy(code) {
   );
 }
 
+function updateMapTopScrollbar() {
+  const main = $("#map-scroll");
+  const stage = $("#map-stage");
+  const top = $("#map-scroll-top");
+  const content = $("#map-scroll-top-content");
+  if (!main || !stage || !top || !content) return;
+  content.style.width = `${Math.max(stage.scrollWidth, main.clientWidth)}px`;
+  if (!app.mapScrollSyncing) top.scrollLeft = main.scrollLeft;
+}
+
+function syncMapScrollFromMain() {
+  const main = $("#map-scroll");
+  const top = $("#map-scroll-top");
+  if (!main || !top || app.mapScrollSyncing) return;
+  app.mapScrollSyncing = true;
+  top.scrollLeft = main.scrollLeft;
+  requestAnimationFrame(() => { app.mapScrollSyncing = false; });
+}
+
+function syncMapScrollFromTop() {
+  const main = $("#map-scroll");
+  const top = $("#map-scroll-top");
+  if (!main || !top || app.mapScrollSyncing) return;
+  app.mapScrollSyncing = true;
+  main.scrollLeft = top.scrollLeft;
+  requestAnimationFrame(() => { app.mapScrollSyncing = false; });
+}
+
+function updatePanButton() {
+  const button = $("#pan-map-button");
+  const scroll = $("#map-scroll");
+  if (!button || !scroll) return;
+  button.setAttribute("aria-pressed", app.mapPanEnabled ? "true" : "false");
+  button.textContent = app.mapPanEnabled ? "Pan map: on" : "Pan map: off";
+  scroll.classList.toggle("pan-enabled", app.mapPanEnabled);
+}
+
+function toggleMapPan() {
+  app.mapPanEnabled = !app.mapPanEnabled;
+  updatePanButton();
+  showToast(app.mapPanEnabled
+    ? "Pan mode on. Drag with the left mouse button, or right-drag anytime."
+    : "Pan mode off. Right-drag still pans the map.");
+}
+
+function startMapPan(event) {
+  const useRightButton = event.button === 2;
+  const useToggleButton = app.mapPanEnabled && event.button === 0;
+  if (!useRightButton && !useToggleButton) return;
+
+  const scroll = $("#map-scroll");
+  if (!scroll) return;
+  event.preventDefault();
+  app.mapDidPan = false;
+  app.mapPanState = {
+    pointerId: event.pointerId,
+    x: event.clientX,
+    y: event.clientY,
+    left: scroll.scrollLeft,
+    top: scroll.scrollTop
+  };
+  scroll.classList.add("panning");
+  try { scroll.setPointerCapture(event.pointerId); } catch (_) {}
+}
+
+function moveMapPan(event) {
+  const state = app.mapPanState;
+  const scroll = $("#map-scroll");
+  if (!state || !scroll || state.pointerId !== event.pointerId) return;
+  const dx = event.clientX - state.x;
+  const dy = event.clientY - state.y;
+  if (Math.abs(dx) > 3 || Math.abs(dy) > 3) app.mapDidPan = true;
+  scroll.scrollLeft = state.left - dx;
+  scroll.scrollTop = state.top - dy;
+}
+
+function endMapPan(event) {
+  const state = app.mapPanState;
+  const scroll = $("#map-scroll");
+  if (!state || !scroll || state.pointerId !== event.pointerId) return;
+  app.mapPanState = null;
+  scroll.classList.remove("panning");
+  try { scroll.releasePointerCapture(event.pointerId); } catch (_) {}
+}
+
 function renderMap() {
   const query = normalizeCode($("#map-search")?.value || "");
   const rawQuery = ($("#map-search")?.value || "").trim().toLowerCase();
@@ -932,6 +1183,7 @@ function drawMapEdges() {
     <marker id="arrow-incoming" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L9,4.5 L0,9 z" class="arrow-incoming"/></marker>
     <marker id="arrow-outgoing" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L9,4.5 L0,9 z" class="arrow-outgoing"/></marker>
   </defs>${paths.join("")}`;
+  updateMapTopScrollbar();
 }
 
 function handleMapClick(event) {
@@ -956,8 +1208,18 @@ function handleMapClick(event) {
     setFulfilled(checkbox.dataset.code, checkbox.checked);
     return;
   }
+  if (app.mapDidPan) {
+    app.mapDidPan = false;
+    return;
+  }
   const node = event.target.closest(".course-node");
-  if (!node) return;
+  if (!node) {
+    if (app.selectedCode) {
+      app.selectedCode = null;
+      renderMap();
+    }
+    return;
+  }
   app.selectedCode = node.dataset.courseCode;
   renderMap();
 }
@@ -1715,8 +1977,11 @@ function quarterCredits(quarterId) {
   }, 0);
 }
 
-function plannerCourseDisplay(course) {
-  return `${course.code} — ${course.title}`;
+function plannerCourseDisplay(courseOrCode) {
+  const course = typeof courseOrCode === "string" ? getCourse(courseOrCode) : courseOrCode;
+  const code = normalizeCode(course?.code || courseOrCode || "");
+  const title = course?.title || getCourse(code).title || "Course information unavailable";
+  return `${code} — ${title}`;
 }
 
 function openPlannerCourseMenu() {
@@ -1805,7 +2070,7 @@ function updatePlannerSearchResults() {
 
 function selectPlannerCourse(code) {
   const normalized = normalizeCode(code);
-  const course = app.catalogByCode.get(normalized) || getCourse(normalized);
+  const course = getCourse(normalized);
   const input = $("#planner-add-search");
   app.plannerSelectedCourseCode = normalized;
   if (input) input.value = plannerCourseDisplay(course);
@@ -1879,7 +2144,7 @@ function addPlannerSearchCourse() {
   const input = $("#planner-add-search");
   const raw = input?.value.trim() || "";
   const rawCode = normalizeCode(raw.split("—")[0]);
-  const exactCourse = app.catalogByCode.get(rawCode)
+  const exactCourse = getCatalogCourse(rawCode)
     || app.courses.find((course) => plannerCourseDisplay(course).toLowerCase() === raw.toLowerCase());
   const code = app.plannerSelectedCourseCode || exactCourse?.code;
   const quarter = $("#planner-add-quarter").value;
@@ -1889,30 +2154,41 @@ function addPlannerSearchCourse() {
     return showToast("Choose a course from the search dropdown first.");
   }
 
+  if (app.pendingPlanSlot) {
+    const { item, quarterId } = app.pendingPlanSlot;
+    const added = addCourseToPlan(code, quarterId, {
+      replaceItem: item,
+      clearPendingSlot: true
+    });
+    if (!added) return;
+  } else {
+    const added = addCourseToPlan(code, quarter);
+    if (!added) return;
+  }
+
   app.plannerSelectedCourseCode = null;
   if (input) input.value = "";
   closePlannerCourseMenu();
-
-  if (app.pendingPlanSlot) {
-    const { item, quarterId } = app.pendingPlanSlot;
-    app.progress.plan[quarterId] = (app.progress.plan[quarterId] || []).filter((entry) => entry !== item);
-    clearPendingPlanSlot();
-    addCourseToPlan(code, quarterId);
-    return;
-  }
-
-  addCourseToPlan(code, quarter);
 }
 
-function addCourseToPlan(code, quarterId) {
+function addCourseToPlan(code, quarterId, options = {}) {
   const normalized = isPlanSlot(code) ? code : normalizeCode(code);
-  for (const quarter of QUARTERS) {
-    app.progress.plan[quarter.id] = (app.progress.plan[quarter.id] || []).filter((item) => item !== normalized);
+  const proposed = proposedPlanWithCourse(normalized, quarterId, options.replaceItem || null);
+  const conflicts = isPlanSlot(normalized)
+    ? []
+    : newlyIntroducedPlanConflicts(app.progress.plan, proposed);
+
+  if (conflicts.length) {
+    showPlanConflict(conflicts[0]);
+    return false;
   }
-  app.progress.plan[quarterId].push(normalized);
+
+  if (options.clearPendingSlot) clearPendingPlanSlot();
+  app.progress.plan = proposed;
   saveProgress();
   renderAll();
   showToast(`${normalized} added to ${quarterLabel(quarterId)}.`);
+  return true;
 }
 
 function quarterLabel(id) {
@@ -1921,9 +2197,17 @@ function quarterLabel(id) {
 }
 
 function removePlanItem(item, quarterId) {
-  app.progress.plan[quarterId] = (app.progress.plan[quarterId] || []).filter((value) => value !== item);
+  const proposed = clonePlan();
+  proposed[quarterId] = (proposed[quarterId] || []).filter((value) => value !== item);
+  const conflicts = newlyIntroducedPlanConflicts(app.progress.plan, proposed);
+  if (conflicts.length) {
+    showPlanConflict(conflicts[0]);
+    return false;
+  }
+  app.progress.plan = proposed;
   saveProgress();
   renderAll();
+  return true;
 }
 
 function handlePlannerClick(event) {
@@ -2000,35 +2284,26 @@ async function clearPlan() {
 }
 
 function validatePlan() {
-  const warnings = [];
-  const planIndex = new Map();
-  QUARTERS.forEach((quarter, index) => {
-    for (const item of app.progress.plan[quarter.id] || []) {
-      if (!isPlanSlot(item)) planIndex.set(item, index);
-    }
-  });
+  const warnings = structuralPlanConflicts(app.progress.plan).map((conflict) => ({
+    code: conflict.code,
+    quarter: conflict.quarter,
+    message: conflict.message
+  }));
 
-  QUARTERS.forEach((quarter, index) => {
+  for (const quarter of QUARTERS) {
     for (const code of app.progress.plan[quarter.id] || []) {
       if (isPlanSlot(code)) continue;
       const course = getCourse(code);
-      for (const group of getPrerequisiteGroups(course)) {
-        const satisfied = expandedPrerequisiteOptions(group).some((prerequisite) =>
-          isFulfilled(prerequisite) || (planIndex.has(prerequisite) && planIndex.get(prerequisite) < index)
-        );
-        if (!satisfied) {
-          warnings.push({
-            code,
-            quarter: quarter.id,
-            message: `${code} is planned before one prerequisite option is fulfilled: ${expandedPrerequisiteOptions(group).join(" or ")}.`
-          });
-        }
-      }
       if (course.offered && !offeringIncludes(course.offered, quarter.season)) {
-        warnings.push({ code, quarter: quarter.id, message: `${code} may not normally be offered in ${quarter.season}. Catalog listing: ${course.offered}.` });
+        warnings.push({
+          code,
+          quarter: quarter.id,
+          message: `${code} may not normally be offered in ${quarter.season}. Catalog listing: ${course.offered}.`
+        });
       }
     }
-  });
+  }
+
   return warnings;
 }
 
