@@ -31,6 +31,70 @@
       "status": "complete",
       "file": "law-societies-justice.json",
       "source": "https://lsj.washington.edu/lsj-gold-curriculum-requirements"
+    },
+    {
+      "id": "uw-seattle-aa",
+      "name": "Aeronautics & Astronautics",
+      "degree": "BSAAE",
+      "status": "complete",
+      "file": "aeronautics-astronautics.json",
+      "source": "https://www.engr.washington.edu/current/academics/4-year-plans/aa-degree-requirements"
+    },
+    {
+      "id": "uw-seattle-bioe",
+      "name": "Bioengineering",
+      "degree": "BSBioE",
+      "status": "complete",
+      "file": "bioengineering.json",
+      "source": "https://www.engr.washington.edu/current/academics/4-year-plans/bioe-degree-requirements"
+    },
+    {
+      "id": "uw-seattle-cheme",
+      "name": "Chemical Engineering",
+      "degree": "BSChemE",
+      "status": "complete",
+      "file": "chemical-engineering.json",
+      "source": "https://www.engr.washington.edu/current/academics/4-year-plans/cheme-degree-requirements"
+    },
+    {
+      "id": "uw-seattle-cive",
+      "name": "Civil Engineering",
+      "degree": "BSCivE",
+      "status": "complete",
+      "file": "civil-engineering.json",
+      "source": "https://www.engr.washington.edu/current/academics/4-year-plans/cive-degree-requirements"
+    },
+    {
+      "id": "uw-seattle-ece",
+      "name": "Electrical & Computer Engineering",
+      "degree": "BSECE",
+      "status": "complete",
+      "file": "electrical-computer-engineering.json",
+      "source": "https://www.engr.washington.edu/current/academics/4-year-plans/ece-degree-requirements"
+    },
+    {
+      "id": "uw-seattle-enve",
+      "name": "Environmental Engineering",
+      "degree": "BSEnvE",
+      "status": "complete",
+      "file": "environmental-engineering.json",
+      "source": "https://www.engr.washington.edu/current/academics/4-year-plans/enve-degree-requirements"
+    },
+    {
+      "id": "uw-seattle-hcde",
+      "name": "Human Centered Design & Engineering",
+      "degree": "BSHCDE",
+      "status": "complete",
+      "file": "human-centered-design-engineering.json",
+      "source": "https://www.engr.washington.edu/current/academics/4-year-plans/hcde-degree-requirements"
+    },
+    {
+      "id": "uw-seattle-ise",
+      "name": "Industrial Engineering",
+      "degree": "BSIE",
+      "status": "complete",
+      "file": "industrial-engineering.json",
+      "source": "https://www.engr.washington.edu/current/academics/4-year-plans/ise-degree-requirements"
     }
   ]
 }

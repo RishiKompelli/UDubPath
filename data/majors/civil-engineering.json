@@ -1,0 +1,1202 @@
+{
+  "id": "uw-seattle-cive",
+  "university": "University of Washington Seattle",
+  "name": "Civil Engineering",
+  "degree": "Bachelor of Science in Civil Engineering",
+  "catalogYear": "AUT 2026 entrant framework",
+  "totalCredits": 180,
+  "sources": [
+    {
+      "label": "UW Engineering Civil Engineering degree requirements and sample plan",
+      "url": "https://www.engr.washington.edu/current/academics/4-year-plans/cive-degree-requirements"
+    },
+    {
+      "label": "UW Engineering ENGRUD placement requirements",
+      "url": "https://www.engr.washington.edu/admission/department/comparemajors"
+    },
+    {
+      "label": "UW course-description catalog",
+      "url": "https://www.washington.edu/students/crscat/"
+    }
+  ],
+  "tracks": [
+    {
+      "id": "standard",
+      "name": "Standard degree path",
+      "description": "Official AUT26 degree structure."
+    }
+  ],
+  "courseOverrides": {
+    "MATH 124": {
+      "title": "Calculus with Analytic Geometry I",
+      "credits": "5",
+      "prerequisiteGroups": []
+    },
+    "MATH 125": {
+      "title": "Calculus with Analytic Geometry II",
+      "credits": "5",
+      "prerequisiteGroups": [
+        [
+          "MATH 124"
+        ]
+      ]
+    },
+    "MATH 126": {
+      "title": "Calculus with Analytic Geometry III",
+      "credits": "5",
+      "prerequisiteGroups": [
+        [
+          "MATH 125"
+        ]
+      ]
+    },
+    "MATH 134": {
+      "title": "Accelerated [Honors] Calculus",
+      "credits": "5",
+      "areas": "NSc, RSN",
+      "offered": "Autumn",
+      "description": "First course in UW's accelerated honors calculus and linear algebra sequence.",
+      "prerequisiteGroups": [],
+      "sourceUrl": "https://www.washington.edu/students/crscat/math.html"
+    },
+    "MATH 135": {
+      "title": "Accelerated [Honors] Calculus",
+      "credits": "5",
+      "areas": "NSc",
+      "offered": "Winter",
+      "description": "Second course in UW's accelerated honors calculus and linear algebra sequence.",
+      "prerequisiteGroups": [
+        [
+          "MATH 134"
+        ]
+      ],
+      "sourceUrl": "https://www.washington.edu/students/crscat/math.html"
+    },
+    "MATH 136": {
+      "title": "Accelerated [Honors] Calculus",
+      "credits": "5",
+      "areas": "NSc",
+      "offered": "Spring",
+      "description": "Third course in UW's accelerated honors calculus and linear algebra sequence. The sequence covers material from MATH 124-126, 207, and 208.",
+      "prerequisiteGroups": [
+        [
+          "MATH 135"
+        ]
+      ],
+      "sourceUrl": "https://www.washington.edu/students/crscat/math.html"
+    },
+    "MATH 207": {
+      "title": "Introduction to Differential Equations",
+      "credits": "4",
+      "prerequisiteGroups": [
+        [
+          "MATH 125"
+        ]
+      ]
+    },
+    "AMATH 351": {
+      "title": "Introduction to Differential Equations and Applications",
+      "credits": "3",
+      "prerequisiteGroups": [
+        [
+          "MATH 125"
+        ]
+      ]
+    },
+    "MATH 208": {
+      "title": "Matrix Algebra with Applications",
+      "credits": "4",
+      "prerequisiteGroups": []
+    },
+    "AMATH 352": {
+      "title": "Applied Linear Algebra and Numerical Analysis",
+      "credits": "3",
+      "prerequisiteGroups": [
+        [
+          "MATH 126"
+        ]
+      ]
+    },
+    "MATH 209": {
+      "title": "Linear Analysis",
+      "credits": "4",
+      "prerequisiteGroups": [
+        [
+          "MATH 207"
+        ],
+        [
+          "MATH 208"
+        ]
+      ]
+    },
+    "MATH 224": {
+      "title": "Advanced Multivariable Calculus",
+      "credits": "4",
+      "prerequisiteGroups": [
+        [
+          "MATH 126"
+        ]
+      ]
+    },
+    "IND E 315": {
+      "title": "Probability and Statistics for Engineers",
+      "credits": "3",
+      "prerequisiteGroups": [
+        [
+          "MATH 135",
+          "MATH 136",
+          "MATH 207",
+          "AMATH 351"
+        ]
+      ]
+    },
+    "STAT 290": {
+      "title": "Advanced Placement (AP) Statistics",
+      "credits": "5",
+      "prerequisiteGroups": []
+    },
+    "STAT 390": {
+      "title": "Statistical Methods in Engineering and Science",
+      "credits": "4",
+      "prerequisiteGroups": [
+        [
+          "MATH 126",
+          "MATH 136"
+        ]
+      ]
+    },
+    "CHEM 142": {
+      "title": "General Chemistry",
+      "credits": "5",
+      "prerequisiteGroups": [],
+      "otherPrerequisites": "CHEM 110 with the required grade, the General Chemistry Placement Exam, or AP Chemistry placement can provide entry. Check the current catalog."
+    },
+    "CHEM 152": {
+      "title": "General Chemistry",
+      "credits": "5",
+      "prerequisiteGroups": [
+        [
+          "CHEM 142",
+          "CHEM 143",
+          "CHEM 145"
+        ]
+      ]
+    },
+    "CHEM 143": {
+      "title": "Accelerated General Chemistry I",
+      "credits": "6",
+      "areas": "NSc, RSN",
+      "offered": "Autumn",
+      "description": "First half of UW's accelerated two-quarter general chemistry sequence.",
+      "prerequisiteGroups": [],
+      "sourceUrl": "https://www.washington.edu/students/crscat/chem.html",
+      "otherPrerequisites": "CHEM 110 with the required grade, the General Chemistry Placement Exam, or AP Chemistry placement can provide entry. Check the current catalog."
+    },
+    "CHEM 153": {
+      "title": "Accelerated General Chemistry II",
+      "credits": "6",
+      "areas": "NSc",
+      "offered": "Winter",
+      "description": "Second half of UW's accelerated two-quarter general chemistry sequence.",
+      "prerequisiteGroups": [
+        [
+          "CHEM 143"
+        ]
+      ],
+      "sourceUrl": "https://www.washington.edu/students/crscat/chem.html"
+    },
+    "CHEM 145": {
+      "title": "Honors General Chemistry",
+      "credits": "5",
+      "areas": "NSc, RSN",
+      "offered": "Autumn",
+      "description": "First course in UW's honors general chemistry sequence, covering CHEM 142 topics with greater mathematical rigor.",
+      "prerequisiteGroups": [],
+      "sourceUrl": "https://www.washington.edu/students/crscat/chem.html",
+      "otherPrerequisites": "Entry can be based on MATH 124 or MATH 134 (which may be concurrent), the Honors General Chemistry placement exam, AP Chemistry, or IB Higher Level Chemistry. Check the current score thresholds."
+    },
+    "CHEM 155": {
+      "title": "Honors General Chemistry",
+      "credits": "5",
+      "areas": "NSc, RSN",
+      "offered": "Winter",
+      "description": "Second course in UW's honors general chemistry sequence, overlapping CHEM 152.",
+      "prerequisiteGroups": [
+        [
+          "CHEM 145"
+        ]
+      ],
+      "sourceUrl": "https://www.washington.edu/students/crscat/chem.html"
+    },
+    "CHEM 165": {
+      "title": "Honors General Chemistry",
+      "credits": "5",
+      "areas": "NSc, RSN",
+      "offered": "Spring",
+      "description": "Third course in UW's honors general chemistry sequence, overlapping CHEM 162. It is shown for sequence completeness but is not required for the BSME chemistry minimum.",
+      "prerequisiteGroups": [
+        [
+          "CHEM 155"
+        ]
+      ],
+      "sourceUrl": "https://www.washington.edu/students/crscat/chem.html"
+    },
+    "PHYS 121": {
+      "title": "Mechanics",
+      "credits": "5",
+      "prerequisiteGroups": [
+        [
+          "MATH 124",
+          "MATH 134"
+        ]
+      ]
+    },
+    "PHYS 122": {
+      "title": "Electromagnetism",
+      "credits": "5",
+      "prerequisiteGroups": [
+        [
+          "MATH 125",
+          "MATH 134"
+        ],
+        [
+          "PHYS 121",
+          "PHYS 141"
+        ]
+      ]
+    },
+    "PHYS 123": {
+      "title": "Waves",
+      "credits": "5",
+      "prerequisiteGroups": [
+        [
+          "MATH 126",
+          "MATH 134"
+        ],
+        [
+          "PHYS 122",
+          "PHYS 142"
+        ]
+      ]
+    },
+    "PHYS 141": {
+      "title": "Honors Mechanics",
+      "credits": "5",
+      "areas": "NSc",
+      "offered": "Autumn",
+      "description": "Honors version of calculus-based mechanics, covering PHYS 121 material in greater depth.",
+      "prerequisiteGroups": [
+        [
+          "MATH 124",
+          "MATH 134"
+        ]
+      ],
+      "sourceUrl": "https://www.washington.edu/students/crscat/phys.html",
+      "otherPrerequisites": "AP Calculus scores can also provide entry; high-school physics is recommended. Check the current grade and score thresholds."
+    },
+    "PHYS 142": {
+      "title": "Honors Electromagnetism",
+      "credits": "5",
+      "areas": "NSc",
+      "offered": "Winter",
+      "description": "Honors version of calculus-based electromagnetism, covering PHYS 122 material in greater depth.",
+      "prerequisiteGroups": [
+        [
+          "PHYS 141"
+        ],
+        [
+          "MATH 125",
+          "MATH 134"
+        ]
+      ],
+      "sourceUrl": "https://www.washington.edu/students/crscat/phys.html"
+    },
+    "PHYS 143": {
+      "title": "Honors Waves, Light and Heat",
+      "credits": "5",
+      "areas": "NSc",
+      "offered": "Spring",
+      "description": "Honors version of waves, optics, and thermodynamics, covering PHYS 123 material in greater depth.",
+      "prerequisiteGroups": [
+        [
+          "PHYS 142"
+        ],
+        [
+          "MATH 126",
+          "MATH 135"
+        ]
+      ],
+      "sourceUrl": "https://www.washington.edu/students/crscat/phys.html"
+    },
+    "ENGR 101": {
+      "title": "Engineering Exploration",
+      "credits": "1",
+      "prerequisiteGroups": []
+    },
+    "GEN ST 199": {
+      "title": "The University Community",
+      "credits": "1",
+      "prerequisiteGroups": []
+    },
+    "AMATH 301": {
+      "title": "Beginning Scientific Computing",
+      "credits": "4",
+      "prerequisiteGroups": [
+        [
+          "MATH 125",
+          "Q SCI 292",
+          "MATH 135"
+        ]
+      ]
+    },
+    "AA 210": {
+      "title": "Engineering Statics",
+      "credits": "4",
+      "prerequisiteGroups": [
+        [
+          "MATH 126",
+          "MATH 136"
+        ],
+        [
+          "PHYS 121",
+          "PHYS 141"
+        ]
+      ]
+    },
+    "CEE 220": {
+      "title": "Introduction to Mechanics of Materials",
+      "credits": "4",
+      "prerequisiteGroups": [
+        [
+          "AA 210"
+        ]
+      ]
+    },
+    "ME 123": {
+      "title": "Introduction to Visualization and Computer-Aided Design",
+      "credits": "4",
+      "areas": "A&H",
+      "prerequisiteGroups": [
+        [
+          "MATH 125",
+          "MATH 135"
+        ]
+      ]
+    },
+    "ME 230": {
+      "title": "Kinematics and Dynamics",
+      "credits": "4",
+      "prerequisiteGroups": [
+        [
+          "AA 210"
+        ]
+      ]
+    },
+    "MSE 170": {
+      "title": "Fundamentals of Materials Science",
+      "credits": "4",
+      "prerequisiteGroups": [
+        [
+          "CHEM 142",
+          "CHEM 143",
+          "CHEM 145"
+        ]
+      ]
+    },
+    "EE 215": {
+      "title": "Fundamentals of Electrical Engineering",
+      "credits": "4",
+      "prerequisiteGroups": [
+        [
+          "MATH 126",
+          "MATH 136"
+        ],
+        [
+          "MATH 207",
+          "AMATH 351"
+        ],
+        [
+          "PHYS 122",
+          "PHYS 142"
+        ]
+      ]
+    }
+  },
+  "prerequisiteSubstitutions": {
+    "MATH 124": [
+      "MATH 134"
+    ],
+    "MATH 125": [
+      "MATH 135",
+      "MATH 136"
+    ],
+    "MATH 126": [
+      "MATH 136"
+    ],
+    "MATH 207": [
+      "MATH 136"
+    ],
+    "MATH 208": [
+      "MATH 136"
+    ],
+    "PHYS 121": [
+      "PHYS 141"
+    ],
+    "PHYS 122": [
+      "PHYS 142"
+    ],
+    "PHYS 123": [
+      "PHYS 143"
+    ],
+    "CHEM 142": [
+      "CHEM 143",
+      "CHEM 145"
+    ],
+    "CHEM 152": [
+      "CHEM 153",
+      "CHEM 155"
+    ]
+  },
+  "mapGroups": [
+    {
+      "id": "placement",
+      "label": "ENGRUD Placement",
+      "credits": "After Year 1",
+      "courses": [],
+      "requirementRefs": [
+        {
+          "id": "engrud-placement",
+          "scope": "requirement",
+          "label": "ENGRUD placement checkpoint",
+          "credits": "After Year 1"
+        }
+      ]
+    },
+    {
+      "id": "efig",
+      "label": "Engineering First-year Interest Group",
+      "credits": "2 cr",
+      "courses": [
+        "ENGR 101",
+        "GEN ST 199"
+      ]
+    },
+    {
+      "id": "math",
+      "label": "Mathematics",
+      "credits": "24–28 cr",
+      "courses": [
+        "MATH 124",
+        "MATH 125",
+        "MATH 126",
+        "MATH 134",
+        "MATH 135",
+        "MATH 136",
+        "MATH 207",
+        "AMATH 351",
+        "MATH 208",
+        "AMATH 352",
+        "IND E 315",
+        "STAT 390",
+        "Q SCI 381"
+      ]
+    },
+    {
+      "id": "science",
+      "label": "Sciences",
+      "credits": "28–30 cr",
+      "courses": [
+        "CHEM 142",
+        "CHEM 152",
+        "CHEM 143",
+        "CHEM 153",
+        "CHEM 145",
+        "CHEM 155",
+        "PHYS 121",
+        "PHYS 122",
+        "PHYS 123",
+        "PHYS 141",
+        "PHYS 142",
+        "PHYS 143"
+      ]
+    },
+    {
+      "id": "general-education",
+      "label": "General Education Requirements",
+      "credits": "29–41 cr",
+      "courses": [],
+      "requirementRefs": [
+        {
+          "id": "english-comp",
+          "scope": "item",
+          "label": "English Composition",
+          "credits": "5 cr"
+        },
+        {
+          "id": "writing",
+          "scope": "item",
+          "label": "Writing",
+          "credits": "7 cr"
+        },
+        {
+          "id": "ah",
+          "scope": "item",
+          "label": "Arts & Humanities",
+          "credits": "10 cr"
+        },
+        {
+          "id": "ssc",
+          "scope": "item",
+          "label": "Social Sciences",
+          "credits": "10 cr"
+        },
+        {
+          "id": "areas-extra",
+          "scope": "item",
+          "label": "Additional A&H or SSc",
+          "credits": "4 cr"
+        },
+        {
+          "id": "div",
+          "scope": "item",
+          "label": "Diversity",
+          "credits": "5 cr"
+        }
+      ]
+    },
+    {
+      "id": "economics",
+      "label": "Economics",
+      "credits": "4–5 cr",
+      "courses": [
+        "ECON 200",
+        "IND E 250",
+        "ESRM 235",
+        "ECON 235",
+        "ENVIR 235"
+      ]
+    },
+    {
+      "id": "fundamentals",
+      "label": "Engineering Fundamentals",
+      "credits": "16 cr",
+      "courses": [
+        "AMATH 301",
+        "CSE 121",
+        "CSE 122",
+        "CSE 123",
+        "CSE 160",
+        "AA 210",
+        "CEE 220",
+        "ME 230"
+      ]
+    },
+    {
+      "id": "core",
+      "label": "Major Core Requirements",
+      "credits": "40 cr",
+      "courses": [
+        "CEE 307",
+        "CEE 317",
+        "CEE 327",
+        "CEE 337",
+        "CEE 347",
+        "CEE 357",
+        "CEE 367",
+        "CEE 377"
+      ]
+    },
+    {
+      "id": "practice",
+      "label": "Professional Practice",
+      "credits": "2 cr",
+      "courses": [
+        "CEE 200"
+      ]
+    },
+    {
+      "id": "capstone",
+      "label": "Capstone",
+      "credits": "5 cr",
+      "courses": [
+        "CEE 441",
+        "CEE 442",
+        "CEE 444",
+        "CEE 445"
+      ]
+    },
+    {
+      "id": "tech",
+      "label": "Civil Engineering Technical Electives",
+      "credits": "15 cr",
+      "courses": [],
+      "requirementRefs": [
+        {
+          "id": "cive-tech",
+          "scope": "requirement",
+          "label": "Approved CEE technical elective credits",
+          "credits": "15 cr"
+        }
+      ]
+    },
+    {
+      "id": "engineering-science",
+      "label": "Engineering & Science Electives",
+      "credits": "12–14 cr",
+      "courses": [],
+      "requirementRefs": [
+        {
+          "id": "cive-es",
+          "scope": "requirement",
+          "label": "Approved engineering and science elective credits",
+          "credits": "12–14 cr"
+        }
+      ]
+    },
+    {
+      "id": "free",
+      "label": "Free Electives",
+      "credits": "To reach 180 cr",
+      "courses": [],
+      "requirementRefs": [
+        {
+          "id": "total",
+          "scope": "requirement",
+          "label": "Total degree credits",
+          "credits": "180 cr"
+        }
+      ]
+    }
+  ],
+  "requirements": [
+    {
+      "id": "engrud-placement",
+      "title": "ENGRUD Placement Checkpoint",
+      "displayCredits": "After Year 1",
+      "targetCredits": 0,
+      "type": "group",
+      "note": "Placement requirements are shown separately but also count toward degree requirements.",
+      "items": [
+        {
+          "id": "placement-engr101",
+          "label": "Engineering exploration",
+          "type": "all",
+          "courses": [
+            "ENGR 101"
+          ]
+        },
+        {
+          "id": "placement-calculus",
+          "label": "Calculus preparation",
+          "type": "path-choice",
+          "paths": [
+            {
+              "label": "Standard calculus",
+              "courses": [
+                "MATH 124",
+                "MATH 125",
+                "MATH 126"
+              ]
+            },
+            {
+              "label": "Accelerated honors mathematics",
+              "courses": [
+                "MATH 134",
+                "MATH 135",
+                "MATH 136"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "placement-chemistry",
+          "label": "First chemistry course",
+          "type": "one",
+          "courses": [
+            "CHEM 142",
+            "CHEM 143",
+            "CHEM 145"
+          ]
+        },
+        {
+          "id": "placement-physics",
+          "label": "First calculus-based physics course",
+          "type": "one",
+          "courses": [
+            "PHYS 121",
+            "PHYS 141"
+          ]
+        },
+        {
+          "id": "placement-composition",
+          "label": "English Composition",
+          "type": "bucket",
+          "targetCredits": 5,
+          "area": "C"
+        },
+        {
+          "id": "placement-additional",
+          "label": "Additional placement course",
+          "type": "one",
+          "courses": [
+            "AMATH 301",
+            "CHEM 152",
+            "CSE 122",
+            "ME 123",
+            "MSE 170",
+            "PHYS 122",
+            "PHYS 123"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "efig",
+      "title": "Engineering First-year Interest Group (E-FIG)",
+      "displayCredits": "2 cr",
+      "targetCredits": 2,
+      "type": "group",
+      "items": [
+        {
+          "id": "efig-courses",
+          "label": "E-FIG courses",
+          "type": "all",
+          "courses": [
+            "ENGR 101",
+            "GEN ST 199"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "math",
+      "title": "Mathematics",
+      "displayCredits": "24–28 cr",
+      "targetCredits": 24,
+      "type": "group",
+      "items": [
+        {
+          "id": "calc-sequence",
+          "label": "Calculus sequence",
+          "type": "path-choice",
+          "paths": [
+            {
+              "label": "Standard calculus",
+              "courses": [
+                "MATH 124",
+                "MATH 125",
+                "MATH 126"
+              ]
+            },
+            {
+              "label": "Accelerated honors mathematics",
+              "courses": [
+                "MATH 134",
+                "MATH 135",
+                "MATH 136"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "differential-equations",
+          "label": "Differential equations",
+          "type": "path-choice",
+          "paths": [
+            {
+              "label": "MATH 207",
+              "courses": [
+                "MATH 207"
+              ]
+            },
+            {
+              "label": "AMATH 351",
+              "courses": [
+                "AMATH 351"
+              ]
+            },
+            {
+              "label": "Included in MATH 134–136",
+              "courses": [
+                "MATH 134",
+                "MATH 135",
+                "MATH 136"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "linear-algebra",
+          "label": "Linear algebra",
+          "type": "path-choice",
+          "paths": [
+            {
+              "label": "MATH 208",
+              "courses": [
+                "MATH 208"
+              ]
+            },
+            {
+              "label": "AMATH 352",
+              "courses": [
+                "AMATH 352"
+              ]
+            },
+            {
+              "label": "Included in MATH 134–136",
+              "courses": [
+                "MATH 134",
+                "MATH 135",
+                "MATH 136"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "statistics",
+          "label": "Approved probability or statistics",
+          "type": "one",
+          "courses": [
+            "IND E 315",
+            "STAT 390",
+            "Q SCI 381"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "science",
+      "title": "Sciences",
+      "displayCredits": "28–30 cr",
+      "targetCredits": 28,
+      "type": "group",
+      "items": [
+        {
+          "id": "chemistry",
+          "label": "General chemistry",
+          "type": "path-choice",
+          "paths": [
+            {
+              "label": "Standard chemistry",
+              "courses": [
+                "CHEM 142",
+                "CHEM 152"
+              ]
+            },
+            {
+              "label": "Accelerated chemistry",
+              "courses": [
+                "CHEM 143",
+                "CHEM 153"
+              ]
+            },
+            {
+              "label": "Honors chemistry",
+              "courses": [
+                "CHEM 145",
+                "CHEM 155"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "physics",
+          "label": "Calculus-based physics",
+          "type": "path-choice",
+          "paths": [
+            {
+              "label": "Standard physics",
+              "courses": [
+                "PHYS 121",
+                "PHYS 122",
+                "PHYS 123"
+              ]
+            },
+            {
+              "label": "Honors physics",
+              "courses": [
+                "PHYS 141",
+                "PHYS 142",
+                "PHYS 143"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "basic-science",
+          "label": "Approved basic science elective",
+          "type": "bucket",
+          "targetCredits": 3,
+          "area": "NSc"
+        }
+      ]
+    },
+    {
+      "id": "gen-ed",
+      "title": "General Education Requirements",
+      "displayCredits": "29–41 cr",
+      "targetCredits": 0,
+      "type": "group",
+      "items": [
+        {
+          "id": "english-comp",
+          "label": "English Composition",
+          "type": "bucket",
+          "targetCredits": 5,
+          "area": "C"
+        },
+        {
+          "id": "writing",
+          "label": "Writing",
+          "type": "bucket",
+          "targetCredits": 7,
+          "area": "W"
+        },
+        {
+          "id": "ah",
+          "label": "Arts & Humanities",
+          "type": "bucket",
+          "targetCredits": 10,
+          "area": "A&H"
+        },
+        {
+          "id": "ssc",
+          "label": "Social Sciences",
+          "type": "bucket",
+          "targetCredits": 10,
+          "area": "SSc"
+        },
+        {
+          "id": "areas-extra",
+          "label": "Additional Arts & Humanities or Social Sciences",
+          "type": "additional-bucket",
+          "targetCredits": 4,
+          "baseCredits": 20,
+          "area": "A&H/SSc"
+        },
+        {
+          "id": "div",
+          "label": "Diversity",
+          "type": "bucket",
+          "targetCredits": 5,
+          "area": "DIV",
+          "note": "May overlap with Areas of Inquiry or Writing."
+        }
+      ]
+    },
+    {
+      "id": "economics",
+      "title": "Economics",
+      "displayCredits": "4–5 cr",
+      "targetCredits": 4,
+      "type": "group",
+      "items": [
+        {
+          "id": "economics-choice",
+          "label": "Economics requirement",
+          "type": "one",
+          "courses": [
+            "ECON 200",
+            "IND E 250",
+            "ESRM 235",
+            "ECON 235",
+            "ENVIR 235"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fundamentals",
+      "title": "Engineering Fundamentals",
+      "displayCredits": "16 cr",
+      "targetCredits": 16,
+      "type": "group",
+      "items": [
+        {
+          "id": "programming",
+          "label": "Programming",
+          "type": "one",
+          "courses": [
+            "AMATH 301",
+            "CSE 121",
+            "CSE 122",
+            "CSE 123",
+            "CSE 160"
+          ]
+        },
+        {
+          "id": "fund-fixed",
+          "label": "Mechanics fundamentals",
+          "type": "all",
+          "courses": [
+            "AA 210",
+            "CEE 220",
+            "ME 230"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "core",
+      "title": "Major Core Requirements",
+      "displayCredits": "40 cr",
+      "targetCredits": 40,
+      "type": "group",
+      "items": [
+        {
+          "id": "cive-core",
+          "label": "Required Civil Engineering core",
+          "type": "all",
+          "courses": [
+            "CEE 307",
+            "CEE 317",
+            "CEE 327",
+            "CEE 337",
+            "CEE 347",
+            "CEE 357",
+            "CEE 367",
+            "CEE 377"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "practice",
+      "title": "Professional Practice",
+      "displayCredits": "2 cr",
+      "targetCredits": 2,
+      "type": "group",
+      "items": [
+        {
+          "id": "cee200",
+          "label": "Introduction to Civil and Environmental Engineering",
+          "type": "all",
+          "courses": [
+            "CEE 200"
+          ]
+        }
+      ],
+      "note": "The overview page lists this as a 2-credit section while CEE 200 is shown as 1 credit; confirm the current department rule."
+    },
+    {
+      "id": "capstone",
+      "title": "Capstone",
+      "displayCredits": "5 cr",
+      "targetCredits": 5,
+      "type": "group",
+      "items": [
+        {
+          "id": "capstone-choice",
+          "label": "Capstone design project",
+          "type": "one",
+          "courses": [
+            "CEE 441",
+            "CEE 442",
+            "CEE 444",
+            "CEE 445"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cive-tech",
+      "title": "Civil Engineering Technical Electives",
+      "displayCredits": "15 cr",
+      "targetCredits": 15,
+      "type": "manual",
+      "manualLabel": "Approved CEE technical elective credits completed",
+      "note": "Use approved 400-level courses from at least three separate Civil Engineering areas of concentration."
+    },
+    {
+      "id": "cive-es",
+      "title": "Engineering and Science Electives",
+      "displayCredits": "12–14 cr",
+      "targetCredits": 12,
+      "type": "manual",
+      "manualLabel": "Approved engineering and science elective credits completed",
+      "maxCredits": 14,
+      "note": "Use the current department-approved list. A maximum of 3 credits of CEE 499 may apply."
+    },
+    {
+      "id": "total",
+      "title": "Total Degree Credits",
+      "displayCredits": "180 cr",
+      "targetCredits": 180,
+      "type": "total",
+      "note": "Free electives and other approved coursework bring the degree total to 180 credits."
+    }
+  ],
+  "samplePlan": {
+    "name": "Official AUT26 sample four-year plan",
+    "quarters": {
+      "y1-autumn": [
+        "MATH 124",
+        "CHEM 142",
+        "ENGR 101",
+        "GEN ST 199",
+        "SLOT:A&H / SSc"
+      ],
+      "y1-winter": [
+        "MATH 125",
+        "CHEM 152",
+        "SLOT:Social Sciences"
+      ],
+      "y1-spring": [
+        "MATH 126",
+        "PHYS 121",
+        "SLOT:English Composition"
+      ],
+      "y2-autumn": [
+        "MATH 208",
+        "PHYS 122",
+        "AA 210",
+        "IND E 250"
+      ],
+      "y2-winter": [
+        "MATH 207",
+        "PHYS 123",
+        "CEE 220"
+      ],
+      "y2-spring": [
+        "AMATH 301",
+        "IND E 315",
+        "ME 230",
+        "SLOT:SSc and DIV"
+      ],
+      "y3-autumn": [
+        "CEE 317",
+        "CEE 337",
+        "CEE 377",
+        "CEE 200"
+      ],
+      "y3-winter": [
+        "CEE 307",
+        "CEE 347",
+        "CEE 357"
+      ],
+      "y3-spring": [
+        "CEE 327",
+        "CEE 367",
+        "SLOT:CEE Technical Elective"
+      ],
+      "y4-autumn": [
+        "SLOT:CEE Technical Elective",
+        "SLOT:CEE Technical Elective",
+        "SLOT:CEE Technical Elective",
+        "SLOT:Upper-Division Engineering & Science Elective"
+      ],
+      "y4-winter": [
+        "SLOT:Upper-Division Engineering & Science Elective",
+        "SLOT:CEE Technical Elective",
+        "SLOT:Basic Science Elective",
+        "SLOT:A&H / SSc with Writing"
+      ],
+      "y4-spring": [
+        "SLOT:CEE Capstone",
+        "SLOT:Upper-Division Engineering & Science Elective",
+        "SLOT:Upper-Division Engineering & Science Elective",
+        "SLOT:A&H with Writing"
+      ]
+    }
+  }
+}
