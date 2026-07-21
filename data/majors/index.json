@@ -76,8 +76,8 @@
       "id": "uw-seattle-mse",
       "name": "Materials Science & Engineering",
       "degree": "BSMSE",
-      "status": "future",
-      "file": null,
+      "status": "complete",
+      "file": "materials-science-engineering.json",
       "source": "https://www.engr.washington.edu/current/academics/4-year-plans/mse-degree-requirements"
     }
   ]
