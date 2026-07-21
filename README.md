@@ -25,13 +25,3 @@ py server.py --sync-only
 ```
 
 This writes `data/catalog-live.json`. The website uses that file when present and otherwise uses `data/catalog-fallback.json`.
-
-## Deploy with Vercel
-
-1. Upload this complete folder to a GitHub repository.
-2. In Vercel, import the repository.
-3. Choose **Other** as the framework preset.
-4. Leave Build Command, Install Command, and Output Directory blank.
-5. Deploy.
-
-The website is static on Vercel. `server.py` is only for local development and catalog refreshes.
