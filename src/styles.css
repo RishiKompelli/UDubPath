@@ -1042,3 +1042,309 @@ footer { padding: 22px 28px 40px; color: var(--muted); font-size: 11px; text-ali
   .combination-course-grid, .combination-audits { grid-template-columns: 1fr; }
   .degree-combination-banner { margin: 10px 12px 0; align-items: flex-start; flex-direction: column; }
 }
+
+/* REQUIREMENT_COURSE_BROWSER_V1 */
+.catalog-requirement-banner {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 18px;
+  margin-bottom: 14px;
+  padding: 18px;
+  border: 1px solid color-mix(in srgb, var(--uw-purple) 32%, var(--line));
+  background:
+    linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--uw-purple) 8%, white),
+      color-mix(in srgb, var(--uw-gold) 8%, white)
+    );
+}
+
+.catalog-requirement-banner[hidden] {
+  display: none;
+}
+
+.catalog-requirement-copy {
+  min-width: 0;
+}
+
+.catalog-requirement-copy h2 {
+  margin: 3px 0 5px;
+  color: var(--uw-purple);
+  font-size: 20px;
+}
+
+.catalog-requirement-copy p {
+  max-width: 850px;
+  margin: 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.catalog-requirement-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 11px;
+}
+
+.catalog-requirement-chip,
+.catalog-match-note {
+  display: inline-flex;
+  align-items: center;
+  min-height: 23px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--uw-purple) 10%, white);
+  color: var(--uw-purple);
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.catalog-card-description {
+  display: -webkit-box;
+  min-height: 47px;
+  margin-top: 8px;
+  overflow: hidden;
+  color: var(--muted);
+  font-size: 10.5px;
+  line-height: 1.48;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+}
+
+.catalog-card .catalog-match-note {
+  margin-top: 9px;
+}
+
+.catalog-actions.requirement-active {
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.catalog-action-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.requirement-use-button {
+  white-space: nowrap;
+}
+
+.requirement-browse-row {
+  display: flex;
+  justify-content: flex-start;
+  margin: 8px 0 2px;
+}
+
+.requirement-browse-button {
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: var(--uw-purple);
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: 800;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.requirement-browse-button:hover {
+  color: color-mix(in srgb, var(--uw-purple) 78%, black);
+}
+
+.catalog-requirement-use-panel {
+  border: 1px solid color-mix(in srgb, var(--uw-purple) 28%, var(--line));
+  border-radius: 12px;
+  padding: 12px;
+  background: color-mix(in srgb, var(--uw-purple) 6%, white);
+}
+
+.catalog-requirement-use-panel p {
+  margin: 3px 0 10px;
+}
+
+@media (max-width: 760px) {
+  .catalog-requirement-banner {
+    flex-direction: column;
+  }
+}
+
+#catalog-result-count.requirement-filter-count {
+  display: block;
+  width: 100%;
+  margin: 14px 0 18px;
+  padding: 18px 20px;
+
+  border: 2px solid var(--uw-purple);
+  border-radius: 14px;
+
+  background: rgba(75, 46, 131, 0.08);
+  box-shadow: 0 8px 22px rgba(48, 25, 83, 0.12);
+
+  color: var(--uw-purple);
+  font-size: 19px;
+  font-weight: 900;
+  line-height: 1.5;
+}
+
+.catalog-toolbar.catalog-toolbar-top {
+  display: grid;
+  align-items: stretch;
+  gap: 14px;
+
+  width: 100%;
+  padding: 17px;
+  margin-bottom: 16px;
+}
+
+.catalog-search-row {
+  display: grid;
+  grid-template-columns:
+    minmax(320px, 1fr)
+    minmax(180px, 240px)
+    auto;
+  gap: 11px;
+  align-items: end;
+}
+
+.catalog-search-row .catalog-search {
+  width: 100%;
+  min-height: 44px;
+}
+
+.catalog-search-row .catalog-search input {
+  width: 100%;
+  font-size: 13px;
+}
+
+.catalog-filter-row {
+  display: grid;
+  grid-template-columns:
+    repeat(4, minmax(130px, 1fr))
+    minmax(170px, 1.2fr);
+  gap: 11px;
+  align-items: end;
+}
+
+.catalog-filter-field {
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+}
+
+.catalog-filter-field > span {
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 850;
+  letter-spacing: 0.055em;
+  text-transform: uppercase;
+}
+
+.catalog-filter-field input,
+.catalog-filter-field select {
+  width: 100%;
+  min-width: 0;
+  height: 43px;
+  padding: 0 11px;
+
+  border: 1px solid var(--line);
+  border-radius: 9px;
+
+  background: white;
+  color: var(--ink);
+  outline: none;
+}
+
+.catalog-filter-field input:focus,
+.catalog-filter-field select:focus {
+  border-color: var(--uw-purple);
+  box-shadow: 0 0 0 3px rgba(75, 46, 131, 0.12);
+}
+
+/* Override the old 160px minimum on catalog selects. */
+.catalog-toolbar-top select {
+  min-width: 0;
+}
+
+.course-code-field input {
+  height: 43px;
+}
+
+.catalog-clear-all {
+  min-height: 43px;
+  padding-inline: 16px;
+  white-space: nowrap;
+}
+
+.catalog-department-field {
+  min-width: 0;
+}
+
+/* Show course results as readable full-width rows. */
+.catalog-grid {
+  grid-template-columns: 1fr;
+}
+
+.catalog-card {
+  min-height: 0;
+  padding: 16px;
+}
+
+/* Keep the requirement filter visually separate from search filters. */
+#catalog-result-count.requirement-filter-count {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+
+  width: 100%;
+  margin: 0 0 16px;
+  padding: 17px 19px;
+
+  border: 2px solid var(--uw-purple);
+  border-radius: 14px;
+
+  background: rgba(75, 46, 131, 0.08);
+  box-shadow: 0 8px 22px rgba(48, 25, 83, 0.1);
+}
+
+@media (max-width: 1150px) {
+  .catalog-search-row {
+    grid-template-columns: minmax(260px, 1fr) minmax(170px, 220px);
+  }
+
+  .catalog-clear-all {
+    grid-column: 1 / -1;
+    justify-self: end;
+  }
+
+  .catalog-filter-row {
+    grid-template-columns: repeat(3, minmax(150px, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .catalog-toolbar.catalog-toolbar-top {
+    padding: 13px;
+  }
+
+  .catalog-search-row,
+  .catalog-filter-row {
+    grid-template-columns: 1fr;
+  }
+
+  .catalog-clear-all {
+    grid-column: auto;
+    justify-self: stretch;
+    width: 100%;
+  }
+
+  #catalog-result-count.requirement-filter-count {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}

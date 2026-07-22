@@ -261,14 +261,129 @@
         </div>
       </div>
 
-      <div class="catalog-toolbar card-surface">
-        <label class="search-box catalog-search">
-          <span aria-hidden="true">⌕</span>
-          <input id="catalog-search" type="search" placeholder="Search all UW courses, for example robotics, CSE 142, or thermodynamics">
-        </label>
-        <select id="campus-filter" aria-label="Campus filter"><option value="all">All campuses</option></select>
-        <select id="department-filter" aria-label="Department filter"><option value="all">All departments</option></select>
-      </div>
+      <!-- REQUIREMENT_COURSE_BROWSER_V1 -->
+      <section id="catalog-requirement-banner" class="catalog-requirement-banner card-surface" hidden>
+        <div class="catalog-requirement-copy">
+          <div class="eyebrow">FIND A COURSE FOR THIS REQUIREMENT</div>
+          <h2 id="catalog-requirement-title"></h2>
+          <p id="catalog-requirement-description"></p>
+          <div id="catalog-requirement-meta" class="catalog-requirement-meta"></div>
+        </div>
+        <button id="catalog-requirement-clear" class="button secondary" type="button">
+          Clear requirement filter
+        </button>
+      </section>
+
+<div class="catalog-toolbar catalog-toolbar-top card-surface">
+  <div class="catalog-search-row">
+    <label class="search-box catalog-search">
+      <span aria-hidden="true">⌕</span>
+
+      <input
+        id="catalog-search"
+        type="search"
+        placeholder="Search title, description, topic, or prerequisite..."
+      >
+    </label>
+
+    <label class="catalog-filter-field course-code-field">
+      <span>Course code</span>
+
+      <input
+        id="course-code-filter"
+        type="search"
+        placeholder="e.g. CSE 142"
+        autocomplete="off"
+      >
+    </label>
+
+    <button
+      id="clear-course-filters"
+      class="button secondary catalog-clear-all"
+      type="button"
+    >
+      Clear search filters
+    </button>
+  </div>
+
+  <div class="catalog-filter-row">
+    <label class="catalog-filter-field">
+      <span>Course level</span>
+
+      <select id="course-level-filter">
+        <option value="all">Any level</option>
+        <option value="100">100-level</option>
+        <option value="200">200-level</option>
+        <option value="300">300-level</option>
+        <option value="400">400-level</option>
+        <option value="500">500-level</option>
+        <option value="600">600-level or above</option>
+      </select>
+    </label>
+
+    <label class="catalog-filter-field">
+      <span>Credits</span>
+
+      <select id="credit-filter">
+        <option value="all">Any credits</option>
+        <option value="1">1 credit</option>
+        <option value="2">2 credits</option>
+        <option value="3">3 credits</option>
+        <option value="4">4 credits</option>
+        <option value="5">5 credits</option>
+        <option value="6">6 credits</option>
+        <option value="more-than-5">More than 5 credits</option>
+        <option value="variable">Variable credits</option>
+      </select>
+    </label>
+
+    <label class="catalog-filter-field">
+      <span>Gen Ed requirement</span>
+
+      <select id="area-filter">
+        <option value="all">Any requirement</option>
+        <option value="C">Composition</option>
+        <option value="W">Writing</option>
+        <option value="RSN">Reasoning</option>
+        <option value="A&H">Arts & Humanities</option>
+        <option value="SSc">Social Sciences</option>
+        <option value="NSc">Natural Sciences</option>
+        <option value="DIV">Diversity</option>
+      </select>
+    </label>
+
+    <label class="catalog-filter-field">
+      <span>Offered</span>
+
+      <select id="offered-filter">
+        <option value="all">Any quarter</option>
+        <option value="A">Autumn</option>
+        <option value="W">Winter</option>
+        <option value="Sp">Spring</option>
+        <option value="S">Summer</option>
+      </select>
+    </label>
+
+    <label class="catalog-filter-field" hidden>
+      <span>Campus</span>
+      <select
+        id="campus-filter"
+        aria-label="Campus filter"
+        disabled
+      >
+        <option value="Seattle">Seattle</option>
+      </select>
+    </label>
+
+    <label class="catalog-filter-field catalog-department-field">
+      <span>Department</span>
+
+      <select id="department-filter" aria-label="Department filter">
+        <option value="all">All departments</option>
+      </select>
+    </label>
+  </div>
+</div>
 
       <div class="catalog-layout">
         <div>

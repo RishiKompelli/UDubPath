@@ -189,6 +189,7 @@ const app = {
   progress: null,
   selectedCode: null,
   selectedCatalogId: null,
+  catalogRequirementContext: null,
   activeView: "map",
   catalogLimit: 60,
   confirmResolver: null,
@@ -415,7 +416,11 @@ async function initialize() {
 }
 
 function buildCatalogIndexes() {
-  app.courses = Array.isArray(app.catalogPayload?.courses) ? app.catalogPayload.courses : [];
+  app.courses = Array.isArray(app.catalogPayload?.courses)
+    ? app.catalogPayload.courses.filter(
+        (course) => course.campus === "Seattle"
+      )
+    : [];
   app.catalogById.clear();
   app.catalogByCode.clear();
   app.reversePrereqs.clear();
@@ -952,21 +957,429 @@ function populateQuarterSelects(extraQuarterId = null) {
   if (quarters.some((quarter) => quarter.id === previous)) select.value = previous;
 }
 
+function catalogCourseNumber(course) {
+  const text = String(
+    course.number || course.code || ""
+  );
+
+  const match = text.match(/\d{3}/);
+
+  return match
+    ? Number(match[0])
+    : 0;
+}
+
+function catalogCreditInfo(course) {
+  const text = String(course.credits || "")
+    .trim()
+    .replace(/[–—]/g, "-");
+
+  const numbers = [
+    ...text.matchAll(/\d+(?:\.\d+)?/g)
+  ].map((match) => Number(match[0]));
+
+  const variable =
+    text.includes("-")
+    || /\bto\b/i.test(text)
+    || /variable|varies|arranged/i.test(text)
+    || numbers.length > 1;
+
+  return {
+    fixed:
+      !variable && numbers.length === 1
+        ? numbers[0]
+        : null,
+
+    variable,
+
+    numbers
+  };
+}
+
+function courseMatchesLevelFilter(course, selectedLevel) {
+  if (selectedLevel === "all") {
+    return true;
+  }
+
+  const number = catalogCourseNumber(course);
+  const minimum = Number(selectedLevel);
+
+  if (!number) {
+    return false;
+  }
+
+  if (minimum === 900) {
+    return number >= 900;
+  }
+
+  return (
+    number >= minimum
+    && number < minimum + 100
+  );
+}
+
+function courseMatchesCreditFilter(course, selectedCredits) {
+  if (selectedCredits === "all") {
+    return true;
+  }
+
+  const info = catalogCreditInfo(course);
+
+  if (selectedCredits === "variable") {
+    return info.variable;
+  }
+
+  if (selectedCredits === "more-than-5") {
+    return (
+      info.fixed !== null
+      && info.fixed > 5
+    );
+  }
+
+  return info.fixed === Number(selectedCredits);
+}
+
+function offeredQuarterCodes(course) {
+  const values = String(course.offered || "")
+    .replace(/[()[\]]/g, " ")
+    .split(/[\s,;/|]+/)
+    .map((value) => value.trim().toLowerCase())
+    .filter(Boolean);
+
+  const result = new Set();
+
+  for (const value of values) {
+    if (
+      value === "a"
+      || value === "autumn"
+      || value === "fall"
+    ) {
+      result.add("A");
+    }
+
+    if (
+      value === "w"
+      || value === "winter"
+    ) {
+      result.add("W");
+    }
+
+    if (
+      value === "sp"
+      || value === "spring"
+    ) {
+      result.add("Sp");
+    }
+
+    if (
+      value === "s"
+      || value === "su"
+      || value === "summer"
+    ) {
+      result.add("S");
+    }
+  }
+
+  return result;
+}
+
+function courseMatchesOfferedFilter(
+  course,
+  selectedQuarter
+) {
+  if (selectedQuarter === "all") {
+    return true;
+  }
+
+  return offeredQuarterCodes(course).has(
+    selectedQuarter
+  );
+}
+
+function catalogFilterCount(predicate) {
+  return app.courses.filter(predicate).length;
+}
+
+function catalogFilterOption(
+  value,
+  label,
+  count
+) {
+  return `
+    <option value="${escapeHtml(value)}">
+      ${escapeHtml(label)}
+      (${count.toLocaleString()})
+    </option>
+  `;
+}
+
 function populateCatalogFilters() {
-  const campuses = [...new Set(app.courses.map((course) => course.campus).filter(Boolean))].sort();
-  $("#campus-filter").innerHTML = `<option value="all">All campuses</option>${campuses.map((campus) => `<option value="${escapeHtml(campus)}">${escapeHtml(campus)}</option>`).join("")}`;
+  const campusSelect = $("#campus-filter");
+
+  campusSelect.innerHTML = `
+    <option value="Seattle">
+      Seattle campus
+    </option>
+  `;
+
+  campusSelect.value = "Seattle";
+  campusSelect.disabled = true;
+
+  const levels = [
+    ["100", "100-level"],
+    ["200", "200-level"],
+    ["300", "300-level"],
+    ["400", "400-level"],
+    ["500", "500-level"],
+    ["600", "600-level"],
+    ["700", "700-level"],
+    ["800", "800-level"],
+    ["900", "900-level or above"]
+  ];
+
+  const levelSelect = $("#course-level-filter");
+  const previousLevel =
+    levelSelect?.value || "all";
+
+  if (levelSelect) {
+    levelSelect.innerHTML = `
+      <option value="all">
+        Any level (${app.courses.length.toLocaleString()})
+      </option>
+
+      ${levels
+        .map(([value, label]) => {
+          const count = catalogFilterCount(
+            (course) =>
+              courseMatchesLevelFilter(
+                course,
+                value
+              )
+          );
+
+          return catalogFilterOption(
+            value,
+            label,
+            count
+          );
+        })
+        .join("")}
+    `;
+
+    if (
+      previousLevel === "all"
+      || levels.some(
+        ([value]) => value === previousLevel
+      )
+    ) {
+      levelSelect.value = previousLevel;
+    }
+  }
+
+  const creditOptions = [
+    ["1", "1 credit"],
+    ["2", "2 credits"],
+    ["3", "3 credits"],
+    ["4", "4 credits"],
+    ["5", "5 credits"],
+    ["more-than-5", "More than 5 credits"],
+    ["variable", "Variable credits"]
+  ];
+
+  const creditSelect = $("#credit-filter");
+  const previousCredits =
+    creditSelect?.value || "all";
+
+  if (creditSelect) {
+    creditSelect.innerHTML = `
+      <option value="all">
+        Any credits (${app.courses.length.toLocaleString()})
+      </option>
+
+      ${creditOptions
+        .map(([value, label]) => {
+          const count = catalogFilterCount(
+            (course) =>
+              courseMatchesCreditFilter(
+                course,
+                value
+              )
+          );
+
+          return catalogFilterOption(
+            value,
+            label,
+            count
+          );
+        })
+        .join("")}
+    `;
+
+    if (
+      previousCredits === "all"
+      || creditOptions.some(
+        ([value]) => value === previousCredits
+      )
+    ) {
+      creditSelect.value = previousCredits;
+    }
+  }
+
+  const areaOptions = [
+    ["C", "Composition"],
+    ["W", "Writing"],
+    ["RSN", "Reasoning"],
+    ["A&H", "Arts & Humanities"],
+    ["SSc", "Social Sciences"],
+    ["NSc", "Natural Sciences"],
+    ["DIV", "Diversity"]
+  ];
+
+  const areaSelect = $("#area-filter");
+  const previousArea =
+    areaSelect?.value || "all";
+
+  if (areaSelect) {
+    areaSelect.innerHTML = `
+      <option value="all">
+        Any requirement (${app.courses.length.toLocaleString()})
+      </option>
+
+      ${areaOptions
+        .map(([value, label]) => {
+          const count = catalogFilterCount(
+            (course) => areaMatches(course, value)
+          );
+
+          return catalogFilterOption(
+            value,
+            label,
+            count
+          );
+        })
+        .join("")}
+    `;
+
+    if (
+      previousArea === "all"
+      || areaOptions.some(
+        ([value]) => value === previousArea
+      )
+    ) {
+      areaSelect.value = previousArea;
+    }
+  }
+
+  const offeredOptions = [
+    ["A", "Autumn"],
+    ["W", "Winter"],
+    ["Sp", "Spring"],
+    ["S", "Summer"]
+  ];
+
+  const offeredSelect = $("#offered-filter");
+  const previousOffered =
+    offeredSelect?.value || "all";
+
+  if (offeredSelect) {
+    offeredSelect.innerHTML = `
+      <option value="all">
+        Any quarter
+      </option>
+
+      ${offeredOptions
+        .map(([value, label]) => {
+          const count = catalogFilterCount(
+            (course) =>
+              courseMatchesOfferedFilter(
+                course,
+                value
+              )
+          );
+
+          return catalogFilterOption(
+            value,
+            label,
+            count
+          );
+        })
+        .join("")}
+    `;
+
+    if (
+      previousOffered === "all"
+      || offeredOptions.some(
+        ([value]) => value === previousOffered
+      )
+    ) {
+      offeredSelect.value = previousOffered;
+    }
+  }
+
   updateDepartmentFilter();
 }
 
 function updateDepartmentFilter() {
-  const campus = $("#campus-filter").value || "all";
-  const current = $("#department-filter").value;
-  const departments = [...new Set(app.courses
-    .filter((course) => campus === "all" || course.campus === campus)
-    .map((course) => course.department)
-    .filter(Boolean))].sort();
-  $("#department-filter").innerHTML = `<option value="all">All departments</option>${departments.map((department) => `<option value="${escapeHtml(department)}">${escapeHtml(department)}</option>`).join("")}`;
-  if (departments.includes(current)) $("#department-filter").value = current;
+  const departmentSelect =
+    $("#department-filter");
+
+  const current =
+    departmentSelect.value || "all";
+
+  const departments = [
+    ...new Set(
+      app.courses
+        .map((course) => course.department)
+        .filter(Boolean)
+    )
+  ].sort();
+
+  departmentSelect.innerHTML = `
+    <option value="all">
+      All departments
+      (${app.courses.length.toLocaleString()})
+    </option>
+
+    ${departments
+      .map((department) => {
+        const count = app.courses.filter(
+          (course) =>
+            course.department === department
+        ).length;
+
+        return catalogFilterOption(
+          department,
+          department,
+          count
+        );
+      })
+      .join("")}
+  `;
+
+  if (departments.includes(current)) {
+    departmentSelect.value = current;
+  } else {
+    departmentSelect.value = "all";
+  }
+}
+
+function resetCatalogSearchFilters() {
+  $("#catalog-search").value = "";
+  $("#course-code-filter").value = "";
+  $("#course-level-filter").value = "all";
+  $("#credit-filter").value = "all";
+  $("#area-filter").value = "all";
+  $("#offered-filter").value = "all";
+  $("#campus-filter").value = "Seattle";
+
+  updateDepartmentFilter();
+
+  $("#department-filter").value = "all";
+
+  app.catalogLimit = 60;
+  app.selectedCatalogId = null;
+
+  renderCatalog();
 }
 
 function updateDataBadge() {
@@ -1015,6 +1428,7 @@ function bindEvents() {
   $("#course-panel").addEventListener("click", handleCoursePanelClick);
   $("#course-panel").addEventListener("change", handleCoursePanelChange);
 
+  $("#requirements-grid").addEventListener("click", handleRequirementBrowseClick);
   $("#requirements-grid").addEventListener("change", handleRequirementChange);
 
   const plannerSearch = $("#planner-add-search");
@@ -1050,9 +1464,69 @@ function bindEvents() {
   $("#external-credit-table").addEventListener("click", handleCreditClick);
   $("#clear-external-credit").addEventListener("click", clearExternalCredits);
 
-  $("#catalog-search").addEventListener("input", debounce(() => { app.catalogLimit = 60; renderCatalog(); }, 100));
-  $("#campus-filter").addEventListener("change", () => { updateDepartmentFilter(); app.catalogLimit = 60; renderCatalog(); });
-  $("#department-filter").addEventListener("change", () => { app.catalogLimit = 60; renderCatalog(); });
+  const refreshCatalog = () => {
+  app.catalogLimit = 60;
+  app.selectedCatalogId = null;
+  renderCatalog();
+};
+
+  $("#catalog-search").addEventListener(
+    "input",
+    debounce(refreshCatalog, 100)
+  );
+
+  $("#course-code-filter").addEventListener(
+    "input",
+    debounce(refreshCatalog, 100)
+  );
+
+  $("#course-level-filter").addEventListener(
+    "change",
+    refreshCatalog
+  );
+
+  $("#credit-filter").addEventListener(
+    "change",
+    refreshCatalog
+  );
+
+  $("#area-filter").addEventListener(
+    "change",
+    refreshCatalog
+  );
+
+  $("#offered-filter").addEventListener(
+    "change",
+    refreshCatalog
+  );
+
+  $("#department-filter").addEventListener(
+    "change",
+    refreshCatalog
+  );
+
+  $("#clear-course-filters").addEventListener(
+    "click",
+    resetCatalogSearchFilters
+  );
+
+  $("#catalog-requirement-clear").addEventListener(
+    "click",
+    clearCatalogRequirementContext
+  );
+
+  $("#catalog-result-count").addEventListener(
+    "click",
+    (event) => {
+      if (
+        event.target.closest(
+          "#clear-catalog-filter"
+        )
+      ) {
+        clearCatalogRequirementContext();
+      }
+    }
+  );
   $("#catalog-results").addEventListener("click", handleCatalogClick);
   $("#catalog-results").addEventListener("change", handleCatalogChange);
   $("#catalog-panel").addEventListener("click", handleCatalogPanelClick);
@@ -1091,6 +1565,8 @@ async function changeMajor(majorId) {
     await restoreSecondaryMajor();
     app.selectedCode = null;
     app.selectedCatalogId = null;
+    app.catalogRequirementContext = null;
+    app.pendingPlanSlot = null;
     populateGlobalControls();
     renderAll();
     showToast(`${major.name} loaded.`);
@@ -1389,7 +1865,7 @@ function renderMapPlanSlotCard(slot, rawQuery = "") {
       <strong>${escapeHtml(slot.label)}</strong>
       <em>${formatNumber(slot.credits)} cr</em>
     </span>
-    <span class="map-plan-slot-status">${currentlyInPlan ? "Choose course" : "Suggested"} · ${escapeHtml(slot.quarterText)}</span>
+    <span class="map-plan-slot-status">${currentlyInPlan ? "Browse matching courses" : "Browse suggested courses"} · ${escapeHtml(slot.quarterText)}</span>
   </button>`;
 }
 
@@ -1406,6 +1882,387 @@ function openMapPlanSlot(item, quarterId) {
     document.querySelector(`[data-quarter="${quarterId}"]`)?.scrollIntoView({ behavior: "smooth", block: "center" });
   });
 }
+
+
+// REQUIREMENT_COURSE_BROWSER_V1
+function uniqueNormalizedCodes(values) {
+  return [...new Set((values || []).filter(Boolean).map(normalizeCode))];
+}
+
+function requirementAreaRulesFromLabel(label) {
+  const text = String(label || "").toLowerCase();
+  const any = [];
+  const all = [];
+
+  const hasAH = /arts?\s*(?:&|and)\s*humanities|a\s*&\s*h|\bvlpa\b/.test(text);
+  const hasSSc = /social sciences?|\bssc\b|\bi\s*&\s*s\b/.test(text);
+  const hasNSc = /natural sciences?|\bnsc\b/.test(text);
+
+  if (/areas? of inquiry/.test(text)) {
+    any.push("A&H", "SSc", "NSc");
+  } else {
+    const aoi = [
+      hasAH ? "A&H" : "",
+      hasSSc ? "SSc" : "",
+      hasNSc ? "NSc" : ""
+    ].filter(Boolean);
+
+    if (aoi.length > 1) any.push(...aoi);
+    else if (aoi.length === 1) all.push(aoi[0]);
+  }
+
+  if (/composition/.test(text)) all.push("C");
+  if (/additional writing|writing credit|\bwriting\b/.test(text)) all.push("W");
+  if (/diversity|\bdiv\b/.test(text)) all.push("DIV");
+  if (/reasoning|\brsn\b/.test(text)) all.push("RSN");
+
+  return {
+    any: [...new Set(any)],
+    all: [...new Set(all)]
+  };
+}
+
+function requirementLooksLikeLanguage(label) {
+  return /foreign language|world language|language requirement/.test(
+    String(label || "").toLowerCase()
+  );
+}
+
+function requirementLooksBroad(label) {
+  return /free elective|general elective|unassigned|graduation credit|other credit/.test(
+    String(label || "").toLowerCase()
+  );
+}
+
+function languageDepartmentCodes() {
+  return new Set([
+    "ARAB", "ARABIC", "ASL", "CHIN", "CHINESE", "CZECH", "DANISH",
+    "DUTCH", "FINN", "FRENCH", "GERMAN", "GREEK", "HEBR", "HEBREW",
+    "HINDI", "ITAL", "ITALIAN", "JAPAN", "JAPANESE", "KOREAN",
+    "LATIN", "NORW", "PERSIAN", "POLSH", "PORT", "PORTUG",
+    "RUSS", "RUSSIAN", "SPAN", "SPANISH", "SWAHILI", "SWED",
+    "TURKIC", "UKRAIN", "VIET"
+  ]);
+}
+
+function sourceCourseCodes(source) {
+  if (!source) return [];
+
+  const values = [
+    ...(source.courses || []),
+    ...((source.paths || []).flatMap((path) => path.courses || [])),
+    ...((source.items || []).flatMap((item) => sourceCourseCodes(item)))
+  ];
+
+  return uniqueNormalizedCodes(values);
+}
+
+function contextMatchMode(context) {
+  if (context.courseCodes?.length) return "Approved course list";
+  if (context.areaAny?.length || context.areaAll?.length) {
+    const any = context.areaAny?.length ? context.areaAny.join(" or ") : "";
+    const all = context.areaAll?.length ? context.areaAll.join(" + ") : "";
+    return `UW ${[any, all].filter(Boolean).join(" plus ")} designation`;
+  }
+  if (context.language) return "Language-course departments";
+  if (context.departments?.length) return "Approved departments";
+  if (context.minimumLevel) return `${context.minimumLevel}-level or above`;
+  if (context.broad) return "Any applicable UW course";
+  return "Requirement match";
+}
+
+function contextDescription(context) {
+  if (context.courseCodes?.length) {
+    return "Showing the courses explicitly stored in this major's approved requirement or elective pool. Select a card to read the full UW description and prerequisites.";
+  }
+
+  if (context.areaAny?.length || context.areaAll?.length) {
+    return `Showing courses with the UW designation pattern stored for this placeholder. Some program-specific overlap, writing, diversity, and residency rules may still apply.`;
+  }
+
+  if (context.language) {
+    return "Showing likely language courses from UW language departments. Placement, proficiency, high-school preparation, and sequence level can change what you actually need.";
+  }
+
+  if (context.broad) {
+    return "This placeholder can be filled by broad degree credit rather than one fixed approved list. Search the catalog and verify any major, college, residency, and duplicate-credit restrictions.";
+  }
+
+  return "Showing courses that match the stored department, level, or course-list rules for this requirement.";
+}
+
+function catalogContextForSlot(item, quarterId) {
+  const slot = parsePlanSlot(item);
+  if (!slot) return null;
+
+  const definition = slotPoolDefinition(slot);
+  const groups = getVisibleMapGroups();
+  const groupId = chooseMapGroupForPlanSlot(slot, groups);
+  const group = groups.find((entry) => entry.id === groupId);
+
+  const explicitCodes = explicitCourseCodesFromSlotLabel(slot.label);
+  const definitionCodes = definition.courses || [];
+  const groupCodes = group?.courses || [];
+  const courseCodes = uniqueNormalizedCodes([
+    ...explicitCodes,
+    ...definitionCodes,
+    ...groupCodes
+  ]);
+
+  const labelAreaRules = requirementAreaRulesFromLabel(slot.label);
+  const areaAny = (definition.areas || []).length
+    ? [...definition.areas]
+    : labelAreaRules.any;
+  const areaAll = (definition.areas || []).length
+    ? []
+    : labelAreaRules.all;
+  const language = requirementLooksLikeLanguage(slot.label);
+  const broad = requirementLooksBroad(slot.label)
+    || (!courseCodes.length
+      && !areaAny.length
+      && !areaAll.length
+      && !language
+      && !(definition.departments || []).length
+      && !Number(definition.minimumLevel || 0));
+
+  return {
+    kind: "plan-slot",
+    label: slot.label,
+    credits: Number(slot.credits || 0),
+    item,
+    quarterId,
+    quarterLabel: quarterLabel(quarterId),
+    courseCodes,
+    areaAny,
+    areaAll,
+    language,
+    broad,
+    departments: definition.departments || [],
+    minimumLevel: Number(definition.minimumLevel || 0),
+    note: definition.note || "",
+    sourceGroup: group?.label || ""
+  };
+}
+
+function catalogContextForRequirement(id, scope = "item") {
+  const match = findRequirementReference({ id, scope });
+  if (!match) return null;
+
+  const source = match.item || match.requirement;
+  const label = source.label || source.title || match.requirement?.title || "Degree requirement";
+  const courseCodes = sourceCourseCodes(source);
+  const labelAreaRules = requirementAreaRulesFromLabel(label);
+  const areaAny = [];
+  const areaAll = source.area
+    ? [source.area]
+    : labelAreaRules.all;
+  if (!source.area) areaAny.push(...labelAreaRules.any);
+
+  const language = requirementLooksLikeLanguage(label);
+  const broad = requirementLooksBroad(label);
+  const flexibleType = new Set([
+    "one", "count", "count-credit", "count-credit-level",
+    "pool", "bucket", "additional-bucket", "path-choice"
+  ]).has(source.type);
+
+  if (!flexibleType && !areaAny.length && !areaAll.length && !language && !broad) {
+    return null;
+  }
+
+  return {
+    kind: "requirement",
+    label,
+    credits: Number(source.targetCredits || source.minCredits || 0),
+    requirementId: id,
+    requirementScope: scope,
+    courseCodes,
+    areaAny,
+    areaAll,
+    language,
+    broad,
+    departments: source.departments || [],
+    minimumLevel: Number(source.minimumLevel || 0),
+    note: source.note || match.requirement?.note || ""
+  };
+}
+
+function courseMatchesCatalogRequirement(course, context) {
+  if (!context) return true;
+
+  const code = normalizeCode(course.code);
+  const courseCodes = context.courseCodes || [];
+  if (courseCodes.length && !courseCodes.includes(code)) return false;
+
+  if (
+    context.areaAny?.length
+    && !context.areaAny.some((area) => areaMatches(course, area))
+  ) return false;
+
+  if (
+    context.areaAll?.length
+    && !context.areaAll.every((area) => areaMatches(course, area))
+  ) return false;
+
+  if (context.language) {
+    const department = normalizeCode(course.department || code.replace(/\s+\d.*$/, ""));
+    if (!languageDepartmentCodes().has(department)) return false;
+  }
+
+  const departments = (context.departments || []).map(normalizeCode);
+  if (departments.length) {
+    const department = normalizeCode(course.department || code.replace(/\s+\d.*$/, ""));
+    if (!departments.includes(department)) return false;
+  }
+
+  if (context.minimumLevel) {
+    const level = Number(code.match(/\d{3}/)?.[0] || 0);
+    if (level < context.minimumLevel) return false;
+  }
+
+  return true;
+}
+
+function catalogMatchNote(course, context) {
+  if (!context) return "";
+  if (context.courseCodes?.length) return "Listed for this requirement";
+  if (context.areaAny?.length || context.areaAll?.length) {
+    const any = context.areaAny?.length ? context.areaAny.join(" or ") : "";
+    const all = context.areaAll?.length ? context.areaAll.join(" + ") : "";
+    return `${[any, all].filter(Boolean).join(" plus ")} designated`;
+  }
+  if (context.language) return "Possible language course";
+  if (context.departments?.length) return "Approved department";
+  if (context.minimumLevel) return `${context.minimumLevel}+ level`;
+  return "Counts toward broad degree credit";
+}
+
+function renderCatalogRequirementBanner() {
+  const banner = $("#catalog-requirement-banner");
+  if (!banner) return;
+
+  const context = app.catalogRequirementContext;
+  banner.hidden = !context;
+  if (!context) return;
+
+  $("#catalog-requirement-title").textContent = context.label;
+  $("#catalog-requirement-description").textContent =
+    context.note || contextDescription(context);
+
+  const chips = [
+    context.credits ? `${formatNumber(context.credits)} credits` : "",
+    context.quarterLabel || "",
+    contextMatchMode(context),
+    context.sourceGroup || ""
+  ].filter(Boolean);
+
+  $("#catalog-requirement-meta").innerHTML = chips
+    .map((chip) => `<span class="catalog-requirement-chip">${escapeHtml(chip)}</span>`)
+    .join("");
+}
+
+function openCatalogRequirementContext(context) {
+  if (!context) return false;
+
+  app.catalogRequirementContext = context;
+  app.catalogLimit = 60;
+  app.selectedCatalogId = null;
+
+  if (context.kind === "plan-slot") {
+    app.pendingPlanSlot = {
+      item: context.item,
+      quarterId: context.quarterId
+    };
+  } else {
+    clearPendingPlanSlot();
+  }
+
+  const search = $("#catalog-search");
+  if (search) search.value = "";
+
+  const campus = $("#campus-filter");
+  if (campus && [...campus.options].some((option) => option.value === "Seattle")) {
+    campus.value = "Seattle";
+  }
+
+  const department = $("#department-filter");
+  if (department) department.value = "all";
+
+  switchView("catalog");
+
+  const first = filteredCatalogCourses()[0];
+  if (first) app.selectedCatalogId = first.id;
+  renderCatalog();
+
+  requestAnimationFrame(() => {
+    $("#catalog-search")?.focus();
+    $("#catalog-requirement-banner")?.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+  });
+
+  return true;
+}
+
+function browsePlanSlotCourses(item, quarterId) {
+  return openCatalogRequirementContext(
+    catalogContextForSlot(item, quarterId)
+  );
+}
+
+function browseMapRequirement(id, scope) {
+  return openCatalogRequirementContext(
+    catalogContextForRequirement(id, scope)
+  );
+}
+
+function clearCatalogRequirementContext() {
+  const wasPlanSlot = app.catalogRequirementContext?.kind === "plan-slot";
+  app.catalogRequirementContext = null;
+
+  if (wasPlanSlot) clearPendingPlanSlot();
+
+  app.catalogLimit = 60;
+  app.selectedCatalogId = null;
+  renderCatalog();
+  $("#catalog-search")?.focus();
+}
+
+function useCatalogCourseForRequirement(code) {
+  const context = app.catalogRequirementContext;
+  if (!context?.quarterId || !context?.item) return false;
+
+  const added = addCourseToPlan(code, context.quarterId, {
+    replaceItem: context.item,
+    clearPendingSlot: true
+  });
+
+  if (!added) return false;
+
+  const quarterId = context.quarterId;
+  app.catalogRequirementContext = null;
+  switchView("planner");
+
+  requestAnimationFrame(() => {
+    document
+      .querySelector(`[data-quarter="${quarterId}"]`)
+      ?.scrollIntoView({ behavior: "smooth", block: "center" });
+  });
+
+  return true;
+}
+
+function handleRequirementBrowseClick(event) {
+  const button = event.target.closest("[data-browse-requirement]");
+  if (!button) return;
+
+  event.preventDefault();
+  browseMapRequirement(
+    button.dataset.browseRequirement,
+    button.dataset.browseRequirementScope || "item"
+  );
+}
+
 
 function getApExam(examId) {
   return (app.apCredit.exams || []).find((exam) => exam.id === examId) || null;
@@ -1729,13 +2586,19 @@ function drawMapEdges() {
 function handleMapClick(event) {
   const planSlotNode = event.target.closest("[data-map-plan-slot]");
   if (planSlotNode) {
-    openMapPlanSlot(planSlotNode.dataset.mapPlanSlot, planSlotNode.dataset.mapPlanQuarter);
+    browsePlanSlotCourses(
+      planSlotNode.dataset.mapPlanSlot,
+      planSlotNode.dataset.mapPlanQuarter
+    );
     return;
   }
   const requirementNode = event.target.closest("[data-map-requirement]");
   if (requirementNode) {
     const id = requirementNode.dataset.mapRequirement;
     const scope = requirementNode.dataset.mapRequirementScope || "item";
+
+    if (browseMapRequirement(id, scope)) return;
+
     switchView("requirements");
     requestAnimationFrame(() => {
       const selector = scope === "requirement" ? `#requirement-${safeId(id)}` : `#requirement-item-${safeId(id)}`;
@@ -2338,6 +3201,10 @@ function renderRequirementItem(item, evaluation) {
         .map(normalizeCode)
         .filter((code) => !isFulfilled(code) && areaMatches(getCourse(code), item.area))
     : [];
+  const browseContext = catalogContextForRequirement(item.id, "item");
+  const browseHtml = browseContext
+    ? `<div class="requirement-browse-row"><button class="requirement-browse-button" type="button" data-browse-requirement="${escapeHtml(item.id)}" data-browse-requirement-scope="item">Browse courses that fill this requirement →</button></div>`
+    : "";
   const pathHtml = item.type === "path-choice" ? `<div class="requirement-paths">${(evaluation.paths || []).map((path) => `
     <div class="requirement-path ${path.satisfied ? "satisfied" : ""}">
       <div class="requirement-path-head"><strong>${escapeHtml(path.label)}</strong><span>${path.completed.length}/${path.courses.length}</span></div>
@@ -2348,6 +3215,7 @@ function renderRequirementItem(item, evaluation) {
       <span class="requirement-item-title">${escapeHtml(item.label)}</span>
       <span class="requirement-item-status">${escapeHtml(evaluation.label)}</span>
     </div>
+    ${browseHtml}
     ${pathHtml}
     ${courses.length ? `<div class="requirement-course-list">${courses.map(renderRequirementCourseChoice).join("")}</div>` : ""}
     ${plannedAreaCourses.length ? `<div class="requirement-planned-area"><strong>Planned:</strong> ${plannedAreaCourses.map((code) => `${escapeHtml(code)} · ${escapeHtml(shortQuarterLabel(plannedQuarter(code)))}`).join(" · ")}</div>` : ""}
@@ -2534,7 +3402,7 @@ function renderPlanItem(item, quarterId, hasWarning) {
     return `<div class="plan-course slot" draggable="true" data-plan-item="${escapeHtml(item)}" data-from-quarter="${quarterId}">
       <div class="plan-code">Requirement · ${formatNumber(slot.credits)} cr</div>
       <div class="plan-title">${escapeHtml(slot.label)}</div>
-      <button class="slot-fill" type="button" data-fill-slot="${escapeHtml(item)}" data-quarter="${quarterId}">Choose course</button>
+      <button class="slot-fill" type="button" data-fill-slot="${escapeHtml(item)}" data-quarter="${quarterId}">Browse courses</button>
       <button class="plan-remove" type="button" data-remove-plan="${escapeHtml(item)}" data-quarter="${quarterId}" aria-label="Remove">×</button>
     </div>`;
   }
@@ -2802,7 +3670,10 @@ function handlePlannerClick(event) {
   const fillSlot = event.target.closest("[data-fill-slot]");
   if (fillSlot) {
     event.stopPropagation();
-    beginFillPlanSlot(fillSlot.dataset.fillSlot, fillSlot.dataset.quarter);
+    browsePlanSlotCourses(
+      fillSlot.dataset.fillSlot,
+      fillSlot.dataset.quarter
+    );
     return;
   }
   const remove = event.target.closest("[data-remove-plan]");
@@ -3126,31 +3997,205 @@ async function clearExternalCredits() {
 }
 
 function filteredCatalogCourses() {
-  const query = $("#catalog-search").value.trim().toLowerCase();
-  const campus = $("#campus-filter").value;
-  const department = $("#department-filter").value;
-  const tokens = query.split(/\s+/).filter(Boolean);
+  const query = $("#catalog-search")
+    .value
+    .trim()
+    .toLowerCase();
+
+  const courseCodeQuery = normalizeCode(
+    $("#course-code-filter")?.value || ""
+  );
+
+  const campus =
+    $("#campus-filter").value;
+
+  const department =
+    $("#department-filter").value;
+
+  const level =
+    $("#course-level-filter")?.value || "all";
+
+  const credits =
+    $("#credit-filter")?.value || "all";
+
+  const area =
+    $("#area-filter")?.value || "all";
+
+  const offered =
+    $("#offered-filter")?.value || "all";
+
+  const tokens = query
+    .split(/\s+/)
+    .filter(Boolean);
+
   return app.courses.filter((course) => {
-    if (campus !== "all" && course.campus !== campus) return false;
-    if (department !== "all" && course.department !== department) return false;
-    if (!tokens.length) return true;
-    const haystack = `${course.code} ${course.title} ${course.description || ""} ${course.prerequisiteText || ""} ${course.areas || ""}`.toLowerCase();
-    return tokens.every((token) => haystack.includes(token));
+    /*
+     * Keep the automatic filter created when a
+     * requirement or placeholder is selected.
+     */
+    if (
+      app.catalogRequirementContext
+      && !courseMatchesCatalogRequirement(
+        course,
+        app.catalogRequirementContext
+      )
+    ) {
+      return false;
+    }
+
+    if (
+      campus !== "all"
+      && course.campus !== campus
+    ) {
+      return false;
+    }
+
+    if (
+      department !== "all"
+      && course.department !== department
+    ) {
+      return false;
+    }
+
+    if (courseCodeQuery) {
+      const courseCode = normalizeCode(
+        course.code
+      );
+
+      if (!courseCode.includes(courseCodeQuery)) {
+        return false;
+      }
+    }
+
+    if (
+      !courseMatchesLevelFilter(
+        course,
+        level
+      )
+    ) {
+      return false;
+    }
+
+    if (
+      !courseMatchesCreditFilter(
+        course,
+        credits
+      )
+    ) {
+      return false;
+    }
+
+    if (
+      area !== "all"
+      && !areaMatches(course, area)
+    ) {
+      return false;
+    }
+
+    if (
+      !courseMatchesOfferedFilter(
+        course,
+        offered
+      )
+    ) {
+      return false;
+    }
+
+    if (!tokens.length) {
+      return true;
+    }
+
+    const haystack = `
+      ${course.code}
+      ${course.department || ""}
+      ${course.number || ""}
+      ${course.title}
+      ${course.description || ""}
+      ${course.prerequisiteText || ""}
+      ${course.areas || ""}
+    `.toLowerCase();
+
+    return tokens.every(
+      (token) => haystack.includes(token)
+    );
   });
 }
 
 function renderCatalog() {
   if (!app.catalogPayload) return;
+
+  renderCatalogRequirementBanner();
+
   const filtered = filteredCatalogCourses();
   const visible = filtered.slice(0, app.catalogLimit);
-  $("#catalog-result-count").textContent = `${filtered.length.toLocaleString()} matching course${filtered.length === 1 ? "" : "s"}`;
-  $("#show-more-button").hidden = visible.length >= filtered.length;
-  $("#catalog-results").innerHTML = visible.length ? visible.map(renderCatalogCard).join("") : `<div class="empty-panel" style="grid-column:1/-1"><div><div class="empty-panel-icon">⌕</div><h2>No matches</h2><p>Try a course code, a broader topic, or remove a filter.</p></div></div>`;
+  const context = app.catalogRequirementContext;
+  const resultCount = $("#catalog-result-count");
+
+  resultCount.classList.toggle(
+    "requirement-filter-count",
+    Boolean(context)
+  );
+
+  if (context) {
+    resultCount.innerHTML = `
+      <div class="requirement-filter-text">
+        <strong>
+          ${filtered.length.toLocaleString()}
+          matching course${filtered.length === 1 ? "" : "s"}
+        </strong>
+
+        <span>
+          ${escapeHtml(context.label)}
+        </span>
+
+        <small>
+          The courses below are already filtered for this requirement.
+        </small>
+      </div>
+
+      <button
+        id="clear-catalog-filter"
+        class="button secondary"
+        type="button"
+      >
+        Clear filter
+      </button>
+    `;
+  } else {
+    resultCount.textContent =
+      `${filtered.length.toLocaleString()} matching course${
+        filtered.length === 1 ? "" : "s"
+      }`;
+  }
+
+  $("#show-more-button").hidden =
+    visible.length >= filtered.length;
+
+  $("#catalog-results").innerHTML = visible.length
+    ? visible.map(renderCatalogCard).join("")
+    : `
+      <div class="empty-panel" style="grid-column: 1 / -1">
+        <div>
+          <div class="empty-panel-icon">⌕</div>
+          <h2>No matches</h2>
+          <p>
+            Try a course code, a broader topic, or remove a filter.
+          </p>
+        </div>
+      </div>
+    `;
+
   renderCatalogPanel();
 }
 
 function renderCatalogCard(course) {
   const selected = course.id === app.selectedCatalogId;
+  const context = app.catalogRequirementContext;
+  const description = course.description
+    || "Open this course to view available catalog and prerequisite information.";
+  const useButton = context?.quarterId
+    ? `<button class="button small primary requirement-use-button" type="button" data-use-requirement-course="${escapeHtml(course.code)}">Use for ${escapeHtml(context.quarterLabel || "plan")}</button>`
+    : "";
   return `<article class="catalog-card ${selected ? "selected" : ""}" data-catalog-id="${escapeHtml(course.id)}">
     <div class="catalog-card-top"><span class="catalog-code">${escapeHtml(course.code)}</span><span class="catalog-campus">${escapeHtml(course.campus)}</span></div>
     <div class="catalog-title">${escapeHtml(course.title)}</div>
@@ -3159,14 +4204,27 @@ function renderCatalogCard(course) {
       ${course.areas ? `<span class="tiny-chip">${escapeHtml(course.areas)}</span>` : ""}
       ${course.offered ? `<span class="tiny-chip">${escapeHtml(course.offered)}</span>` : ""}
     </div>
-    <div class="catalog-actions">
-      <button class="button small secondary" type="button" data-open-catalog="${escapeHtml(course.id)}">View path</button>
+    <div class="catalog-card-description">${escapeHtml(description)}</div>
+    ${context ? `<span class="catalog-match-note">${escapeHtml(catalogMatchNote(course, context))}</span>` : ""}
+    <div class="catalog-actions ${context ? "requirement-active" : ""}">
+      <div class="catalog-action-buttons">
+        ${useButton}
+      <button class="button small secondary" type="button" data-open-catalog="${escapeHtml(course.id)}">Read details</button>
+      </div>
       <label onclick="event.stopPropagation()"><input type="checkbox" data-catalog-fulfilled="${escapeHtml(course.code)}" ${isFulfilled(course.code) ? "checked" : ""}> Fulfilled</label>
     </div>
   </article>`;
 }
 
 function handleCatalogClick(event) {
+  const use = event.target.closest("[data-use-requirement-course]");
+  if (use) {
+    event.preventDefault();
+    event.stopPropagation();
+    useCatalogCourseForRequirement(use.dataset.useRequirementCourse);
+    return;
+  }
+
   const open = event.target.closest("[data-open-catalog]");
   const card = event.target.closest("[data-catalog-id]");
   const id = open?.dataset.openCatalog || card?.dataset.catalogId;
@@ -3218,6 +4276,13 @@ function renderCatalogPanel() {
       </div>
     </div>
 
+    ${app.catalogRequirementContext?.quarterId && courseMatchesCatalogRequirement(course, app.catalogRequirementContext) ? `
+    <div class="detail-section catalog-requirement-use-panel">
+      <h3>Use for ${escapeHtml(app.catalogRequirementContext.label)}</h3>
+      <p class="detail-description">This replaces the ${formatNumber(app.catalogRequirementContext.credits || 0)}-credit placeholder in ${escapeHtml(app.catalogRequirementContext.quarterLabel)}.</p>
+      <button class="button primary" type="button" data-catalog-panel="use-requirement" data-code="${escapeHtml(course.code)}">Use ${escapeHtml(course.code)} for this requirement</button>
+    </div>` : ""}
+
     <div class="detail-section">
       <h3>Add to four-year plan</h3>
       <div class="plan-add-row">
@@ -3249,6 +4314,10 @@ function handleCatalogPanelClick(event) {
     return;
   }
   const action = event.target.closest("[data-catalog-panel]");
+  if (action?.dataset.catalogPanel === "use-requirement") {
+    useCatalogCourseForRequirement(action.dataset.code);
+    return;
+  }
   if (action?.dataset.catalogPanel === "add") {
     const quarter = $("[data-catalog-quarter]", $("#catalog-panel")).value;
     addCourseToPlan(action.dataset.code, quarter);
