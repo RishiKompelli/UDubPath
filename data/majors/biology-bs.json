@@ -1983,5 +1983,8 @@
     "PHYS 123": [
       "PHYS 143"
     ]
-  }
+  },
+  "degreeAwardId": "BS",
+  "collegeId": "arts-sciences",
+  "minimumDegreeCredits": 180
 }

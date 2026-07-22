@@ -1333,5 +1333,8 @@
     "MATH 208": [
       "MATH 136"
     ]
-  }
+  },
+  "degreeAwardId": "BS",
+  "collegeId": "arts-sciences",
+  "minimumDegreeCredits": 180
 }

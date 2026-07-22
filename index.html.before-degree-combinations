@@ -26,23 +26,13 @@
 
     <div class="top-controls">
       <label class="select-field">
-        <span>Primary major</span>
+        <span>Major</span>
         <select id="major-select"></select>
       </label>
       <label class="select-field">
-        <span>Primary degree path</span>
+        <span>Degree path</span>
         <select id="track-select"></select>
       </label>
-      <button id="add-second-major-button" class="button secondary combination-add-button" type="button">＋ Add second major</button>
-      <label id="secondary-major-field" class="select-field combination-control" hidden>
-        <span>Second major</span>
-        <select id="secondary-major-select"><option value="">Choose a second major…</option></select>
-      </label>
-      <label id="secondary-track-field" class="select-field combination-control" hidden>
-        <span>Second degree path</span>
-        <select id="secondary-track-select"></select>
-      </label>
-      <button id="remove-second-major-button" class="button danger-ghost combination-control" type="button" hidden>Remove second major</button>
       <button id="data-status" class="data-badge" type="button" title="Catalog source details">
         <span class="status-dot"></span>
         <span id="data-status-text">Catalog</span>
@@ -61,12 +51,9 @@
     <button class="tab active" data-view="map" type="button"><span class="tab-icon">⌘</span>Degree map</button>
     <button class="tab" data-view="requirements" type="button"><span class="tab-icon">✓</span>Requirements</button>
     <button class="tab" data-view="planner" type="button"><span class="tab-icon">▦</span>Four-year plan</button>
-    <button id="combination-tab" class="tab" data-view="combination" type="button" hidden><span class="tab-icon">⇉</span>Combined degrees</button>
     <button class="tab" data-view="credits" type="button"><span class="tab-icon">⇄</span>AP & transfer credit</button>
     <button class="tab" data-view="catalog" type="button"><span class="tab-icon">⌕</span>All UW courses</button>
   </nav>
-
-  <section id="degree-combination-banner" class="degree-combination-banner" hidden></section>
 
   <main>
     <section id="view-map" class="view active">
@@ -138,7 +125,6 @@
         <div class="heading-actions">
           <button id="load-sample-button" class="button primary" type="button">Load official sample plan</button>
           <button id="clear-plan-button" class="button secondary" type="button">Clear plan</button>
-          <button id="toggle-year5-button" class="button secondary" type="button">＋ Add Year 5</button>
         </div>
       </div>
 
@@ -176,20 +162,6 @@
       <div id="planner-insights" class="planner-insights"></div>
     </section>
 
-
-    <section id="view-combination" class="view">
-      <div class="view-heading">
-        <div>
-          <div class="eyebrow">ONE SHARED PLAN · TWO DEGREE AUDITS</div>
-          <h1>Combined degree plan</h1>
-          <p>Compare shared courses, requirements unique to each major, the minimum credit target, and how your current plan applies to both programs.</p>
-        </div>
-      </div>
-      <div id="combination-summary" class="metric-grid"></div>
-      <div id="combination-alert" class="combination-alert card-surface"></div>
-      <div id="combination-course-grid" class="combination-course-grid"></div>
-      <div id="combination-audits" class="combination-audits"></div>
-    </section>
 
     <section id="view-credits" class="view">
       <div class="view-heading credits-heading">
@@ -308,6 +280,5 @@
   <footer>
     <p>This planner is an educational planning tool, not an official degree audit. Verify requirements, prerequisites, and offerings with UW advisers and current UW sources.</p>
   </footer>
-  <!-- DOUBLE_MAJOR_DUAL_DEGREE_MODE_V1 -->
 </body>
 </html>

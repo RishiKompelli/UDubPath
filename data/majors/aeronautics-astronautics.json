@@ -1150,5 +1150,8 @@
     "degreeTotalChecked": 180,
     "samplePlanCredits": 180.0,
     "officialPlanningNote": "Planning aid only; confirm substitutions, variable-credit courses, and changing elective approvals with the department adviser."
-  }
+  },
+  "degreeAwardId": "BSAAE",
+  "collegeId": "engineering",
+  "minimumDegreeCredits": 180
 }

@@ -1253,5 +1253,8 @@
       "CHEM 153",
       "CHEM 155"
     ]
-  }
+  },
+  "degreeAwardId": "BA",
+  "collegeId": "arts-sciences",
+  "minimumDegreeCredits": 180
 }

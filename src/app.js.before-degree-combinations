@@ -17,11 +17,7 @@ const QUARTERS = [
   { id: "y4-autumn", year: 4, season: "Autumn" },
   { id: "y4-winter", year: 4, season: "Winter" },
   { id: "y4-spring", year: 4, season: "Spring" },
-  { id: "y4-summer", year: 4, season: "Summer" },
-  { id: "y5-autumn", year: 5, season: "Autumn" },
-  { id: "y5-winter", year: 5, season: "Winter" },
-  { id: "y5-spring", year: 5, season: "Spring" },
-  { id: "y5-summer", year: 5, season: "Summer" }
+  { id: "y4-summer", year: 4, season: "Summer" }
 ];
 
 const OFFICIAL_COURSE_OVERLAP_GROUPS = [
@@ -51,11 +47,9 @@ function planQuarterIndex(quarterId) {
 
 function courseOverlapGroups() {
   const groups = OFFICIAL_COURSE_OVERLAP_GROUPS.map((group) => group.map(normalizeCode));
-  for (const major of [app.major, app.secondaryMajor].filter(Boolean)) {
-    for (const [standard, substitutes] of Object.entries(major.prerequisiteSubstitutions || {})) {
-      for (const substitute of substitutes || []) {
-        groups.push([normalizeCode(standard), normalizeCode(substitute)]);
-      }
+  for (const [standard, substitutes] of Object.entries(app.major.prerequisiteSubstitutions || {})) {
+    for (const substitute of substitutes || []) {
+      groups.push([normalizeCode(standard), normalizeCode(substitute)]);
     }
   }
 
@@ -179,7 +173,6 @@ function proposedPlanWithCourse(code, quarterId, replaceItem = null) {
 const app = {
   majorIndex: null,
   major: null,
-  secondaryMajor: null,
   catalogPayload: null,
   apCredit: { exams: [], source: {} },
   courses: [],
@@ -262,12 +255,9 @@ function setSummerQuarterExpanded(year, expanded) {
 
 function plannerSelectableQuarters(extraQuarterId = null) {
   return QUARTERS.filter((quarter) => (
-    quarter.year <= maxVisiblePlannerYear()
-    && (
-      quarter.season !== "Summer"
-      || summerQuarterExpanded(quarter.year)
-      || quarter.id === extraQuarterId
-    )
+    quarter.season !== "Summer"
+    || summerQuarterExpanded(quarter.year)
+    || quarter.id === extraQuarterId
   ));
 }
 
@@ -314,9 +304,6 @@ function createDefaultProgress() {
   return {
     version: 5,
     track: "standard",
-    secondaryMajorId: "",
-    secondaryTrack: "",
-    year5Enabled: false,
     fulfilled: {},
     plan: emptyPlan(),
     summerExpanded: {},
@@ -397,7 +384,6 @@ async function initialize() {
     app.catalogPayload = catalogPayload;
     app.apCredit = apCredit;
     app.progress = loadProgress();
-    await restoreSecondaryMajor();
     migrateLegacyPlanSlots();
     buildCatalogIndexes();
     populateGlobalControls();
@@ -463,10 +449,7 @@ function getCourse(code) {
     description: "",
     sourceType: "major-definition"
   };
-  const override = {
-    ...(app.secondaryMajor?.courseOverrides?.[normalized] || {}),
-    ...(app.major.courseOverrides?.[normalized] || {})
-  };
+  const override = app.major.courseOverrides?.[normalized] || {};
   return {
     ...base,
     ...override,
@@ -485,11 +468,7 @@ function getPrerequisiteGroups(codeOrCourse) {
 }
 
 function prerequisiteSubstitutes(code) {
-  const normalized = normalizeCode(code);
-  return [...new Set([
-    ...(app.major.prerequisiteSubstitutions?.[normalized] || []),
-    ...(app.secondaryMajor?.prerequisiteSubstitutions?.[normalized] || [])
-  ].map(normalizeCode))];
+  return (app.major.prerequisiteSubstitutions?.[normalizeCode(code)] || []).map(normalizeCode);
 }
 
 function expandedPrerequisiteOptions(group) {
@@ -506,382 +485,6 @@ function prerequisiteFulfillmentVia(code) {
   if (isFulfilled(normalized)) return normalized;
   return prerequisiteSubstitutes(normalized).find(isFulfilled) || null;
 }
-
-
-// DOUBLE_MAJOR_DUAL_DEGREE_MODE_V1
-function completedMajorDefinitions() {
-  return (app.majorIndex?.majors || []).filter((entry) => entry.status === "complete" && entry.file);
-}
-
-function majorHasAlternateDegreePaths(major) {
-  return Array.isArray(major?.tracks) && major.tracks.length > 1;
-}
-
-function majorAwardId(major) {
-  return String(major?.degreeAwardId || major?.degree || major?.id || "unknown").trim();
-}
-
-function majorCollegeId(major) {
-  return String(major?.collegeId || "unknown").trim();
-}
-
-function majorMinimumCredits(major) {
-  return Number(major?.minimumDegreeCredits || major?.totalCredits || 180);
-}
-
-function combinationPairKey(first, second) {
-  return [first?.id, second?.id].filter(Boolean).sort().join("|");
-}
-
-function combinationRestriction(primary, secondary) {
-  if (!primary || !secondary) return "";
-  if (primary.id === secondary.id) return "Choose two different majors.";
-
-  const pair = combinationPairKey(primary, secondary);
-  const primaryCollege = majorCollegeId(primary);
-  const secondaryCollege = majorCollegeId(secondary);
-
-  if (primaryCollege === "engineering" && secondaryCollege === "engineering") {
-    return "UW permits only one undergraduate degree from the College of Engineering.";
-  }
-
-  const csIds = new Set(["uw-seattle-cs"]);
-  const eceIds = new Set(["uw-seattle-ece", "uw-seattle-computer-engineering"]);
-  if ([...csIds].some((id) => pair.includes(id)) && [...eceIds].some((id) => pair.includes(id))) {
-    return "The Allen School does not permit this CS/Computer Engineering or CS/ECE degree combination.";
-  }
-
-  if (pair.includes("uw-seattle-cs") && /acms/i.test(pair)) {
-    return "The Allen School does not permit a CS/ACMS double major or double degree.";
-  }
-
-  const hcde = [primary, secondary].find((major) => /human centered design|hcde/i.test(`${major.id} ${major.name}`));
-  const other = hcde === primary ? secondary : hcde === secondary ? primary : null;
-  if (hcde && other && (
-    majorCollegeId(other) === "engineering"
-    || /informatics|interaction design/i.test(`${other.id} ${other.name}`)
-  )) {
-    return "HCDE does not permit this second-major combination.";
-  }
-
-  return "";
-}
-
-function getDegreeCombination() {
-  if (!app.secondaryMajor) return null;
-  const primary = app.major;
-  const secondary = app.secondaryMajor;
-  const error = combinationRestriction(primary, secondary);
-  const sameAward = majorAwardId(primary) === majorAwardId(secondary);
-  const type = sameAward ? "double-major" : "dual-degree";
-  const minimumCredits = sameAward
-    ? Math.max(majorMinimumCredits(primary), majorMinimumCredits(secondary))
-    : Math.min(majorMinimumCredits(primary), majorMinimumCredits(secondary)) + 45;
-
-  const warnings = [];
-  if (type === "dual-degree") {
-    warnings.push("Two UW degrees normally require at least 45 credits beyond the smaller degree and at least 90 matriculated UW residence credits.");
-  } else {
-    warnings.push("The 180-credit minimum does not guarantee that every requirement for both majors will fit within 180 credits.");
-  }
-  if (majorCollegeId(primary) !== majorCollegeId(secondary)) {
-    warnings.push("Because the programs are in different colleges, both colleges’ general-education requirements must be completed where they do not overlap.");
-  }
-  if ((majorCollegeId(primary) === "engineering" || majorCollegeId(secondary) === "engineering")
-      && (primary.id === "uw-seattle-cs" || secondary.id === "uw-seattle-cs")) {
-    warnings.push("CS plus an Engineering degree requires department approval and may be allowed only as a rare exception; CS plus ECE is prohibited.");
-  }
-  warnings.push("Course overlap between two majors is an estimate here; the departments decide which core courses may count toward both programs.");
-
-  return {
-    primary,
-    secondary,
-    type,
-    label: type === "double-major" ? "Double major" : "Dual degree",
-    minimumCredits,
-    error,
-    warnings
-  };
-}
-
-function plannerDegreeTarget() {
-  return getDegreeCombination()?.minimumCredits || Number(app.major.totalCredits || 180);
-}
-
-function plannerYears() {
-  const showYear5 = Boolean(app.progress.year5Enabled || getDegreeCombination()?.type === "dual-degree");
-  return showYear5 ? [1, 2, 3, 4, 5] : [1, 2, 3, 4];
-}
-
-function maxVisiblePlannerYear() {
-  return Math.max(...plannerYears());
-}
-
-async function restoreSecondaryMajor() {
-  app.secondaryMajor = null;
-  const id = app.progress?.secondaryMajorId;
-  if (!id || id === app.major?.id) return;
-  const definition = completedMajorDefinitions().find((entry) => entry.id === id);
-  if (!definition) {
-    app.progress.secondaryMajorId = "";
-    app.progress.secondaryTrack = "";
-    return;
-  }
-  try {
-    const secondary = await fetchJson(`data/majors/${definition.file}`);
-    if (combinationRestriction(app.major, secondary)) {
-      app.progress.secondaryMajorId = "";
-      app.progress.secondaryTrack = "";
-      return;
-    }
-    app.secondaryMajor = secondary;
-    const tracks = secondary.tracks || [];
-    if (!tracks.some((track) => track.id === app.progress.secondaryTrack)) {
-      app.progress.secondaryTrack = tracks[0]?.id || "standard";
-    }
-  } catch (error) {
-    console.warn("Could not restore second major", error);
-    app.progress.secondaryMajorId = "";
-    app.progress.secondaryTrack = "";
-  }
-}
-
-function populateCombinationControls() {
-  const addButton = $("#add-second-major-button");
-  const majorField = $("#secondary-major-field");
-  const trackField = $("#secondary-track-field");
-  const removeButton = $("#remove-second-major-button");
-  const majorSelect = $("#secondary-major-select");
-  const trackSelect = $("#secondary-track-select");
-  const tab = $("#combination-tab");
-
-  if (!addButton || !majorField || !majorSelect) return;
-  const active = Boolean(app.secondaryMajor || app.progress.secondaryMajorId);
-  addButton.hidden = active;
-  majorField.hidden = !active;
-  removeButton.hidden = !active;
-  trackField.hidden = !app.secondaryMajor || !majorHasAlternateDegreePaths(app.secondaryMajor);
-  tab.hidden = !app.secondaryMajor;
-
-  majorSelect.innerHTML = `<option value="">Choose a second major…</option>${completedMajorDefinitions()
-    .filter((entry) => entry.id !== app.major.id)
-    .map((entry) => `<option value="${escapeHtml(entry.id)}">${escapeHtml(entry.name)}</option>`)
-    .join("")}`;
-  majorSelect.value = app.progress.secondaryMajorId || "";
-
-  if (app.secondaryMajor) {
-    const tracks = app.secondaryMajor.tracks || [];
-    const selectedTrack = app.progress.secondaryTrack || tracks[0]?.id || "standard";
-    app.progress.secondaryTrack = selectedTrack;
-
-    if (majorHasAlternateDegreePaths(app.secondaryMajor)) {
-      trackSelect.disabled = false;
-      trackSelect.innerHTML = tracks.map((track) => `<option value="${escapeHtml(track.id)}">${escapeHtml(track.name)}</option>`).join("");
-      trackSelect.value = selectedTrack;
-    } else {
-      trackSelect.innerHTML = "";
-      trackSelect.value = "";
-      trackSelect.disabled = true;
-    }
-  } else {
-    trackSelect.innerHTML = "";
-    trackSelect.disabled = true;
-  }
-}
-
-function showSecondMajorChooser() {
-  app.progress.secondaryMajorId = app.progress.secondaryMajorId || "";
-  populateCombinationControls();
-  $("#add-second-major-button").hidden = true;
-  $("#secondary-major-field").hidden = false;
-  $("#remove-second-major-button").hidden = false;
-  $("#secondary-major-select").focus();
-}
-
-async function changeSecondaryMajor(majorId) {
-  if (!majorId) {
-    app.secondaryMajor = null;
-    app.progress.secondaryMajorId = "";
-    app.progress.secondaryTrack = "";
-    saveProgress();
-    renderAll();
-    return;
-  }
-  const definition = completedMajorDefinitions().find((entry) => entry.id === majorId);
-  if (!definition) return showToast("That major definition is not available yet.");
-
-  try {
-    const secondary = await fetchJson(`data/majors/${definition.file}`);
-    const error = combinationRestriction(app.major, secondary);
-    if (error) {
-      $("#secondary-major-select").value = app.progress.secondaryMajorId || "";
-      return showToast(error);
-    }
-    app.secondaryMajor = secondary;
-    app.progress.secondaryMajorId = secondary.id;
-    app.progress.secondaryTrack = secondary.tracks?.[0]?.id || "standard";
-    if (getDegreeCombination()?.type === "dual-degree") app.progress.year5Enabled = true;
-    saveProgress();
-    renderAll();
-    showToast(`${secondary.name} added to the shared plan.`);
-  } catch (error) {
-    showToast(`Could not load that major: ${error.message}`);
-  }
-}
-
-function removeSecondaryMajor() {
-  app.secondaryMajor = null;
-  app.progress.secondaryMajorId = "";
-  app.progress.secondaryTrack = "";
-  saveProgress();
-  if (app.activeView === "combination") switchView("map");
-  renderAll();
-  showToast("Second major removed. Your shared course plan was kept.");
-}
-
-function toggleYear5() {
-  const year5HasContent = QUARTERS.some((quarter) => quarter.year === 5 && (app.progress.plan?.[quarter.id] || []).length);
-  if (app.progress.year5Enabled && year5HasContent) {
-    return showToast("Move or remove Year 5 courses before hiding Year 5.");
-  }
-  app.progress.year5Enabled = !app.progress.year5Enabled;
-  saveProgress();
-  renderPlanner();
-}
-
-function updateYear5Button() {
-  const button = $("#toggle-year5-button");
-  if (!button) return;
-  const forced = getDegreeCombination()?.type === "dual-degree";
-  const shown = plannerYears().includes(5);
-  button.textContent = forced ? "Year 5 included for dual degree" : shown ? "− Hide Year 5" : "＋ Add Year 5";
-  button.disabled = forced;
-}
-
-function withMajorContext(major, trackId, callback) {
-  const originalMajor = app.major;
-  const originalTrack = app.progress.track;
-  app.major = major;
-  app.progress.track = trackId || major.tracks?.[0]?.id || "standard";
-  try {
-    return callback();
-  } finally {
-    app.major = originalMajor;
-    app.progress.track = originalTrack;
-  }
-}
-
-function visibleCodesForMajor(major, trackId) {
-  return withMajorContext(major, trackId, () => new Set(
-    getVisibleMapGroups().flatMap((group) => group.courses || []).map(normalizeCode)
-  ));
-}
-
-function requirementRowsForMajor(major, trackId) {
-  return withMajorContext(major, trackId, () => getActiveRequirements().map((requirement) => {
-    const evaluation = evaluateRequirement(requirement);
-    const planned = requirementHasPlannedCourses(requirement);
-    return { requirement, evaluation, planned };
-  }));
-}
-
-function renderCombinationCourseCard(title, subtitle, codes) {
-  const represented = new Set([
-    ...fulfilledCourseCodes(),
-    ...Object.values(app.progress.plan || {}).flat().filter((item) => !isPlanSlot(item)).map(normalizeCode)
-  ]);
-  const sorted = [...codes].sort();
-  const preview = sorted.slice(0, 120);
-  return `<article class="combination-course-card card-surface">
-    <h2>${escapeHtml(title)}</h2>
-    <p>${escapeHtml(subtitle)} · ${sorted.length} course${sorted.length === 1 ? "" : "s"}</p>
-    <div class="combination-course-chips">${preview.length
-      ? preview.map((code) => `<span class="combination-course-chip ${represented.has(code) ? "in-plan" : ""}" title="${escapeHtml(getCourse(code).title)}">${escapeHtml(code)}</span>`).join("")
-      : `<span class="combination-course-empty">No courses in this category.</span>`}
-      ${sorted.length > preview.length ? `<span class="combination-course-empty">+ ${sorted.length - preview.length} more</span>` : ""}
-    </div>
-  </article>`;
-}
-
-function renderCombinationAudit(major, trackId) {
-  const rows = requirementRowsForMajor(major, trackId);
-  const completed = rows.filter((row) => row.evaluation.satisfied).length;
-  const track = major.tracks?.find((entry) => entry.id === trackId)?.name || trackId;
-  const trackSummary = majorHasAlternateDegreePaths(major) ? track : "";
-  return `<article class="combination-audit card-surface">
-    <div class="combination-audit-head">
-      <div><h2>${escapeHtml(major.name)}</h2><span>${escapeHtml(major.degree || "")}</span></div>
-      <span>${completed}/${rows.length} sections fulfilled${trackSummary ? `<br>${escapeHtml(trackSummary)}` : ""}</span>
-    </div>
-    <div class="combination-requirement-list">${rows.map(({ requirement, evaluation, planned }) => {
-      const state = evaluation.satisfied ? "fulfilled" : planned ? "planned" : "";
-      const status = evaluation.satisfied ? `✓ ${evaluation.label}` : planned ? `Planned · ${evaluation.label}` : evaluation.label;
-      return `<div class="combination-requirement-row ${state}"><strong>${escapeHtml(requirement.title)}</strong><span>${escapeHtml(status)}</span></div>`;
-    }).join("")}</div>
-  </article>`;
-}
-
-function renderCombinationBanner() {
-  const banner = $("#degree-combination-banner");
-  if (!banner) return;
-  const info = getDegreeCombination();
-  if (!info) {
-    banner.hidden = true;
-    return;
-  }
-  banner.hidden = false;
-  banner.innerHTML = `<div class="combination-banner-copy">
-    <strong>${escapeHtml(info.primary.name)} + ${escapeHtml(info.secondary.name)} · ${escapeHtml(info.label)}</strong>
-    <span>${escapeHtml(majorAwardId(info.primary))} + ${escapeHtml(majorAwardId(info.secondary))} · minimum ${formatNumber(info.minimumCredits)} credits · ${formatNumber(plannedCredits())} currently represented</span>
-  </div>
-  <div class="combination-banner-actions"><button id="open-combination-button" class="button primary" type="button">View combined plan</button></div>`;
-  $("#open-combination-button")?.addEventListener("click", () => switchView("combination"));
-}
-
-function renderCombination() {
-  const summary = $("#combination-summary");
-  if (!summary) return;
-  const info = getDegreeCombination();
-  if (!info) {
-    summary.innerHTML = "";
-    $("#combination-alert").innerHTML = "<h2>Add a second major</h2><p>Use the button in the header to compare two programs.</p>";
-    $("#combination-course-grid").innerHTML = "";
-    $("#combination-audits").innerHTML = "";
-    return;
-  }
-
-  const primaryCodes = visibleCodesForMajor(info.primary, app.progress.track);
-  const secondaryCodes = visibleCodesForMajor(info.secondary, app.progress.secondaryTrack);
-  const shared = new Set([...primaryCodes].filter((code) => secondaryCodes.has(code)));
-  const primaryOnly = new Set([...primaryCodes].filter((code) => !secondaryCodes.has(code)));
-  const secondaryOnly = new Set([...secondaryCodes].filter((code) => !primaryCodes.has(code)));
-  const planned = plannedCredits();
-  const remaining = Math.max(0, info.minimumCredits - planned);
-
-  summary.innerHTML = [
-    metricCard("Combination", info.label, 0, `${majorAwardId(info.primary)} + ${majorAwardId(info.secondary)}`),
-    metricCard("Minimum credits", formatNumber(info.minimumCredits), 0, info.type === "dual-degree" ? "Usually 45 beyond the smaller degree" : "The actual course total may be higher"),
-    metricCard("Plan represented", `${formatNumber(planned)} / ${formatNumber(info.minimumCredits)}`, planned / info.minimumCredits, `${formatNumber(remaining)} credits remaining to the minimum`),
-    metricCard("Shared listed courses", shared.size, 0, "Potential overlap; department approval controls core overlap")
-  ].join("");
-
-  const alert = $("#combination-alert");
-  alert.className = `combination-alert card-surface ${info.error ? "warning" : "valid"}`;
-  alert.innerHTML = `<h2>${info.error ? "This combination is not permitted" : `${escapeHtml(info.label)} planning estimate`}</h2>
-    ${info.error ? `<p>${escapeHtml(info.error)}</p>` : info.warnings.map((warning) => `<p>• ${escapeHtml(warning)}</p>`).join("")}`;
-
-  $("#combination-course-grid").innerHTML = [
-    renderCombinationCourseCard("Shared courses", "Listed by both selected degree paths", shared),
-    renderCombinationCourseCard(info.primary.name, "Courses unique to the primary degree map", primaryOnly),
-    renderCombinationCourseCard(info.secondary.name, "Courses unique to the second degree map", secondaryOnly)
-  ].join("");
-
-  $("#combination-audits").innerHTML = [
-    renderCombinationAudit(info.primary, app.progress.track),
-    renderCombinationAudit(info.secondary, app.progress.secondaryTrack)
-  ].join("");
-}
-
 
 function populateGlobalControls() {
   const majorSelect = $("#major-select");
@@ -988,15 +591,6 @@ function bindEvents() {
     renderAll();
   });
   $("#major-select").addEventListener("change", (event) => changeMajor(event.target.value));
-  $("#add-second-major-button").addEventListener("click", showSecondMajorChooser);
-  $("#secondary-major-select").addEventListener("change", (event) => changeSecondaryMajor(event.target.value));
-  $("#secondary-track-select").addEventListener("change", (event) => {
-    app.progress.secondaryTrack = event.target.value;
-    saveProgress();
-    renderAll();
-  });
-  $("#remove-second-major-button").addEventListener("click", removeSecondaryMajor);
-  $("#toggle-year5-button").addEventListener("click", toggleYear5);
 
   $("#map-search").addEventListener("input", debounce(renderMap, 90));
   $("#available-only").addEventListener("change", renderMap);
@@ -1086,9 +680,7 @@ async function changeMajor(majorId) {
   try {
     const major = await fetchJson(`data/majors/${definition.file}`);
     app.major = major;
-    app.secondaryMajor = null;
     app.progress = loadProgress();
-    await restoreSecondaryMajor();
     app.selectedCode = null;
     app.selectedCatalogId = null;
     populateGlobalControls();
@@ -1107,7 +699,6 @@ function switchView(view) {
   if (view === "map") requestAnimationFrame(drawMapEdges);
   if (view === "catalog") renderCatalog();
   if (view === "credits") renderCredits();
-  if (view === "combination") renderCombination();
 }
 
 function renderAll() {
@@ -1116,10 +707,6 @@ function renderAll() {
   renderMap();
   renderRequirements();
   renderPlanner();
-  populateCombinationControls();
-  renderCombinationBanner();
-  renderCombination();
-  updateYear5Button();
   renderCredits();
   renderCatalog();
 }
@@ -1481,7 +1068,7 @@ function courseStatus(code) {
   if (isFulfilled(normalized)) return "fulfilled";
   if (plannedQuarter(normalized)) return "planned";
   const course = getCourse(normalized);
-  const override = app.major.courseOverrides?.[normalized] || app.secondaryMajor?.courseOverrides?.[normalized];
+  const override = app.major.courseOverrides?.[normalized];
   const hasCuratedRule = override && Object.prototype.hasOwnProperty.call(override, "prerequisiteGroups");
   const catalogIsLive = course.sourceType === "official-live";
   const hasCatalogRule = Boolean(course.prerequisiteText) || (course.prerequisiteCodes || []).length > 0;
@@ -1490,8 +1077,7 @@ function courseStatus(code) {
 }
 
 function allMajorCodes() {
-  const majors = [app.major, app.secondaryMajor].filter(Boolean);
-  return [...new Set(majors.flatMap((major) => major.mapGroups.flatMap((group) => group.courses || [])).map(normalizeCode))];
+  return [...new Set(app.major.mapGroups.flatMap((group) => group.courses).map(normalizeCode))];
 }
 
 function getMajorSuccessors(code, visibleOnly = false) {
@@ -2472,7 +2058,7 @@ function clearPendingPlanSlot() {
 
 function renderPlanner() {
   const warnings = validatePlan();
-  $("#planner-grid").innerHTML = plannerYears().map((year) => {
+  $("#planner-grid").innerHTML = [1, 2, 3, 4].map((year) => {
     const standardQuarters = QUARTERS.filter(
       (quarter) => quarter.year === year && quarter.season !== "Summer"
     );
@@ -2920,13 +2506,11 @@ function offeringIncludes(offered, season) {
 }
 
 function renderPlannerInsights(warnings) {
-  const visibleYears = new Set(plannerYears());
   const totals = QUARTERS
     .filter((quarter) => (
-      visibleYears.has(quarter.year)
-      && (quarter.season !== "Summer"
+      quarter.season !== "Summer"
       || summerQuarterExpanded(quarter.year)
-      || quarterCredits(quarter.id) > 0)
+      || quarterCredits(quarter.id) > 0
     ))
     .map((quarter) => ({ quarter, credits: quarterCredits(quarter.id) }));
   const max = Math.max(18, ...totals.map((entry) => entry.credits));
@@ -2939,7 +2523,7 @@ function renderPlannerInsights(warnings) {
     <article class="insight-card">
       <h2>Credit load</h2>
       <div class="credit-chart">${totals.map(({ quarter, credits }) => `<div class="credit-row"><span>Y${quarter.year} ${quarter.season.slice(0,2)}</span><div class="credit-track"><span style="width:${(credits/max)*100}%"></span></div><strong>${formatNumber(credits)}</strong></div>`).join("")}</div>
-      <p class="requirement-note"><strong>${formatNumber(plannedCredits())} / ${plannerDegreeTarget()}</strong> credits are represented. Requirement placeholders already carry credit values; use “Choose course” to replace each one with an actual UW course.</p>
+      <p class="requirement-note"><strong>${formatNumber(plannedCredits())} / ${app.major.totalCredits}</strong> credits are represented. Requirement placeholders already carry credit values; use “Choose course” to replace each one with an actual UW course.</p>
     </article>`;
 }
 
