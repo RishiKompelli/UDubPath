@@ -4,15 +4,15 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Visual University of Washington degree and prerequisite planner">
-  <title>UW Degree Mapper</title>
+  <title>UW Course Planner</title>
   <link rel="stylesheet" href="src/styles.css">
   <script src="src/app.js" defer></script>
 </head>
 <body>
   <div id="loading-screen" class="loading-screen">
     <div class="loading-mark">W</div>
-    <h1>Loading UW Degree Mapper</h1>
-    <p>Preparing the degree graph and course catalog…</p>
+    <h1>Loading UW Course Planner</h1>
+    <p>Preparing the course catalog and degree requirements…</p>
   </div>
 
   <header class="topbar">
@@ -20,7 +20,7 @@
       <div class="brand-mark" aria-hidden="true">W</div>
       <div>
         <div class="eyebrow">UNIVERSITY OF WASHINGTON</div>
-        <div class="brand-title">Degree Mapper</div>
+        <div class="brand-title">Course Planner</div>
       </div>
     </div>
 
@@ -421,8 +421,30 @@
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
   <footer>
-    <p>This planner is an educational planning tool, not an official degree audit. Verify requirements, prerequisites, and offerings with UW advisers and current UW sources.</p>
-  </footer>
+  <div class="creator-attribution">
+    <div>
+      <strong>Built by Rishi Kompelli</strong>
+      <span>
+        Incoming Freshman at the University of Washington, Mechanical Engineering
+      </span>
+    </div>
+
+    <a
+      class="creator-link"
+      href="https://www.linkedin.com/in/rishi-kompelli-a90585289"
+      target="_blank"
+      rel="noreferrer"
+    >
+      LinkedIn ↗
+    </a>
+  </div>
+
+  <p class="footer-disclaimer">
+    This planner is an educational planning tool, not an official degree
+    audit. Verify requirements, prerequisites, and offerings with UW
+    advisers and current UW sources.
+  </p>
+</footer>
   <!-- DOUBLE_MAJOR_DUAL_DEGREE_MODE_V1 -->
 </body>
 </html>
