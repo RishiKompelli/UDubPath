@@ -1348,3 +1348,7 @@ footer { padding: 22px 28px 40px; color: var(--muted); font-size: 11px; text-ali
     align-items: stretch;
   }
 }
+
+.select-field[hidden] {
+  display: none !important;
+}

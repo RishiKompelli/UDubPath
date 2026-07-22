@@ -1414,7 +1414,6 @@ function bindEvents() {
   $("#map-search").addEventListener("input", debounce(renderMap, 90));
   $("#available-only").addEventListener("change", renderMap);
   $("#show-all-connections").addEventListener("change", drawMapEdges);
-  $("#fit-map-button").addEventListener("click", () => $("#map-scroll").scrollTo({ left: 0, top: 0, behavior: "smooth" }));
   $("#pan-map-button").addEventListener("click", toggleMapPan);
   $("#map-scroll").addEventListener("click", handleMapClick);
   $("#map-scroll").addEventListener("scroll", syncMapScrollFromMain, { passive: true });
