@@ -180,14 +180,116 @@
       <div class="view-heading">
         <div>
           <div class="eyebrow">ONE SHARED PLAN · TWO DEGREE AUDITS</div>
-          <h1>Combined degree plan</h1>
-          <p>Compare shared courses, requirements unique to each major, the minimum credit target, and how your current plan applies to both programs.</p>
+          <h1>Combined degree audit</h1>
+          <p>See how one completed-and-planned course list applies to both majors, what the second major adds, where requirements overlap, and what still needs attention.</p>
         </div>
       </div>
-      <div id="combination-summary" class="metric-grid"></div>
-      <div id="combination-alert" class="combination-alert card-surface"></div>
-      <div id="combination-course-grid" class="combination-course-grid"></div>
-      <div id="combination-audits" class="combination-audits"></div>
+
+      <div
+        id="combination-subtabs"
+        class="combination-subtabs card-surface"
+        role="tablist"
+        aria-label="Combined degree sections"
+      >
+        <button
+          class="combination-subtab active"
+          type="button"
+          role="tab"
+          aria-selected="true"
+          data-combination-panel="summary"
+        >
+          Summary
+        </button>
+
+        <button
+          class="combination-subtab"
+          type="button"
+          role="tab"
+          aria-selected="false"
+          data-combination-panel="requirements"
+        >
+          Combined requirements
+        </button>
+
+        <button
+          class="combination-subtab"
+          type="button"
+          role="tab"
+          aria-selected="false"
+          data-combination-panel="courses"
+        >
+          Shared courses
+        </button>
+
+        <button
+          class="combination-subtab"
+          type="button"
+          role="tab"
+          aria-selected="false"
+          data-combination-panel="plan"
+        >
+          Combined plan
+        </button>
+      </div>
+
+      <section
+        class="combination-panel"
+        data-combination-content="summary"
+      >
+        <div id="combination-summary" class="metric-grid combination-metric-grid"></div>
+        <div id="combination-alert" class="combination-alert card-surface"></div>
+
+        <div class="combination-summary-grid">
+          <div id="combination-additions"></div>
+          <div id="combination-admissions"></div>
+        </div>
+
+        <div id="combination-recommendations"></div>
+      </section>
+
+      <section
+        class="combination-panel"
+        data-combination-content="requirements"
+        hidden
+      >
+        <div class="combination-panel-heading">
+          <div>
+            <div class="eyebrow">ONE MERGED CHECKLIST</div>
+            <h2>Combined requirements</h2>
+            <p>Requirements with identical structures are merged and marked as applying to both majors.</p>
+          </div>
+        </div>
+
+        <div id="combination-merged-audit"></div>
+
+        <div class="combination-panel-heading combination-secondary-heading">
+          <div>
+            <div class="eyebrow">ORIGINAL AUDITS</div>
+            <h2>Each major separately</h2>
+          </div>
+        </div>
+
+        <div id="combination-audits" class="combination-audits"></div>
+      </section>
+
+      <section
+        class="combination-panel"
+        data-combination-content="courses"
+        hidden
+      >
+        <div id="combination-course-grid" class="combination-course-grid"></div>
+        <div id="combination-overlap-review"></div>
+      </section>
+
+      <section
+        class="combination-panel"
+        data-combination-content="plan"
+        hidden
+      >
+        <div id="combination-plan-summary" class="metric-grid"></div>
+        <div id="combination-plan-grid" class="combined-plan-grid"></div>
+        <div id="combination-plan-warnings"></div>
+      </section>
     </section>
 
     <section id="view-credits" class="view">

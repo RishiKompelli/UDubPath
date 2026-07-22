@@ -201,7 +201,8 @@ const app = {
   mapPanEnabled: false,
   mapPanState: null,
   mapDidPan: false,
-  mapScrollSyncing: false
+  mapScrollSyncing: false,
+  combinationPanel: "summary"
 };
 
 const $ = (selector, parent = document) => parent.querySelector(selector);
@@ -723,6 +724,7 @@ async function changeSecondaryMajor(majorId) {
       return showToast(error);
     }
     app.secondaryMajor = secondary;
+    app.combinationPanel = "summary";
     app.progress.secondaryMajorId = secondary.id;
     app.progress.secondaryTrack = secondary.tracks?.[0]?.id || "standard";
     if (getDegreeCombination()?.type === "dual-degree") app.progress.year5Enabled = true;
@@ -736,6 +738,7 @@ async function changeSecondaryMajor(majorId) {
 
 function removeSecondaryMajor() {
   app.secondaryMajor = null;
+  app.combinationPanel = "summary";
   app.progress.secondaryMajorId = "";
   app.progress.secondaryTrack = "";
   saveProgress();
@@ -790,103 +793,1442 @@ function requirementRowsForMajor(major, trackId) {
   }));
 }
 
-function renderCombinationCourseCard(title, subtitle, codes) {
-  const represented = new Set([
+function combinationCourseSets(info = getDegreeCombination()) {
+  if (!info) {
+    return {
+      primaryCodes: new Set(),
+      secondaryCodes: new Set(),
+      shared: new Set(),
+      primaryOnly: new Set(),
+      secondaryOnly: new Set()
+    };
+  }
+
+  const primaryCodes = visibleCodesForMajor(
+    info.primary,
+    app.progress.track
+  );
+
+  const secondaryCodes = visibleCodesForMajor(
+    info.secondary,
+    app.progress.secondaryTrack
+  );
+
+  return {
+    primaryCodes,
+    secondaryCodes,
+    shared: new Set(
+      [...primaryCodes].filter(
+        (code) => secondaryCodes.has(code)
+      )
+    ),
+    primaryOnly: new Set(
+      [...primaryCodes].filter(
+        (code) => !secondaryCodes.has(code)
+      )
+    ),
+    secondaryOnly: new Set(
+      [...secondaryCodes].filter(
+        (code) => !primaryCodes.has(code)
+      )
+    )
+  };
+}
+
+function mandatoryCodesForMajor(major, trackId) {
+  return withMajorContext(major, trackId, () => {
+    const result = new Set();
+
+    const addItem = (item) => {
+      if (item.type === "all") {
+        for (const code of item.courses || []) {
+          result.add(normalizeCode(code));
+        }
+      }
+
+      if (
+        item.type === "path-choice"
+        && (item.paths || []).length === 1
+      ) {
+        for (
+          const code
+          of item.paths[0].courses || []
+        ) {
+          result.add(normalizeCode(code));
+        }
+      }
+    };
+
+    for (const requirement of getActiveRequirements()) {
+      if (requirement.type === "group") {
+        for (const item of requirement.items || []) {
+          addItem(item);
+        }
+      }
+
+      if (
+        requirement.type === "pool"
+        && Number(requirement.minCount || 0)
+        && Number(requirement.minCount)
+          >= (requirement.courses || []).length
+      ) {
+        for (const code of requirement.courses || []) {
+          result.add(normalizeCode(code));
+        }
+      }
+    }
+
+    return result;
+  });
+}
+
+function representedCombinationCodes() {
+  return new Set([
     ...fulfilledCourseCodes(),
-    ...Object.values(app.progress.plan || {}).flat().filter((item) => !isPlanSlot(item)).map(normalizeCode)
-  ]);
+    ...plannedCourseCodes()
+  ].map(normalizeCode));
+}
+
+function representedCombinationCredits() {
+  const codes = representedCombinationCodes();
+
+  const courseCredits = [...codes].reduce(
+    (total, code) => (
+      total + numericCredits(getCourse(code).credits)
+    ),
+    0
+  );
+
+  const placeholderCredits = Object.values(
+    app.progress.plan || {}
+  )
+    .flat()
+    .reduce((total, item) => {
+      const slot = parsePlanSlot(item);
+      return total + (slot ? slot.credits : 0);
+    }, 0);
+
+  return (
+    courseCredits
+    + placeholderCredits
+    + Number(app.progress.manualCredits?.["total-extra"] || 0)
+  );
+}
+
+function normalizedRequirementTitle(requirement) {
+  return String(
+    requirement.sectionTitle
+    || requirement.title
+    || "Requirement"
+  )
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g, " ");
+}
+
+function combinationRequirementFingerprint(requirement) {
+  const items = (requirement.items || []).map((item) => ({
+    label: String(item.label || "").trim().toLowerCase(),
+    type: item.type || "",
+    area: item.area || "",
+    targetCredits: Number(item.targetCredits || 0),
+    minCount: Number(item.minCount || 0),
+    minCredits: Number(item.minCredits || 0),
+    minLevel: Number(item.minLevel || 0),
+    minLevelCount: Number(item.minLevelCount || 0),
+    courses: (item.courses || [])
+      .map(normalizeCode)
+      .sort(),
+    paths: (item.paths || [])
+      .map((path) => ({
+        label: String(path.label || "")
+          .trim()
+          .toLowerCase(),
+        courses: (path.courses || [])
+          .map(normalizeCode)
+          .sort()
+      }))
+  }));
+
+  return JSON.stringify({
+    title: normalizedRequirementTitle(requirement),
+    type: requirement.type || "",
+    targetCredits: Number(
+      requirement.targetCredits || 0
+    ),
+    displayCredits: requirement.displayCredits || "",
+    items
+  });
+}
+
+function combinedRequirementRows(info) {
+  if (!info) return [];
+
+  const sources = [
+    ...requirementRowsForMajor(
+      info.primary,
+      app.progress.track
+    ).map((row, order) => ({
+      ...row,
+      owner: "primary",
+      major: info.primary,
+      order
+    })),
+
+    ...requirementRowsForMajor(
+      info.secondary,
+      app.progress.secondaryTrack
+    ).map((row, order) => ({
+      ...row,
+      owner: "secondary",
+      major: info.secondary,
+      order
+    }))
+  ];
+
+  const merged = new Map();
+
+  for (const source of sources) {
+    const fingerprint =
+      combinationRequirementFingerprint(
+        source.requirement
+      );
+
+    if (!merged.has(fingerprint)) {
+      merged.set(fingerprint, {
+        fingerprint,
+        title:
+          source.requirement.sectionTitle
+          || source.requirement.title,
+        requirement: source.requirement,
+        entries: [],
+        order: source.owner === "primary"
+          ? source.order
+          : 1000 + source.order
+      });
+    }
+
+    merged.get(fingerprint).entries.push(source);
+  }
+
+  return [...merged.values()]
+    .sort((a, b) => a.order - b.order)
+    .map((row) => {
+      const owners = new Set(
+        row.entries.map((entry) => entry.owner)
+      );
+
+      const satisfied = row.entries.every(
+        (entry) => entry.evaluation.satisfied
+      );
+
+      const planned = (
+        !satisfied
+        && row.entries.some((entry) => entry.planned)
+      );
+
+      const codes = new Set();
+
+      for (const entry of row.entries) {
+        for (
+          const code
+          of requirementCourseSet(entry.requirement)
+        ) {
+          codes.add(normalizeCode(code));
+        }
+      }
+
+      return {
+        ...row,
+        owners,
+        owner: owners.size === 2
+          ? "both"
+          : [...owners][0],
+        satisfied,
+        planned,
+        codes
+      };
+    });
+}
+
+function combinationOwnerLabel(owner, info) {
+  if (owner === "both") return "Both majors";
+  if (owner === "secondary") {
+    return info.secondary.name;
+  }
+  return info.primary.name;
+}
+
+function combinationCourseRole(
+  code,
+  sets = combinationCourseSets()
+) {
+  const normalized = normalizeCode(code);
+
+  if (sets.shared.has(normalized)) return "both";
+  if (sets.primaryOnly.has(normalized)) return "primary";
+  if (sets.secondaryOnly.has(normalized)) {
+    return "secondary";
+  }
+
+  return getCourse(normalized).areas
+    ? "gen-ed"
+    : "other";
+}
+
+function combinationRoleBadge(role) {
+  const labels = {
+    primary: "PRIMARY",
+    secondary: "SECONDARY",
+    both: "BOTH",
+    "gen-ed": "GEN ED",
+    other: "ELECTIVE"
+  };
+
+  return `<span class="plan-role-badge ${escapeHtml(role)}">${escapeHtml(labels[role] || "COURSE")}</span>`;
+}
+
+function combinationCourseState(code) {
+  if (isFulfilled(code)) return "fulfilled";
+
+  const quarter = plannedQuarter(code);
+  if (quarter) {
+    return `planned · ${shortQuarterLabel(quarter)}`;
+  }
+
+  const status = courseStatus(code);
+
+  if (status === "available") return "available next";
+  if (status === "locked") return "prerequisites needed";
+  if (status === "unknown") return "check prerequisites";
+  return status;
+}
+
+function renderCombinationCourseCard(
+  title,
+  subtitle,
+  codes,
+  options = {}
+) {
+  const represented = representedCombinationCodes();
   const sorted = [...codes].sort();
-  const preview = sorted.slice(0, 120);
+  const preview = sorted.slice(
+    0,
+    Number(options.limit || 120)
+  );
+
   return `<article class="combination-course-card card-surface">
-    <h2>${escapeHtml(title)}</h2>
-    <p>${escapeHtml(subtitle)} · ${sorted.length} course${sorted.length === 1 ? "" : "s"}</p>
-    <div class="combination-course-chips">${preview.length
-      ? preview.map((code) => `<span class="combination-course-chip ${represented.has(code) ? "in-plan" : ""}" title="${escapeHtml(getCourse(code).title)}">${escapeHtml(code)}</span>`).join("")
-      : `<span class="combination-course-empty">No courses in this category.</span>`}
-      ${sorted.length > preview.length ? `<span class="combination-course-empty">+ ${sorted.length - preview.length} more</span>` : ""}
+    <div class="combination-section-heading">
+      <div>
+        <h2>${escapeHtml(title)}</h2>
+        <p>${escapeHtml(subtitle)} · ${sorted.length} course${sorted.length === 1 ? "" : "s"}</p>
+      </div>
+      ${options.badge ? `<span class="combination-section-badge">${escapeHtml(options.badge)}</span>` : ""}
+    </div>
+
+    <div class="combination-course-chips">
+      ${preview.length
+        ? preview.map((code) => {
+          const course = getCourse(code);
+          return `<button
+            class="combination-course-chip ${represented.has(code) ? "in-plan" : ""}"
+            type="button"
+            data-open-combination-course="${escapeHtml(code)}"
+            title="${escapeHtml(`${course.title} · ${combinationCourseState(code)}`)}"
+          >
+            ${escapeHtml(code)}
+          </button>`;
+        }).join("")
+        : `<span class="combination-course-empty">No courses in this category.</span>`}
+
+      ${sorted.length > preview.length
+        ? `<span class="combination-course-empty">+ ${sorted.length - preview.length} more</span>`
+        : ""}
     </div>
   </article>`;
 }
 
 function renderCombinationAudit(major, trackId) {
   const rows = requirementRowsForMajor(major, trackId);
-  const completed = rows.filter((row) => row.evaluation.satisfied).length;
-  const track = major.tracks?.find((entry) => entry.id === trackId)?.name || trackId;
-  const trackSummary = majorHasAlternateDegreePaths(major) ? track : "";
+  const completed = rows.filter(
+    (row) => row.evaluation.satisfied
+  ).length;
+
+  const track = major.tracks?.find(
+    (entry) => entry.id === trackId
+  )?.name || trackId;
+
+  const trackSummary = majorHasAlternateDegreePaths(major)
+    ? track
+    : "";
+
   return `<article class="combination-audit card-surface">
     <div class="combination-audit-head">
-      <div><h2>${escapeHtml(major.name)}</h2><span>${escapeHtml(major.degree || "")}</span></div>
-      <span>${completed}/${rows.length} sections fulfilled${trackSummary ? `<br>${escapeHtml(trackSummary)}` : ""}</span>
+      <div>
+        <h2>${escapeHtml(major.name)}</h2>
+        <span>${escapeHtml(major.degree || "")}</span>
+      </div>
+
+      <span>
+        ${completed}/${rows.length} sections fulfilled
+        ${trackSummary
+          ? `<br>${escapeHtml(trackSummary)}`
+          : ""}
+      </span>
     </div>
-    <div class="combination-requirement-list">${rows.map(({ requirement, evaluation, planned }) => {
-      const state = evaluation.satisfied ? "fulfilled" : planned ? "planned" : "";
-      const status = evaluation.satisfied ? `✓ ${evaluation.label}` : planned ? `Planned · ${evaluation.label}` : evaluation.label;
-      return `<div class="combination-requirement-row ${state}"><strong>${escapeHtml(requirement.title)}</strong><span>${escapeHtml(status)}</span></div>`;
-    }).join("")}</div>
+
+    <div class="combination-requirement-list">
+      ${rows.map(
+        ({ requirement, evaluation, planned }) => {
+          const state = evaluation.satisfied
+            ? "fulfilled"
+            : planned
+              ? "planned"
+              : "";
+
+          const status = evaluation.satisfied
+            ? `✓ ${evaluation.label}`
+            : planned
+              ? `Planned · ${evaluation.label}`
+              : evaluation.label;
+
+          return `<div class="combination-requirement-row ${state}">
+            <strong>${escapeHtml(
+              requirement.sectionTitle
+              || requirement.title
+            )}</strong>
+            <span>${escapeHtml(status)}</span>
+          </div>`;
+        }
+      ).join("")}
+    </div>
   </article>`;
+}
+
+function renderMergedCombinationAudit(rows, info) {
+  const represented = representedCombinationCodes();
+
+  return `<div class="combined-requirement-list">
+    ${rows.map((row) => {
+      const status = row.satisfied
+        ? "fulfilled"
+        : row.planned
+          ? "planned"
+          : "missing";
+
+      const visibleCodes = [...row.codes]
+        .filter((code) => (
+          represented.has(code)
+          || row.codes.size <= 16
+        ))
+        .slice(0, 16);
+
+      return `<article class="combined-requirement-card ${status}">
+        <div class="combined-requirement-main">
+          <div class="combined-requirement-badges">
+            <span class="combined-owner-badge ${escapeHtml(row.owner)}">
+              ${escapeHtml(
+                combinationOwnerLabel(row.owner, info)
+              )}
+            </span>
+
+            <span class="combined-status-badge ${status}">
+              ${status === "fulfilled"
+                ? "Complete"
+                : status === "planned"
+                  ? "Planned"
+                  : "Still needed"}
+            </span>
+          </div>
+
+          <h3>${escapeHtml(row.title)}</h3>
+
+          <div class="combined-requirement-progress">
+            ${row.entries.map((entry) => `
+              <span>
+                <strong>${escapeHtml(entry.major.name)}:</strong>
+                ${escapeHtml(entry.evaluation.label || "Review requirement")}
+              </span>
+            `).join("")}
+          </div>
+
+          ${visibleCodes.length
+            ? `<div class="combined-requirement-courses">
+                ${visibleCodes.map((code) => `
+                  <button
+                    type="button"
+                    class="${represented.has(code) ? "represented" : ""}"
+                    data-open-combination-course="${escapeHtml(code)}"
+                  >
+                    ${escapeHtml(code)}
+                  </button>
+                `).join("")}
+              </div>`
+            : ""}
+        </div>
+      </article>`;
+    }).join("")}
+  </div>`;
+}
+
+function combinationAdmissionRows(info) {
+  const pattern =
+    /admission|application|declaration|declare|checkpoint/i;
+
+  return [
+    ...requirementRowsForMajor(
+      info.primary,
+      app.progress.track
+    )
+      .filter(({ requirement }) => (
+        pattern.test(
+          `${requirement.title || ""} ${requirement.sectionTitle || ""}`
+        )
+      ))
+      .map((row) => ({
+        ...row,
+        owner: "primary",
+        major: info.primary
+      })),
+
+    ...requirementRowsForMajor(
+      info.secondary,
+      app.progress.secondaryTrack
+    )
+      .filter(({ requirement }) => (
+        pattern.test(
+          `${requirement.title || ""} ${requirement.sectionTitle || ""}`
+        )
+      ))
+      .map((row) => ({
+        ...row,
+        owner: "secondary",
+        major: info.secondary
+      }))
+  ];
+}
+
+function renderCombinationAdmissions(info) {
+  const rows = combinationAdmissionRows(info);
+
+  if (!rows.length) {
+    return `<article class="combination-detail-card card-surface">
+      <div class="eyebrow">ADMISSION MILESTONES</div>
+      <h2>No separate milestone data</h2>
+      <p>The selected major files do not define a separate admission or declaration checkpoint. Check each department’s current admissions page.</p>
+    </article>`;
+  }
+
+  return `<article class="combination-detail-card card-surface">
+    <div class="eyebrow">ESTIMATED APPLICATION READINESS</div>
+    <h2>Admission and declaration milestones</h2>
+
+    <div class="combination-milestone-list">
+      ${rows.map((row) => `
+        <div class="combination-milestone ${row.evaluation.satisfied ? "complete" : row.planned ? "planned" : ""}">
+          <span class="milestone-symbol">
+            ${row.evaluation.satisfied
+              ? "✓"
+              : row.planned
+                ? "◐"
+                : "○"}
+          </span>
+
+          <div>
+            <strong>${escapeHtml(row.major.name)}</strong>
+            <span>${escapeHtml(
+              row.requirement.sectionTitle
+              || row.requirement.title
+            )}</span>
+          </div>
+
+          <em>${escapeHtml(
+            row.evaluation.satisfied
+              ? "Ready to verify"
+              : row.planned
+                ? "In the plan"
+                : row.evaluation.label || "Not ready"
+          )}</em>
+        </div>
+      `).join("")}
+    </div>
+
+    <p class="combination-disclaimer">
+      This estimates course readiness only. It does not predict admission or replace departmental review.
+    </p>
+  </article>`;
+}
+
+function combinationAdditionalSummary(info, sets, rows) {
+  const primaryMandatory = mandatoryCodesForMajor(
+    info.primary,
+    app.progress.track
+  );
+
+  const secondaryMandatory = mandatoryCodesForMajor(
+    info.secondary,
+    app.progress.secondaryTrack
+  );
+
+  const additionalCore = new Set(
+    [...secondaryMandatory].filter(
+      (code) => !primaryMandatory.has(code)
+    )
+  );
+
+  const represented = representedCombinationCodes();
+
+  const unrepresentedCore = [...additionalCore].filter(
+    (code) => !represented.has(code)
+  );
+
+  const estimatedCoreCredits = unrepresentedCore.reduce(
+    (total, code) => (
+      total + numericCredits(getCourse(code).credits)
+    ),
+    0
+  );
+
+  const uniqueMissingRequirements = rows.filter(
+    (row) => (
+      row.owner === "secondary"
+      && !row.satisfied
+      && !row.planned
+      && row.requirement.type !== "total"
+    )
+  );
+
+  return {
+    primaryMandatory,
+    secondaryMandatory,
+    additionalCore,
+    unrepresentedCore,
+    estimatedCoreCredits,
+    uniqueMissingRequirements
+  };
+}
+
+function renderCombinationAdditions(info, additions) {
+  const preview = additions.unrepresentedCore.slice(0, 24);
+
+  return `<article class="combination-detail-card card-surface">
+    <div class="eyebrow">WHAT THE SECOND MAJOR ADDS</div>
+    <h2>${escapeHtml(info.secondary.name)}</h2>
+
+    <div class="combination-addition-metrics">
+      <div>
+        <strong>${additions.additionalCore.size}</strong>
+        <span>additional listed core courses</span>
+      </div>
+      <div>
+        <strong>${formatNumber(additions.estimatedCoreCredits)}</strong>
+        <span>unrepresented core credits</span>
+      </div>
+      <div>
+        <strong>${additions.uniqueMissingRequirements.length}</strong>
+        <span>unique open sections</span>
+      </div>
+    </div>
+
+    ${preview.length
+      ? `<div class="combination-course-chips">
+          ${preview.map((code) => `
+            <button
+              class="combination-course-chip"
+              type="button"
+              data-open-combination-course="${escapeHtml(code)}"
+              title="${escapeHtml(getCourse(code).title)}"
+            >
+              ${escapeHtml(code)}
+            </button>
+          `).join("")}
+        </div>`
+      : `<p class="combination-positive">No additional unrepresented core courses were identified from the major files.</p>`}
+
+    ${additions.uniqueMissingRequirements.length
+      ? `<div class="combination-added-requirements">
+          ${additions.uniqueMissingRequirements.slice(0, 8).map((row) => `
+            <span>${escapeHtml(row.title)}</span>
+          `).join("")}
+        </div>`
+      : ""}
+
+    <p class="combination-disclaimer">
+      Core-course estimate only. Choice-based electives and department double-counting limits may change the final total.
+    </p>
+  </article>`;
+}
+
+function combinationRecommendationRows(
+  info,
+  sets,
+  rows,
+  additions
+) {
+  const represented = representedCombinationCodes();
+  const candidateScores = new Map();
+  const allCombinedCodes = new Set([
+    ...sets.primaryCodes,
+    ...sets.secondaryCodes
+  ]);
+
+  const addScore = (code, amount, reason) => {
+    const normalized = normalizeCode(code);
+    if (!normalized || represented.has(normalized)) return;
+
+    const current = candidateScores.get(normalized) || {
+      code: normalized,
+      score: 0,
+      reasons: new Set()
+    };
+
+    current.score += amount;
+    if (reason) current.reasons.add(reason);
+    candidateScores.set(normalized, current);
+  };
+
+  for (const code of sets.shared) {
+    addScore(code, 100, "listed by both majors");
+  }
+
+  for (const code of additions.primaryMandatory) {
+    addScore(code, 35, "primary core");
+  }
+
+  for (const code of additions.secondaryMandatory) {
+    addScore(code, 35, "second-major core");
+  }
+
+  for (const row of rows) {
+    if (row.satisfied) continue;
+
+    const weight = row.owner === "both"
+      ? 32
+      : 15;
+
+    for (const code of row.codes) {
+      addScore(
+        code,
+        weight,
+        row.owner === "both"
+          ? "supports a shared requirement"
+          : "supports an open requirement"
+      );
+    }
+  }
+
+  for (const candidate of candidateScores.values()) {
+    const status = courseStatus(candidate.code);
+
+    if (status === "available") {
+      candidate.score += 30;
+      candidate.reasons.add("available next");
+    } else if (status === "locked") {
+      candidate.score -= 10;
+    }
+
+    const unlocks = getMajorSuccessors(
+      candidate.code
+    ).filter(
+      (code) => allCombinedCodes.has(code)
+    ).length;
+
+    candidate.unlocks = unlocks;
+    candidate.score += Math.min(30, unlocks * 3);
+  }
+
+  return [...candidateScores.values()]
+    .sort(
+      (a, b) => (
+        b.score - a.score
+        || b.unlocks - a.unlocks
+        || a.code.localeCompare(b.code)
+      )
+    )
+    .slice(0, 8);
+}
+
+function renderCombinationRecommendations(rows) {
+  return `<article class="combination-detail-card card-surface">
+    <div class="eyebrow">BEST COURSES TO TAKE NEXT</div>
+    <h2>Courses with the highest combined value</h2>
+
+    ${rows.length
+      ? `<div class="combination-recommendation-list">
+          ${rows.map((row, index) => {
+            const course = getCourse(row.code);
+            const state = combinationCourseState(row.code);
+
+            return `<button
+              class="combination-recommendation"
+              type="button"
+              data-open-combination-course="${escapeHtml(row.code)}"
+            >
+              <span class="recommendation-rank">${index + 1}</span>
+
+              <span class="recommendation-copy">
+                <strong>${escapeHtml(row.code)} · ${escapeHtml(course.title)}</strong>
+                <small>${escapeHtml([...row.reasons].slice(0, 3).join(" · "))}</small>
+              </span>
+
+              <span class="recommendation-meta">
+                ${escapeHtml(state)}
+                ${row.unlocks
+                  ? `<small>unlocks ${row.unlocks}</small>`
+                  : ""}
+              </span>
+            </button>`;
+          }).join("")}
+        </div>`
+      : `<p class="combination-positive">No additional course recommendations are needed from the current major data.</p>`}
+
+    <p class="combination-disclaimer">
+      Ranking favors shared courses, required core courses, currently available courses, and courses that unlock more of either degree.
+    </p>
+  </article>`;
+}
+
+function combinationPlanWarnings(rows) {
+  const warnings = validatePlan().map(
+    (warning) => ({
+      type: "course",
+      message: warning.message
+    })
+  );
+
+  for (const quarter of QUARTERS) {
+    const credits = quarterCredits(quarter.id);
+
+    if (credits > 18) {
+      warnings.push({
+        type: "load",
+        message:
+          `${shortQuarterLabel(quarter.id)} has `
+          + `${formatNumber(credits)} credits. `
+          + "That is a heavy quarter and may require approval."
+      });
+    }
+  }
+
+  const seen = new Map();
+
+  for (const quarter of QUARTERS) {
+    for (const item of app.progress.plan?.[quarter.id] || []) {
+      if (isPlanSlot(item)) continue;
+
+      const code = normalizeCode(item);
+
+      if (seen.has(code)) {
+        warnings.push({
+          type: "duplicate",
+          message:
+            `${code} appears in both `
+            + `${shortQuarterLabel(seen.get(code))} and `
+            + `${shortQuarterLabel(quarter.id)}.`
+        });
+      } else {
+        seen.set(code, quarter.id);
+      }
+    }
+  }
+
+  const missing = rows.filter(
+    (row) => (
+      !row.satisfied
+      && !row.planned
+      && row.requirement.type !== "total"
+    )
+  );
+
+  if (missing.length) {
+    warnings.push({
+      type: "requirement",
+      message:
+        `${missing.length} combined requirement section`
+        + `${missing.length === 1 ? " has" : "s have"} `
+        + "no completed or planned course yet."
+    });
+  }
+
+  return warnings;
+}
+
+function renderCombinationPlanItem(
+  item,
+  sets,
+  warningCodes
+) {
+  if (isPlanSlot(item)) {
+    const slot = parsePlanSlot(item);
+
+    return `<div class="combined-plan-course slot">
+      <div class="combined-plan-course-top">
+        ${combinationRoleBadge("other")}
+        <span>${formatNumber(slot.credits)} cr</span>
+      </div>
+      <strong>${escapeHtml(slot.label)}</strong>
+      <small>Open requirement placeholder</small>
+    </div>`;
+  }
+
+  const course = getCourse(item);
+  const role = combinationCourseRole(item, sets);
+
+  return `<button
+    class="combined-plan-course ${isFulfilled(item) ? "fulfilled" : ""} ${warningCodes.has(normalizeCode(item)) ? "warning" : ""}"
+    type="button"
+    data-open-combination-course="${escapeHtml(item)}"
+  >
+    <div class="combined-plan-course-top">
+      ${combinationRoleBadge(role)}
+      <span>${escapeHtml(course.credits || "?")} cr</span>
+    </div>
+
+    <strong>${escapeHtml(item)}</strong>
+    <small>${escapeHtml(course.title)}</small>
+  </button>`;
+}
+
+function renderCombinedPlan(info, sets, rows) {
+  const warnings = combinationPlanWarnings(rows);
+  const warningCodes = new Set(
+    warnings
+      .flatMap((warning) => {
+        const match = warning.message.match(
+          /\b(?:[A-Z]{1,5}(?:\s+[A-Z])?)\s+\d{3}[A-Z]?\b/g
+        );
+
+        return match || [];
+      })
+      .map(normalizeCode)
+  );
+
+  const represented = representedCombinationCredits();
+  const remaining = Math.max(
+    0,
+    info.minimumCredits - represented
+  );
+
+  const quartersWorth = remaining
+    ? Math.ceil(remaining / 15)
+    : 0;
+
+  $("#combination-plan-summary").innerHTML = [
+    metricCard(
+      "Credits represented",
+      `${formatNumber(represented)} / ${formatNumber(info.minimumCredits)}`,
+      represented / info.minimumCredits,
+      "Unique completed and planned courses, placeholders, and other completed credits"
+    ),
+    metricCard(
+      "Approximate credit load left",
+      quartersWorth
+        ? `${quartersWorth} quarter${quartersWorth === 1 ? "" : "s"}`
+        : "Credit minimum met",
+      0,
+      remaining
+        ? `${formatNumber(remaining)} credits at about 15 credits per quarter`
+        : "Requirements may still remain even after the credit minimum"
+    ),
+    metricCard(
+      "Plan warnings",
+      warnings.length,
+      0,
+      "Prerequisites, offerings, duplicates, heavy quarters, and unplanned sections"
+    ),
+    metricCard(
+      "Year 5",
+      plannerYears().includes(5)
+        ? "Included"
+        : remaining > 45
+          ? "May be useful"
+          : "Not currently shown",
+      0,
+      info.type === "dual-degree"
+        ? "Automatically included for a dual degree"
+        : "Estimate based on the current shared plan"
+    )
+  ].join("");
+
+  $("#combination-plan-grid").innerHTML = plannerYears()
+    .map((year) => {
+      const quarters = QUARTERS.filter(
+        (quarter) => (
+          quarter.year === year
+          && (
+            quarter.season !== "Summer"
+            || summerQuarterExpanded(year)
+            || quarterCredits(quarter.id) > 0
+          )
+        )
+      );
+
+      const yearCredits = quarters.reduce(
+        (total, quarter) => (
+          total + quarterCredits(quarter.id)
+        ),
+        0
+      );
+
+      return `<section class="combined-plan-year">
+        <div class="combined-plan-year-head">
+          <h2>Year ${year}</h2>
+          <span>${formatNumber(yearCredits)} credits</span>
+        </div>
+
+        <div class="combined-plan-quarters">
+          ${quarters.map((quarter) => {
+            const items =
+              app.progress.plan?.[quarter.id] || [];
+
+            return `<article class="combined-plan-quarter ${quarterCredits(quarter.id) > 18 ? "heavy" : ""}">
+              <div class="combined-plan-quarter-head">
+                <h3>${escapeHtml(quarter.season)}</h3>
+                <span>${formatNumber(quarterCredits(quarter.id))} cr</span>
+              </div>
+
+              <div class="combined-plan-course-list">
+                ${items.length
+                  ? items.map((item) => (
+                    renderCombinationPlanItem(
+                      item,
+                      sets,
+                      warningCodes
+                    )
+                  )).join("")
+                  : `<span class="combined-plan-empty">No courses planned</span>`}
+              </div>
+            </article>`;
+          }).join("")}
+        </div>
+      </section>`;
+    })
+    .join("");
+
+  $("#combination-plan-warnings").innerHTML = `
+    <article class="combination-detail-card card-surface">
+      <div class="combination-panel-heading">
+        <div>
+          <div class="eyebrow">COMBINED PLAN AUDIT</div>
+          <h2>Plan checks</h2>
+        </div>
+
+        <button
+          class="button primary"
+          type="button"
+          data-edit-combination-plan
+        >
+          Edit in Four-year plan
+        </button>
+      </div>
+
+      ${warnings.length
+        ? `<div class="combination-warning-list">
+            ${warnings.slice(0, 40).map((warning) => `
+              <div class="combination-warning-row ${escapeHtml(warning.type)}">
+                <strong>!</strong>
+                <span>${escapeHtml(warning.message)}</span>
+              </div>
+            `).join("")}
+          </div>`
+        : `<div class="combination-positive">No combined plan conflicts were found.</div>`}
+
+      ${warnings.length > 40
+        ? `<p class="combination-disclaimer">${warnings.length - 40} additional warnings are not shown.</p>`
+        : ""}
+    </article>
+  `;
+}
+
+function renderCombinationOverlapReview(
+  info,
+  sets
+) {
+  const represented = representedCombinationCodes();
+  const shared = [...sets.shared].sort();
+
+  $("#combination-overlap-review").innerHTML = `
+    <article class="combination-detail-card card-surface">
+      <div class="eyebrow">DOUBLE-COUNTING REVIEW</div>
+      <h2>Potential shared courses</h2>
+
+      <p>
+        A course appearing in both major files is a potential overlap, not automatic approval to double-count it. Department and college rules control final use.
+      </p>
+
+      ${shared.length
+        ? `<div class="combination-overlap-table">
+            ${shared.map((code) => {
+              const course = getCourse(code);
+
+              return `<button
+                type="button"
+                class="combination-overlap-row"
+                data-open-combination-course="${escapeHtml(code)}"
+              >
+                <span>
+                  <strong>${escapeHtml(code)}</strong>
+                  <small>${escapeHtml(course.title)}</small>
+                </span>
+
+                <span>${escapeHtml(course.credits || "?")} cr</span>
+
+                <span class="overlap-state ${represented.has(code) ? "represented" : ""}">
+                  ${represented.has(code)
+                    ? "Completed or planned"
+                    : "Not represented"}
+                </span>
+
+                <span class="overlap-verification">
+                  Verify with departments
+                </span>
+              </button>`;
+            }).join("")}
+          </div>`
+        : `<div class="combination-positive">The selected degree maps do not list any identical course codes.</div>`}
+    </article>
+  `;
+}
+
+function renderCombinationPanelVisibility() {
+  const panel = app.combinationPanel || "summary";
+
+  $$("[data-combination-panel]").forEach((button) => {
+    const active =
+      button.dataset.combinationPanel === panel;
+
+    button.classList.toggle("active", active);
+    button.setAttribute(
+      "aria-selected",
+      active ? "true" : "false"
+    );
+  });
+
+  $$("[data-combination-content]").forEach((section) => {
+    section.hidden =
+      section.dataset.combinationContent !== panel;
+  });
+}
+
+function handleCombinationClick(event) {
+  const panelButton = event.target.closest(
+    "[data-combination-panel]"
+  );
+
+  if (panelButton) {
+    app.combinationPanel =
+      panelButton.dataset.combinationPanel;
+
+    renderCombinationPanelVisibility();
+    return;
+  }
+
+  if (event.target.closest("[data-edit-combination-plan]")) {
+    switchView("planner");
+    return;
+  }
+
+  const courseButton = event.target.closest(
+    "[data-open-combination-course]"
+  );
+
+  if (courseButton) {
+    const code = normalizeCode(
+      courseButton.dataset.openCombinationCourse
+    );
+
+    app.catalogRequirementContext = null;
+    app.selectedCatalogId =
+      getCatalogCourse(code)?.id || null;
+
+    const search = $("#catalog-search");
+    if (search) search.value = code;
+
+    const courseCodeFilter = $("#course-code-filter");
+    if (courseCodeFilter) courseCodeFilter.value = "";
+
+    for (const id of [
+      "#course-level-filter",
+      "#credit-filter",
+      "#area-filter",
+      "#offered-filter",
+      "#department-filter"
+    ]) {
+      const control = $(id);
+      if (control) control.value = "all";
+    }
+
+    app.catalogLimit = 60;
+    switchView("catalog");
+    renderCatalog();
+  }
 }
 
 function renderCombinationBanner() {
   const banner = $("#degree-combination-banner");
   if (!banner) return;
+
   const info = getDegreeCombination();
+
   if (!info) {
     banner.hidden = true;
     return;
   }
+
+  const represented = representedCombinationCredits();
+
   banner.hidden = false;
   banner.innerHTML = `<div class="combination-banner-copy">
-    <strong>${escapeHtml(info.primary.name)} + ${escapeHtml(info.secondary.name)} · ${escapeHtml(info.label)}</strong>
-    <span>${escapeHtml(majorAwardId(info.primary))} + ${escapeHtml(majorAwardId(info.secondary))} · minimum ${formatNumber(info.minimumCredits)} credits · ${formatNumber(plannedCredits())} currently represented</span>
+    <strong>
+      ${escapeHtml(info.primary.name)}
+      +
+      ${escapeHtml(info.secondary.name)}
+      ·
+      ${escapeHtml(info.label)}
+    </strong>
+
+    <span>
+      ${escapeHtml(majorAwardId(info.primary))}
+      +
+      ${escapeHtml(majorAwardId(info.secondary))}
+      · minimum ${formatNumber(info.minimumCredits)} credits
+      · ${formatNumber(represented)} completed or planned
+    </span>
   </div>
-  <div class="combination-banner-actions"><button id="open-combination-button" class="button primary" type="button">View combined plan</button></div>`;
-  $("#open-combination-button")?.addEventListener("click", () => switchView("combination"));
+
+  <div class="combination-banner-actions">
+    <button
+      id="open-combination-button"
+      class="button primary"
+      type="button"
+    >
+      View combined audit
+    </button>
+  </div>`;
+
+  $("#open-combination-button")?.addEventListener(
+    "click",
+    () => switchView("combination")
+  );
 }
 
 function renderCombination() {
   const summary = $("#combination-summary");
   if (!summary) return;
+
   const info = getDegreeCombination();
+
+  const idsToClear = [
+    "#combination-course-grid",
+    "#combination-audits",
+    "#combination-merged-audit",
+    "#combination-additions",
+    "#combination-recommendations",
+    "#combination-admissions",
+    "#combination-overlap-review",
+    "#combination-plan-summary",
+    "#combination-plan-grid",
+    "#combination-plan-warnings"
+  ];
+
   if (!info) {
     summary.innerHTML = "";
-    $("#combination-alert").innerHTML = "<h2>Add a second major</h2><p>Use the button in the header to compare two programs.</p>";
-    $("#combination-course-grid").innerHTML = "";
-    $("#combination-audits").innerHTML = "";
+
+    $("#combination-alert").innerHTML =
+      "<h2>Add a second major</h2><p>Use the button in the header to compare two programs and run one shared audit.</p>";
+
+    for (const selector of idsToClear) {
+      const element = $(selector);
+      if (element) element.innerHTML = "";
+    }
+
     return;
   }
 
-  const primaryCodes = visibleCodesForMajor(info.primary, app.progress.track);
-  const secondaryCodes = visibleCodesForMajor(info.secondary, app.progress.secondaryTrack);
-  const shared = new Set([...primaryCodes].filter((code) => secondaryCodes.has(code)));
-  const primaryOnly = new Set([...primaryCodes].filter((code) => !secondaryCodes.has(code)));
-  const secondaryOnly = new Set([...secondaryCodes].filter((code) => !primaryCodes.has(code)));
-  const planned = plannedCredits();
-  const remaining = Math.max(0, info.minimumCredits - planned);
+  const sets = combinationCourseSets(info);
+  const rows = combinedRequirementRows(info);
+  const additions = combinationAdditionalSummary(
+    info,
+    sets,
+    rows
+  );
+
+  const recommendations =
+    combinationRecommendationRows(
+      info,
+      sets,
+      rows,
+      additions
+    );
+
+  const primaryRows = requirementRowsForMajor(
+    info.primary,
+    app.progress.track
+  );
+
+  const secondaryRows = requirementRowsForMajor(
+    info.secondary,
+    app.progress.secondaryTrack
+  );
+
+  const primaryComplete = primaryRows.filter(
+    (row) => row.evaluation.satisfied
+  ).length;
+
+  const secondaryComplete = secondaryRows.filter(
+    (row) => row.evaluation.satisfied
+  ).length;
+
+  const combinedComplete = rows.filter(
+    (row) => row.satisfied
+  ).length;
+
+  const represented = representedCombinationCredits();
+  const remaining = Math.max(
+    0,
+    info.minimumCredits - represented
+  );
+
+  const representedCodes = representedCombinationCodes();
+
+  const representedSharedCredits = [...sets.shared]
+    .filter((code) => representedCodes.has(code))
+    .reduce(
+      (total, code) => (
+        total + numericCredits(getCourse(code).credits)
+      ),
+      0
+    );
 
   summary.innerHTML = [
-    metricCard("Combination", info.label, 0, `${majorAwardId(info.primary)} + ${majorAwardId(info.secondary)}`),
-    metricCard("Minimum credits", formatNumber(info.minimumCredits), 0, info.type === "dual-degree" ? "Usually 45 beyond the smaller degree" : "The actual course total may be higher"),
-    metricCard("Plan represented", `${formatNumber(planned)} / ${formatNumber(info.minimumCredits)}`, planned / info.minimumCredits, `${formatNumber(remaining)} credits remaining to the minimum`),
-    metricCard("Shared listed courses", shared.size, 0, "Potential overlap; department approval controls core overlap")
+    metricCard(
+      "Primary audit",
+      `${primaryComplete} / ${primaryRows.length}`,
+      primaryRows.length
+        ? primaryComplete / primaryRows.length
+        : 0,
+      info.primary.name
+    ),
+    metricCard(
+      "Second-major audit",
+      `${secondaryComplete} / ${secondaryRows.length}`,
+      secondaryRows.length
+        ? secondaryComplete / secondaryRows.length
+        : 0,
+      info.secondary.name
+    ),
+    metricCard(
+      "Combined unique sections",
+      `${combinedComplete} / ${rows.length}`,
+      rows.length
+        ? combinedComplete / rows.length
+        : 0,
+      "Identical requirement structures are merged"
+    ),
+    metricCard(
+      "Potential shared credits",
+      formatNumber(representedSharedCredits),
+      0,
+      `${sets.shared.size} shared listed courses; verify double-counting`
+    ),
+    metricCard(
+      "Credits represented",
+      `${formatNumber(represented)} / ${formatNumber(info.minimumCredits)}`,
+      represented / info.minimumCredits,
+      `${formatNumber(remaining)} credits remain to the estimated minimum`
+    ),
+    metricCard(
+      "Additional core estimate",
+      formatNumber(additions.estimatedCoreCredits),
+      0,
+      "Unrepresented core courses added by the second major"
+    ),
+    metricCard(
+      "Open combined sections",
+      rows.filter(
+        (row) => !row.satisfied && !row.planned
+      ).length,
+      0,
+      "No completed or planned course currently identified"
+    ),
+    metricCard(
+      "Plan warnings",
+      combinationPlanWarnings(rows).length,
+      0,
+      "Prerequisites, offerings, credit loads, duplicates, and missing sections"
+    )
   ].join("");
 
   const alert = $("#combination-alert");
-  alert.className = `combination-alert card-surface ${info.error ? "warning" : "valid"}`;
-  alert.innerHTML = `<h2>${info.error ? "This combination is not permitted" : `${escapeHtml(info.label)} planning estimate`}</h2>
-    ${info.error ? `<p>${escapeHtml(info.error)}</p>` : info.warnings.map((warning) => `<p>• ${escapeHtml(warning)}</p>`).join("")}`;
+  alert.className =
+    `combination-alert card-surface ${info.error ? "warning" : "valid"}`;
+
+  alert.innerHTML = `
+    <h2>
+      ${info.error
+        ? "This combination is not permitted"
+        : `${escapeHtml(info.label)} planning estimate`}
+    </h2>
+
+    ${info.error
+      ? `<p>${escapeHtml(info.error)}</p>`
+      : info.warnings.map(
+        (warning) => `<p>• ${escapeHtml(warning)}</p>`
+      ).join("")}
+
+    <p>
+      Courses listed by both majors are treated as potential overlap until both departments confirm how they may double-count.
+    </p>
+  `;
+
+  $("#combination-additions").innerHTML =
+    renderCombinationAdditions(info, additions);
+
+  $("#combination-recommendations").innerHTML =
+    renderCombinationRecommendations(
+      recommendations
+    );
+
+  $("#combination-admissions").innerHTML =
+    renderCombinationAdmissions(info);
+
+  $("#combination-merged-audit").innerHTML =
+    renderMergedCombinationAudit(rows, info);
 
   $("#combination-course-grid").innerHTML = [
-    renderCombinationCourseCard("Shared courses", "Listed by both selected degree paths", shared),
-    renderCombinationCourseCard(info.primary.name, "Courses unique to the primary degree map", primaryOnly),
-    renderCombinationCourseCard(info.secondary.name, "Courses unique to the second degree map", secondaryOnly)
+    renderCombinationCourseCard(
+      "Potential shared courses",
+      "Listed by both selected degree paths",
+      sets.shared,
+      { badge: "Verify overlap" }
+    ),
+    renderCombinationCourseCard(
+      info.primary.name,
+      "Courses unique to the primary degree map",
+      sets.primaryOnly
+    ),
+    renderCombinationCourseCard(
+      info.secondary.name,
+      "Courses unique to the second degree map",
+      sets.secondaryOnly
+    )
   ].join("");
 
   $("#combination-audits").innerHTML = [
-    renderCombinationAudit(info.primary, app.progress.track),
-    renderCombinationAudit(info.secondary, app.progress.secondaryTrack)
+    renderCombinationAudit(
+      info.primary,
+      app.progress.track
+    ),
+    renderCombinationAudit(
+      info.secondary,
+      app.progress.secondaryTrack
+    )
   ].join("");
-}
 
+  renderCombinationOverlapReview(info, sets);
+  renderCombinedPlan(info, sets, rows);
+  renderCombinationPanelVisibility();
+}
 
 function populateGlobalControls() {
   const majorSelect = $("#major-select");
@@ -1429,6 +2771,7 @@ function bindEvents() {
 
   $("#requirements-grid").addEventListener("click", handleRequirementBrowseClick);
   $("#requirements-grid").addEventListener("change", handleRequirementChange);
+  $("#view-combination").addEventListener("click", handleCombinationClick);
 
   const plannerSearch = $("#planner-add-search");
   plannerSearch.addEventListener("input", debounce(() => {
@@ -3406,8 +4749,17 @@ function renderPlanItem(item, quarterId, hasWarning) {
     </div>`;
   }
   const course = getCourse(item);
+  const roleBadge = app.secondaryMajor
+    ? combinationRoleBadge(
+        combinationCourseRole(item)
+      )
+    : "";
+
   return `<div class="plan-course ${isFulfilled(item) ? "fulfilled" : ""} ${hasWarning ? "warning" : ""}" draggable="true" data-plan-item="${escapeHtml(item)}" data-from-quarter="${quarterId}" data-open-course="${escapeHtml(item)}">
-    <div class="plan-code">${escapeHtml(item)} · ${escapeHtml(course.credits || "?")} cr</div>
+    <div class="plan-course-heading">
+      <div class="plan-code">${escapeHtml(item)} · ${escapeHtml(course.credits || "?")} cr</div>
+      ${roleBadge}
+    </div>
     <div class="plan-title">${escapeHtml(course.title)}</div>
     <button class="plan-remove" type="button" data-remove-plan="${escapeHtml(item)}" data-quarter="${quarterId}" aria-label="Remove">×</button>
   </div>`;
