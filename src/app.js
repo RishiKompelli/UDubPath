@@ -180,6 +180,7 @@ const app = {
   majorIndex: null,
   major: null,
   secondaryMajor: null,
+  primaryMajorChosen: false,
   catalogPayload: null,
   apCredit: { exams: [], source: {} },
   courses: [],
@@ -2232,10 +2233,25 @@ function renderCombination() {
 
 function populateGlobalControls() {
   const majorSelect = $("#major-select");
-  majorSelect.innerHTML = app.majorIndex.majors.map((major) =>
-    `<option value="${escapeHtml(major.id)}" ${major.status !== "complete" ? "disabled" : ""}>${escapeHtml(major.name)}${major.status !== "complete" ? " — future" : ""}</option>`
-  ).join("");
-  majorSelect.value = app.major.id;
+
+  majorSelect.innerHTML = `
+    <option value="" disabled>Select your major…</option>
+    ${app.majorIndex.majors.map((major) =>
+      `<option
+        value="${escapeHtml(major.id)}"
+        ${major.status !== "complete" ? "disabled" : ""}
+      >
+        ${escapeHtml(major.name)}
+        ${major.status !== "complete" ? " — future" : ""}
+      </option>`
+    ).join("")}
+  `;
+
+  if (app.primaryMajorChosen) {
+    majorSelect.value = app.major.id;
+  } else {
+    majorSelect.value = "";
+  }
 
 const trackSelect = $("#track-select");
 const trackField = trackSelect.closest(".select-field");
@@ -2736,14 +2752,32 @@ function updateDataBadge() {
 }
 
 function bindEvents() {
-  $$(".tab").forEach((button) => button.addEventListener("click", () => switchView(button.dataset.view)));
+  $$(".tab").forEach((button) => {
+  button.addEventListener("click", () => {
+    if (!app.primaryMajorChosen && button.dataset.view !== "map") {
+      switchView("map");
+      $("#major-select").focus();
+      showToast("Select your major first.");
+      return;
+    }
+    switchView(button.dataset.view);
+    });
+  });
   $("#track-select").addEventListener("change", (event) => {
     app.progress.track = event.target.value;
     saveProgress();
     renderAll();
   });
   $("#major-select").addEventListener("change", (event) => changeMajor(event.target.value));
-  $("#add-second-major-button").addEventListener("click", showSecondMajorChooser);
+  $("#add-second-major-button").addEventListener("click", () => {
+    if (!app.primaryMajorChosen) {
+      $("#major-select").focus();
+      showToast("Select your primary major first.");
+      return;
+    }
+
+    showSecondMajorChooser();
+  });
   $("#secondary-major-select").addEventListener("change", (event) => changeSecondaryMajor(event.target.value));
   $("#secondary-track-select").addEventListener("change", (event) => {
     app.progress.secondaryTrack = event.target.value;
@@ -2893,6 +2927,7 @@ function bindEvents() {
 
 
 async function changeMajor(majorId) {
+  if (!majorId) return;
   const definition = app.majorIndex.majors.find((entry) => entry.id === majorId);
   if (!definition?.file || definition.status !== "complete") {
     $("#major-select").value = app.major.id;
@@ -2903,6 +2938,7 @@ async function changeMajor(majorId) {
     const major = await fetchJson(`data/majors/${definition.file}`);
     app.major = major;
     app.secondaryMajor = null;
+    app.primaryMajorChosen = true;
     app.progress = loadProgress();
     await restoreSecondaryMajor();
     app.selectedCode = null;
@@ -2920,15 +2956,41 @@ async function changeMajor(majorId) {
 
 function switchView(view) {
   app.activeView = view;
-  $$(".tab").forEach((tab) => tab.classList.toggle("active", tab.dataset.view === view));
-  $$(".view").forEach((section) => section.classList.toggle("active", section.id === `view-${view}`));
-  if (view === "map") requestAnimationFrame(drawMapEdges);
+
+  $$(".tab").forEach((button) => {
+    button.classList.toggle("active", button.dataset.view === view);
+  });
+
+  $$(".view").forEach((section) => {
+    section.classList.toggle("active", section.id === `view-${view}`);
+  });
+
+  if (view === "map") {
+    requestAnimationFrame(() => {
+      if (app.primaryMajorChosen) {
+        drawMapEdges();
+      } else {
+        $("#map-edges").innerHTML = "";
+      }
+    });
+  }
+
   if (view === "catalog") renderCatalog();
   if (view === "credits") renderCredits();
   if (view === "combination") renderCombination();
 }
 
 function renderAll() {
+    $("#track-select").value = app.progress.track;
+
+  if (app.primaryMajorChosen) {
+    $("#map-title").textContent = hasAlternateDegreePaths()
+      ? `${app.major.name} · ${trackName(app.progress.track)}`
+      : app.major.name;
+  } else {
+    $("#map-title").textContent = "Select your major";
+  }
+
   $("#track-select").value = app.progress.track;
   $("#map-title").textContent = hasAlternateDegreePaths()? `${app.major.name} · ${trackName(app.progress.track)}` : app.major.name;
   renderMap();
@@ -3795,7 +3857,105 @@ function endMapPan(event) {
   try { scroll.releasePointerCapture(event.pointerId); } catch (_) {}
 }
 
+function renderEmptyMap() {
+  app.selectedCode = null;
+
+  $("#map-title").textContent = "Select your major";
+
+  $("#map-columns").innerHTML = `
+    <section
+      style="
+        width: min(650px, calc(100vw - 80px));
+        min-height: 400px;
+        margin: 40px auto;
+        padding: 48px 32px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        background: white;
+        border: 2px dashed #b7abc9;
+        border-radius: 18px;
+        box-sizing: border-box;
+      "
+    >
+      <div
+        style="
+          width: 64px;
+          height: 64px;
+          margin-bottom: 18px;
+          display: grid;
+          place-items: center;
+          border-radius: 18px;
+          background: #eee9f5;
+          color: #4b2e83;
+          font-size: 30px;
+          font-weight: 700;
+        "
+        aria-hidden="true"
+      >
+        U
+      </div>
+
+      <h2
+        style="
+          margin: 0 0 10px;
+          color: #4b2e83;
+          font-size: 28px;
+        "
+      >
+        Select your major
+      </h2>
+
+      <p
+        style="
+          max-width: 500px;
+          margin: 0 0 24px;
+          color: #626875;
+          line-height: 1.6;
+        "
+      >
+        Choose a major from the dropdown above to view its courses,
+        requirements, prerequisites, and recommended degree map.
+      </p>
+
+      <button
+        id="empty-map-major-button"
+        class="button primary"
+        type="button"
+      >
+        Select your major
+      </button>
+    </section>
+  `;
+
+  $("#course-panel").innerHTML = "";
+  $("#map-edges").innerHTML = "";
+
+  const selectButton = $("#empty-map-major-button");
+
+  if (selectButton) {
+    selectButton.addEventListener("click", () => {
+      const majorSelect = $("#major-select");
+      majorSelect.focus();
+
+      if (typeof majorSelect.showPicker === "function") {
+        try {
+          majorSelect.showPicker();
+        } catch (_) {
+
+        }
+      }
+    });
+  }
+}
+
 function renderMap() {
+  if (!app.primaryMajorChosen) {
+    renderEmptyMap();
+    return;
+  }
   const query = normalizeCode($("#map-search")?.value || "");
   const rawQuery = ($("#map-search")?.value || "").trim().toLowerCase();
   const availableOnly = $("#available-only")?.checked;

@@ -2057,3 +2057,50 @@ button.combined-plan-course:hover {
     text-align: left;
   }
 }
+.feedback-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.bug-feedback {
+  color: var(--red);
+  border: 1px solid #edcbd0;
+  background: var(--red-soft);
+}
+
+.bug-feedback:hover {
+  background: #f8d9dd;
+  border-color: var(--red);
+}
+
+.feature-feedback {
+  color: var(--uw-purple);
+  border: 1px solid #d6cbe9;
+  background: var(--uw-purple-soft);
+}
+
+.feature-feedback:hover {
+  background: #dfd5f0;
+  border-color: var(--uw-purple);
+}
+
+@media (max-width: 1150px) {
+  .feedback-button {
+    padding-inline: 10px;
+    font-size: 12px;
+  }
+}
+
+#major-select:invalid,
+#major-select option[value=""] {
+  color: #6b7280;
+}
+
+#major-select:focus {
+  border-color: var(--uw-purple);
+  box-shadow: 0 0 0 3px rgba(74, 46, 131, 0.14);
+}

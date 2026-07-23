@@ -27,7 +27,7 @@
     <div class="top-controls">
       <label class="select-field">
         <span>Primary major</span>
-        <select id="major-select"></select>
+        <select id="major-select" required></select>
       </label>
       <label class="select-field">
         <span>Primary degree path</span>
@@ -50,6 +50,21 @@
     </div>
 
     <div class="top-actions">
+      <a
+        class="button feedback-button bug-feedback"
+        href="https://github.com/RishiKompelli/UDubPath/issues/new?template=bug_report.md"
+        target="_blank"
+        rel="noreferrer"
+      >
+        Report Bug
+      </a>
+
+      <a
+        class="button feedback-button feature-feedback"
+        href="https://mail.google.com/mail/?view=cm&fs=1&to=rishisaikompelli@gmail.com&su=UDubPath%20Feature%20Request&body=What%20feature%20would%20you%20like%20to%20see%3F%0A%0AWhy%20would%20it%20be%20useful%3F%0A%0AAny%20other%20details%3F"
+      >
+        Suggest Feature
+      </a>
       <button id="export-button" class="button ghost" type="button">Export</button>
       <button id="import-button" class="button ghost" type="button">Import</button>
       <input id="import-file" type="file" accept="application/json" hidden>
