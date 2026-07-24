@@ -143,6 +143,15 @@
       "status": "complete",
       "file": "neuroscience.json",
       "source": "https://www.washington.edu/students/gencat/program/S/Neuroscience-1018.html"
+    },
+    {
+      "id": "uw-seattle-medical-laboratory-science",
+      "name": "Medical Laboratory Science",
+      "degree": "BS",
+      "category": "Health and Life Sciences",
+      "status": "complete",
+      "file": "medical-laboratory-science.json",
+      "source": "https://dlmp.uw.edu/education/mls-requirements"
     }
   ]
 }

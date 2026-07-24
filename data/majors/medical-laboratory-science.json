@@ -1,0 +1,939 @@
+{
+  "id": "uw-seattle-medical-laboratory-science",
+  "university": "University of Washington Seattle",
+  "name": "Medical Laboratory Science",
+  "degree": "Bachelor of Science in Medical Laboratory Science",
+  "catalogYear": "Current UW curriculum (checked July 2026)",
+  "totalCredits": 180,
+  "sources": [
+    {
+      "label": "UW General Catalog — Medical Laboratory Science",
+      "url": "https://www.washington.edu/students/gencat/program/S/LaboratoryMedicineandPathology-1123.html"
+    },
+    {
+      "label": "UW Laboratory Medicine & Pathology — MLS requirements",
+      "url": "https://dlmp.uw.edu/education/mls-requirements"
+    },
+    {
+      "label": "UW Laboratory Medicine & Pathology — MLS courses and professional sequence",
+      "url": "https://dlmp.uw.edu/education/mls-courses"
+    },
+    {
+      "label": "UW Laboratory Medicine & Pathology — MLS application requirements",
+      "url": "https://dlmp.uw.edu/education/mls-apply"
+    },
+    {
+      "label": "UW Admissions — Medical Laboratory Science",
+      "url": "https://admit.washington.edu/majors/medical-laboratory-science/"
+    },
+    {
+      "label": "UW course-description catalog — Laboratory Medicine",
+      "url": "https://www.washington.edu/students/crscat/labmed.html"
+    },
+    {
+      "label": "UW baccalaureate degree requirements",
+      "url": "https://www.washington.edu/students/gencat/front/Requirements_BA.html"
+    }
+  ],
+  "tracks": [
+    {
+      "id": "standard",
+      "name": "Medical Laboratory Science BS",
+      "description": "Two-year pre-professional phase followed by the full-time professional MLS curriculum."
+    }
+  ],
+  "courseOverrides": {
+    "BIOL 200": {
+      "prerequisiteGroups": [
+        [
+          "BIOL 180"
+        ],
+        [
+          "CHEM 143",
+          "CHEM 145",
+          "CHEM 152",
+          "CHEM 153",
+          "CHEM 155",
+          "CHEM 220",
+          "CHEM 223",
+          "CHEM 237"
+        ]
+      ],
+      "otherPrerequisites": "Some approved chemistry choices may be taken concurrently; the sample plan conservatively places chemistry first."
+    },
+    "BIOL 220": {
+      "prerequisiteGroups": [
+        [
+          "BIOL 200"
+        ]
+      ]
+    },
+    "CHEM 142": {
+      "prerequisiteGroups": [],
+      "otherPrerequisites": "Entry may be based on CHEM 110 with the required grade, the General Chemistry Placement Exam, or AP Chemistry placement."
+    },
+    "CHEM 143": {
+      "prerequisiteGroups": [],
+      "otherPrerequisites": "Entry may be based on CHEM 110 with the required grade, the General Chemistry Placement Exam, or AP Chemistry placement."
+    },
+    "CHEM 145": {
+      "prerequisiteGroups": [],
+      "otherPrerequisites": "Entry requires the current honors-chemistry placement or approved mathematics/test preparation; check the UW Chemistry catalog."
+    },
+    "CHEM 152": {
+      "prerequisiteGroups": [
+        [
+          "CHEM 142",
+          "CHEM 143",
+          "CHEM 145"
+        ]
+      ]
+    },
+    "CHEM 153": {
+      "prerequisiteGroups": [
+        [
+          "CHEM 143"
+        ]
+      ]
+    },
+    "CHEM 155": {
+      "prerequisiteGroups": [
+        [
+          "CHEM 145"
+        ]
+      ]
+    },
+    "CHEM 162": {
+      "prerequisiteGroups": [
+        [
+          "CHEM 152"
+        ]
+      ]
+    },
+    "CHEM 165": {
+      "prerequisiteGroups": [
+        [
+          "CHEM 155"
+        ]
+      ]
+    },
+    "CHEM 223": {
+      "prerequisiteGroups": [
+        [
+          "CHEM 152",
+          "CHEM 153",
+          "CHEM 155"
+        ]
+      ]
+    },
+    "CHEM 237": {
+      "prerequisiteGroups": [
+        [
+          "CHEM 153",
+          "CHEM 162",
+          "CHEM 165"
+        ]
+      ]
+    },
+    "STAT 311": {
+      "prerequisiteGroups": [
+        [
+          "STAT 220",
+          "STAT 221",
+          "CSSS 221",
+          "SOC 221",
+          "STAT 290",
+          "MATH 120",
+          "MATH 124",
+          "MATH 125",
+          "MATH 126",
+          "MATH 134",
+          "MATH 135",
+          "MATH 136",
+          "QMETH 201",
+          "Q SCI 190",
+          "Q SCI 291",
+          "Q SCI 292"
+        ]
+      ]
+    },
+    "Q SCI 381": {
+      "prerequisiteGroups": [
+        [
+          "MATH 120",
+          "MATH 124",
+          "MATH 125",
+          "MATH 126",
+          "MATH 134",
+          "MATH 135",
+          "MATH 136",
+          "QMETH 201",
+          "Q SCI 190",
+          "Q SCI 291",
+          "Q SCI 292",
+          "STAT 220",
+          "STAT 221",
+          "CSSS 221",
+          "SOC 221",
+          "STAT 290"
+        ]
+      ]
+    },
+    "BIOC 405": {
+      "prerequisiteGroups": [
+        [
+          "BIOL 200"
+        ],
+        [
+          "CHEM 223",
+          "CHEM 237"
+        ]
+      ]
+    },
+    "IMMUN 441": {
+      "prerequisiteGroups": [
+        [
+          "BIOL 220"
+        ]
+      ]
+    },
+    "MICROM 442": {
+      "prerequisiteGroups": [
+        [
+          "BIOL 200"
+        ]
+      ]
+    },
+    "MICROM 443": {
+      "prerequisiteGroups": [
+        [
+          "BIOL 200"
+        ]
+      ]
+    },
+    "MICROM 460": {
+      "prerequisiteGroups": [
+        [
+          "BIOL 200",
+          "MICROM 301"
+        ]
+      ]
+    },
+    "LAB M 427": {
+      "credits": "1",
+      "otherPrerequisites": "The current MLS professional schedule uses this variable-credit catalog course as a 1-credit senior seminar."
+    },
+    "LAB M 436": {
+      "prerequisiteGroups": [
+        [
+          "LAB M 435"
+        ]
+      ]
+    }
+  },
+  "mapGroups": [
+    {
+      "id": "preprofessional-biology",
+      "label": "Pre-Professional Biology",
+      "shortLabel": "Biology",
+      "credits": "15 cr",
+      "description": "Introductory biology sequence required before the professional phase.",
+      "courses": [
+        "BIOL 180",
+        "BIOL 200",
+        "BIOL 220"
+      ]
+    },
+    {
+      "id": "preprofessional-chemistry",
+      "label": "Pre-Professional Chemistry",
+      "shortLabel": "Chemistry",
+      "credits": "16–19 cr",
+      "description": "An approved general chemistry sequence and one quarter of organic chemistry; no organic laboratory is required.",
+      "courses": [
+        "CHEM 142",
+        "CHEM 152",
+        "CHEM 162",
+        "CHEM 143",
+        "CHEM 153",
+        "CHEM 145",
+        "CHEM 155",
+        "CHEM 165",
+        "CHEM 223",
+        "CHEM 237"
+      ]
+    },
+    {
+      "id": "preprofessional-statistics",
+      "label": "Pre-Professional Statistics",
+      "shortLabel": "Statistics",
+      "credits": "5 cr",
+      "description": "One basic 5-credit statistics course; calculus does not satisfy this requirement.",
+      "courses": [
+        "STAT 220",
+        "STAT 221",
+        "SOC 221",
+        "CSSS 221",
+        "STAT 311",
+        "Q SCI 381"
+      ]
+    },
+    {
+      "id": "professional-y1-autumn",
+      "label": "Professional Phase — Year 1 Autumn",
+      "shortLabel": "MLS Y1 Autumn",
+      "credits": "13 cr",
+      "description": "Biochemistry, immunology, and introduction to medical laboratory science.",
+      "courses": [
+        "BIOC 405",
+        "IMMUN 441",
+        "LAB M 301",
+        "LAB M 302"
+      ]
+    },
+    {
+      "id": "professional-y1-winter",
+      "label": "Professional Phase — Year 1 Winter",
+      "shortLabel": "MLS Y1 Winter",
+      "credits": "14 cr",
+      "description": "Clinical hematology, molecular diagnostics, and medical bacteriology.",
+      "courses": [
+        "LAB M 405",
+        "LAB M 430",
+        "LAB M 435",
+        "MICROM 442",
+        "MICROM 443"
+      ]
+    },
+    {
+      "id": "professional-y1-spring",
+      "label": "Professional Phase — Year 1 Spring",
+      "shortLabel": "MLS Y1 Spring",
+      "credits": "13 cr",
+      "description": "Mycology and parasitology, coagulation, body fluids, and medical microbiology.",
+      "courses": [
+        "MICROM 460",
+        "LAB M 419",
+        "LAB M 420",
+        "LAB M 421",
+        "LAB M 403"
+      ]
+    },
+    {
+      "id": "professional-y2-autumn",
+      "label": "Professional Phase — Year 2 Autumn",
+      "shortLabel": "MLS Y2 Autumn",
+      "credits": "13 cr",
+      "description": "Clinical chemistry, immunohematology, and the current 1-credit senior seminar.",
+      "courses": [
+        "LAB M 418",
+        "LAB M 400",
+        "LAB M 426",
+        "LAB M 404",
+        "LAB M 427"
+      ]
+    },
+    {
+      "id": "clinical-rotations",
+      "label": "Clinical Rotations",
+      "shortLabel": "Clinical Rotations",
+      "credits": "36 cr",
+      "description": "Individualized winter and spring clinical rotations in chemistry, microbiology, hematology, immunohematology, and molecular diagnostics.",
+      "courses": [
+        "LAB M 423",
+        "LAB M 424",
+        "LAB M 425",
+        "LAB M 431",
+        "LAB M 436"
+      ]
+    },
+    {
+      "id": "general-education",
+      "label": "School of Medicine General Education",
+      "shortLabel": "General Education",
+      "credits": "37 cr before overlap",
+      "description": "Graduation requirements; completion before the professional phase is strongly recommended but not required.",
+      "courses": [],
+      "requirementRefs": [
+        {
+          "id": "english-comp",
+          "scope": "item",
+          "label": "English Composition",
+          "credits": "5 cr"
+        },
+        {
+          "id": "writing",
+          "scope": "item",
+          "label": "Additional Writing",
+          "credits": "7 cr"
+        },
+        {
+          "id": "reasoning",
+          "scope": "item",
+          "label": "Reasoning",
+          "credits": "5 cr · may overlap"
+        },
+        {
+          "id": "ah",
+          "scope": "item",
+          "label": "Arts & Humanities",
+          "credits": "10 cr"
+        },
+        {
+          "id": "ssc",
+          "scope": "item",
+          "label": "Social Sciences",
+          "credits": "10 cr"
+        },
+        {
+          "id": "div",
+          "scope": "item",
+          "label": "Diversity",
+          "credits": "5 cr · may overlap"
+        }
+      ]
+    },
+    {
+      "id": "additional-requirements",
+      "label": "Admission and Degree Checks",
+      "shortLabel": "Additional Checks",
+      "credits": "GPA, residence, and 180-credit checks",
+      "description": "Manual checks distinguish eligibility to enter the professional phase from graduation requirements.",
+      "courses": [],
+      "requirementRefs": [
+        {
+          "id": "admission-minimum-credits",
+          "scope": "requirement",
+          "label": "Credits before entry",
+          "credits": "90 cr minimum"
+        },
+        {
+          "id": "admission-gpa",
+          "scope": "requirement",
+          "label": "Admission GPA",
+          "credits": "2.00 cumulative and science"
+        },
+        {
+          "id": "admission-process",
+          "scope": "requirement",
+          "label": "MLS application",
+          "credits": "February 15 deadline"
+        },
+        {
+          "id": "professional-course-grades",
+          "scope": "requirement",
+          "label": "Professional-course grades",
+          "credits": "2.0 minimum each"
+        },
+        {
+          "id": "professional-gpa",
+          "scope": "requirement",
+          "label": "Professional-course GPA",
+          "credits": "2.00 minimum"
+        },
+        {
+          "id": "final-year-residence",
+          "scope": "requirement",
+          "label": "UW final-year residence",
+          "credits": "45 of final 60 cr"
+        },
+        {
+          "id": "total",
+          "scope": "requirement",
+          "label": "Total degree credits",
+          "credits": "180 cr"
+        }
+      ]
+    }
+  ],
+  "requirements": [
+    {
+      "id": "admission-prerequisites",
+      "title": "MLS Admission Prerequisites",
+      "displayCredits": "36–39 cr",
+      "targetCredits": 36,
+      "type": "group",
+      "note": "Courses may be in progress when applying but must be completed before autumn entry into the professional phase. Equivalent coursework requires program approval.",
+      "items": [
+        {
+          "id": "admission-biology",
+          "label": "BIOL 180, BIOL 200, and BIOL 220",
+          "type": "all",
+          "courses": [
+            "BIOL 180",
+            "BIOL 200",
+            "BIOL 220"
+          ]
+        },
+        {
+          "id": "admission-general-chemistry",
+          "label": "Choose one approved general chemistry sequence",
+          "type": "path-choice",
+          "paths": [
+            {
+              "label": "Standard general chemistry",
+              "courses": [
+                "CHEM 142",
+                "CHEM 152",
+                "CHEM 162"
+              ]
+            },
+            {
+              "label": "Accelerated general chemistry",
+              "courses": [
+                "CHEM 143",
+                "CHEM 153"
+              ]
+            },
+            {
+              "label": "Honors general chemistry",
+              "courses": [
+                "CHEM 145",
+                "CHEM 155",
+                "CHEM 165"
+              ]
+            }
+          ],
+          "note": "The current department page lists CHEM 142/152/162; the UW General Catalog also identifies accelerated and honors equivalents. Confirm nonstandard sequences with the MLS adviser."
+        },
+        {
+          "id": "admission-organic-chemistry",
+          "label": "One quarter of organic chemistry",
+          "type": "one",
+          "courses": [
+            "CHEM 223",
+            "CHEM 237"
+          ],
+          "note": "No organic chemistry laboratory is required."
+        },
+        {
+          "id": "admission-statistics",
+          "label": "One basic 5-credit statistics course",
+          "type": "one",
+          "courses": [
+            "STAT 220",
+            "STAT 221",
+            "SOC 221",
+            "CSSS 221",
+            "STAT 311",
+            "Q SCI 381"
+          ],
+          "note": "Calculus does not satisfy the statistics requirement. Other equivalent basic statistics courses require MLS adviser approval."
+        }
+      ]
+    },
+    {
+      "id": "admission-minimum-credits",
+      "title": "Minimum Credits Before Professional-Phase Entry",
+      "displayCredits": "90 cr minimum",
+      "targetCredits": 90,
+      "type": "manual",
+      "manualLabel": "Credits completed before autumn entry",
+      "maxCredits": 180,
+      "note": "Applicants must have at least 90 quarter credits before entering the professional phase."
+    },
+    {
+      "id": "admission-gpa",
+      "title": "MLS Admission GPA Minimums",
+      "displayCredits": "2.00 cumulative and science GPA",
+      "targetCredits": 1,
+      "type": "manual",
+      "note": "Enter 1 or mark fulfilled after confirming at least a 2.00 cumulative GPA and a 2.00 science GPA in the required science and mathematics courses. Admission is competitive."
+    },
+    {
+      "id": "admission-process",
+      "title": "Capacity-Constrained Major Application",
+      "displayCredits": "Due February 15",
+      "targetCredits": 1,
+      "type": "manual",
+      "note": "A separate MLS application, transcript submission, recommendation, and interview process is required for autumn entry; admission is not guaranteed."
+    },
+    {
+      "id": "general-education",
+      "title": "School of Medicine General Education",
+      "displayCredits": "University and school requirements",
+      "targetCredits": 0,
+      "type": "group",
+      "note": "These are graduation requirements rather than MLS admission prerequisites. The department strongly recommends completing as many as possible before the professional phase.",
+      "items": [
+        {
+          "id": "english-comp",
+          "label": "English Composition",
+          "type": "bucket",
+          "targetCredits": 5,
+          "area": "C"
+        },
+        {
+          "id": "writing",
+          "label": "Additional Writing-intensive coursework",
+          "type": "bucket",
+          "targetCredits": 7,
+          "area": "W"
+        },
+        {
+          "id": "reasoning",
+          "label": "Reasoning",
+          "type": "bucket",
+          "targetCredits": 5,
+          "area": "RSN",
+          "note": "An approved chemistry or statistics prerequisite normally satisfies this requirement."
+        },
+        {
+          "id": "ah",
+          "label": "Arts & Humanities",
+          "type": "bucket",
+          "targetCredits": 10,
+          "area": "A&H"
+        },
+        {
+          "id": "ssc",
+          "label": "Social Sciences",
+          "type": "bucket",
+          "targetCredits": 10,
+          "area": "SSc"
+        },
+        {
+          "id": "div",
+          "label": "Diversity",
+          "type": "bucket",
+          "targetCredits": 5,
+          "area": "DIV",
+          "note": "May overlap with another general-education category."
+        }
+      ]
+    },
+    {
+      "id": "preprofessional-biology",
+      "title": "Pre-Professional Biology",
+      "displayCredits": "15 cr",
+      "targetCredits": 15,
+      "type": "group",
+      "items": [
+        {
+          "id": "degree-biology-all",
+          "label": "BIOL 180, BIOL 200, and BIOL 220",
+          "type": "all",
+          "courses": [
+            "BIOL 180",
+            "BIOL 200",
+            "BIOL 220"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "preprofessional-general-chemistry",
+      "title": "Pre-Professional General Chemistry",
+      "displayCredits": "12–15 cr",
+      "targetCredits": 12,
+      "type": "group",
+      "items": [
+        {
+          "id": "degree-general-chemistry-path",
+          "label": "Choose one approved general chemistry sequence",
+          "type": "path-choice",
+          "paths": [
+            {
+              "label": "Standard general chemistry",
+              "courses": [
+                "CHEM 142",
+                "CHEM 152",
+                "CHEM 162"
+              ]
+            },
+            {
+              "label": "Accelerated general chemistry",
+              "courses": [
+                "CHEM 143",
+                "CHEM 153"
+              ]
+            },
+            {
+              "label": "Honors general chemistry",
+              "courses": [
+                "CHEM 145",
+                "CHEM 155",
+                "CHEM 165"
+              ]
+            }
+          ],
+          "note": "Confirm accelerated or honors equivalency with the MLS adviser."
+        }
+      ]
+    },
+    {
+      "id": "preprofessional-organic-chemistry",
+      "title": "Pre-Professional Organic Chemistry",
+      "displayCredits": "4 cr",
+      "targetCredits": 4,
+      "type": "group",
+      "items": [
+        {
+          "id": "degree-organic-one",
+          "label": "CHEM 223 or CHEM 237",
+          "type": "one",
+          "courses": [
+            "CHEM 223",
+            "CHEM 237"
+          ],
+          "note": "No organic chemistry laboratory is required."
+        }
+      ]
+    },
+    {
+      "id": "preprofessional-statistics",
+      "title": "Pre-Professional Statistics",
+      "displayCredits": "5 cr",
+      "targetCredits": 5,
+      "type": "group",
+      "items": [
+        {
+          "id": "degree-statistics-one",
+          "label": "One approved basic statistics course",
+          "type": "one",
+          "courses": [
+            "STAT 220",
+            "STAT 221",
+            "SOC 221",
+            "CSSS 221",
+            "STAT 311",
+            "Q SCI 381"
+          ],
+          "note": "Calculus does not satisfy this requirement; adviser-approved equivalents may be used."
+        }
+      ]
+    },
+    {
+      "id": "professional-didactic",
+      "title": "Professional-Phase Didactic and Laboratory Courses",
+      "displayCredits": "53 cr",
+      "targetCredits": 53,
+      "type": "group",
+      "note": "Current department sequence, including LAB M 427 as a 1-credit senior seminar.",
+      "items": [
+        {
+          "id": "professional-didactic-all",
+          "label": "Complete all professional didactic and laboratory courses",
+          "type": "all",
+          "courses": [
+            "BIOC 405",
+            "IMMUN 441",
+            "LAB M 301",
+            "LAB M 302",
+            "LAB M 405",
+            "LAB M 430",
+            "LAB M 435",
+            "MICROM 442",
+            "MICROM 443",
+            "MICROM 460",
+            "LAB M 419",
+            "LAB M 420",
+            "LAB M 421",
+            "LAB M 403",
+            "LAB M 418",
+            "LAB M 400",
+            "LAB M 426",
+            "LAB M 404",
+            "LAB M 427"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "clinical-rotations",
+      "title": "Clinical Rotations",
+      "displayCredits": "36 cr",
+      "targetCredits": 36,
+      "type": "group",
+      "note": "The final two quarters use an individualized full-time clinical-rotation schedule.",
+      "items": [
+        {
+          "id": "clinical-rotations-all",
+          "label": "Complete all five clinical rotations",
+          "type": "all",
+          "courses": [
+            "LAB M 423",
+            "LAB M 424",
+            "LAB M 425",
+            "LAB M 431",
+            "LAB M 436"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "professional-course-grades",
+      "title": "Minimum Grade in Each Professional Course",
+      "displayCredits": "2.0 minimum in each",
+      "targetCredits": 1,
+      "type": "manual",
+      "note": "Enter 1 or mark fulfilled after confirming a minimum 2.0 grade in every required didactic, laboratory, and clinical-rotation course."
+    },
+    {
+      "id": "professional-gpa",
+      "title": "Professional-Course Cumulative GPA",
+      "displayCredits": "2.00 minimum",
+      "targetCredits": 1,
+      "type": "manual",
+      "note": "Enter 1 or mark fulfilled after confirming at least a 2.00 cumulative GPA across required professional courses."
+    },
+    {
+      "id": "final-year-residence",
+      "title": "UW Final-Year Residence Requirement",
+      "displayCredits": "45 of final 60 cr",
+      "targetCredits": 1,
+      "type": "manual",
+      "note": "Enter 1 or mark fulfilled after confirming that 45 of the final 60 credits were completed as a matriculated UW student, unless an approved exception applies."
+    },
+    {
+      "id": "free-electives",
+      "title": "Additional Electives",
+      "displayCredits": "As needed",
+      "targetCredits": 0,
+      "type": "manual",
+      "manualLabel": "Additional elective credits completed",
+      "maxCredits": 90,
+      "note": "Additional coursework may be needed to reach 180 total credits and the 90-credit pre-professional minimum."
+    },
+    {
+      "id": "total",
+      "title": "Total Degree Credits",
+      "displayCredits": "180 cr",
+      "targetCredits": 180,
+      "type": "total",
+      "note": "Includes admission prerequisites, general education, the professional curriculum, and additional electives."
+    }
+  ],
+  "samplePlan": {
+    "name": "UW MLS professional sequence with inferred pre-professional plan",
+    "quarters": {
+      "y1-autumn": [
+        "CHEM 142",
+        "BIOL 180",
+        "SLOT:5:English Composition"
+      ],
+      "y1-winter": [
+        "CHEM 152",
+        "SLOT:5:A&H",
+        "SLOT:5:SSc"
+      ],
+      "y1-spring": [
+        "CHEM 162",
+        "BIOL 200",
+        "SLOT:5:Writing"
+      ],
+      "y2-autumn": [
+        "CHEM 237",
+        "BIOL 220",
+        "STAT 220",
+        "SLOT:1:General Elective"
+      ],
+      "y2-winter": [
+        "SLOT:5:A&H",
+        "SLOT:5:SSc",
+        "SLOT:5:Writing"
+      ],
+      "y2-spring": [
+        "SLOT:5:Diversity",
+        "SLOT:5:General Elective",
+        "SLOT:6:General Elective"
+      ],
+      "y3-autumn": [
+        "BIOC 405",
+        "IMMUN 441",
+        "LAB M 301",
+        "LAB M 302"
+      ],
+      "y3-winter": [
+        "LAB M 405",
+        "LAB M 430",
+        "LAB M 435",
+        "MICROM 442",
+        "MICROM 443"
+      ],
+      "y3-spring": [
+        "MICROM 460",
+        "LAB M 419",
+        "LAB M 420",
+        "LAB M 421",
+        "LAB M 403"
+      ],
+      "y4-autumn": [
+        "LAB M 418",
+        "LAB M 400",
+        "LAB M 426",
+        "LAB M 404",
+        "LAB M 427"
+      ],
+      "y4-winter": [
+        "LAB M 423",
+        "LAB M 431",
+        "LAB M 436"
+      ],
+      "y4-spring": [
+        "LAB M 424",
+        "LAB M 425"
+      ]
+    },
+    "creditTotal": 180.0,
+    "note": "The professional-phase quarter sequence follows the current department curriculum. Years 1–2 and the assignment of individualized clinical rotations between winter and spring are inferred planning examples; verify equivalencies, offerings, and rotation placement with the MLS adviser."
+  },
+  "prerequisiteSubstitutions": {
+    "CHEM 142": [
+      "CHEM 143",
+      "CHEM 145"
+    ],
+    "CHEM 152": [
+      "CHEM 153",
+      "CHEM 155"
+    ],
+    "CHEM 162": [
+      "CHEM 165"
+    ]
+  },
+  "plannerSlotPools": {
+    "English Composition": {
+      "areas": [
+        "C"
+      ],
+      "mapGroup": "general-education"
+    },
+    "A&H": {
+      "areas": [
+        "A&H"
+      ],
+      "mapGroup": "general-education"
+    },
+    "SSc": {
+      "areas": [
+        "SSc"
+      ],
+      "mapGroup": "general-education"
+    },
+    "Writing": {
+      "areas": [
+        "W"
+      ],
+      "mapGroup": "general-education"
+    },
+    "Diversity": {
+      "areas": [
+        "DIV"
+      ],
+      "mapGroup": "general-education"
+    },
+    "General Elective": {
+      "allowAny": true,
+      "mapGroup": "additional-requirements"
+    }
+  },
+  "dataAudit": {
+    "auditedOn": "2026-07-24",
+    "degreeTotalChecked": 180,
+    "samplePlanCredits": 180.0,
+    "officialPlanningNote": "Planning aid only. The current department professional sequence was used; pre-professional sequencing and the winter/spring distribution of clinical rotations are inferred and must be confirmed with the MLS adviser."
+  },
+  "degreeAwardId": "BSMLS",
+  "collegeId": "medicine",
+  "minimumDegreeCredits": 180
+}

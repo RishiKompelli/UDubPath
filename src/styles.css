@@ -767,8 +767,8 @@ footer { padding: 22px 28px 40px; color: var(--muted); font-size: 11px; text-ali
 .planner-option-title {
   min-width: 0;
   overflow: hidden;
-  font-size: 13px;
-  font-weight: 650;
+  font-size: 12px;
+  font-weight: 300;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -2299,6 +2299,7 @@ button.combined-plan-course:hover {
   font-size: 0.9rem;
   text-overflow: ellipsis;
   white-space: nowrap;
+  font-weight: 500;
 }
 
 .major-option-main small {
