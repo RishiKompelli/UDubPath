@@ -4,6 +4,7 @@
       "id": "uw-seattle-aa",
       "name": "Aeronautics & Astronautics",
       "degree": "BSAAE",
+      "category": "Engineering",
       "status": "complete",
       "file": "aeronautics-astronautics.json",
       "source": "https://www.engr.washington.edu/current/academics/4-year-plans/aa-degree-requirements"
@@ -12,22 +13,16 @@
       "id": "uw-seattle-bioe",
       "name": "Bioengineering",
       "degree": "BSBioE",
+      "category": "Engineering",
       "status": "complete",
       "file": "bioengineering.json",
       "source": "https://www.engr.washington.edu/current/academics/4-year-plans/bioe-degree-requirements"
     },
     {
-      "id": "uw-seattle-biology-ba",
-      "name": "Biology (BA)",
-      "degree": "BA",
-      "status": "complete",
-      "file": "biology-ba.json",
-      "source": "https://biology.washington.edu/degree-requirements-fall-2026-onwards"
-    },
-    {
       "id": "uw-seattle-biology-bs",
       "name": "Biology (BS)",
       "degree": "BS",
+      "category": "Health and Life Sciences",
       "status": "complete",
       "file": "biology-bs.json",
       "source": "https://biology.washington.edu/degree-requirements-fall-2026-onwards"
@@ -36,6 +31,7 @@
       "id": "uw-seattle-cheme",
       "name": "Chemical Engineering",
       "degree": "BSChemE",
+      "category": "Engineering",
       "status": "complete",
       "file": "chemical-engineering.json",
       "source": "https://www.engr.washington.edu/current/academics/4-year-plans/cheme-degree-requirements"
@@ -44,6 +40,7 @@
       "id": "uw-seattle-cive",
       "name": "Civil Engineering",
       "degree": "BSCivE",
+      "category": "Engineering",
       "status": "complete",
       "file": "civil-engineering.json",
       "source": "https://www.engr.washington.edu/current/academics/4-year-plans/cive-degree-requirements"
@@ -52,6 +49,7 @@
       "id": "uw-seattle-cs",
       "name": "Computer Science",
       "degree": "BSCS",
+      "category": "Computer Science, Data & Mathematics",
       "status": "complete",
       "file": "computer-science.json",
       "source": "https://www.cs.washington.edu/academics/undergraduate/degree-requirements/"
@@ -60,6 +58,7 @@
       "id": "uw-seattle-ece",
       "name": "Electrical & Computer Engineering",
       "degree": "BSECE",
+      "category": "Engineering",
       "status": "complete",
       "file": "electrical-computer-engineering.json",
       "source": "https://www.engr.washington.edu/current/academics/4-year-plans/ece-degree-requirements"
@@ -68,6 +67,7 @@
       "id": "uw-seattle-enve",
       "name": "Environmental Engineering",
       "degree": "BSEnvE",
+      "category": "Engineering",
       "status": "complete",
       "file": "environmental-engineering.json",
       "source": "https://www.engr.washington.edu/current/academics/4-year-plans/enve-degree-requirements"
@@ -76,6 +76,7 @@
       "id": "uw-seattle-hcde",
       "name": "Human Centered Design & Engineering",
       "degree": "BSHCDE",
+      "category": "Engineering",
       "status": "complete",
       "file": "human-centered-design-engineering.json",
       "source": "https://www.engr.washington.edu/current/academics/4-year-plans/hcde-degree-requirements"
@@ -84,6 +85,7 @@
       "id": "uw-seattle-ise",
       "name": "Industrial Engineering",
       "degree": "BSIE",
+      "category": "Engineering",
       "status": "complete",
       "file": "industrial-engineering.json",
       "source": "https://www.engr.washington.edu/current/academics/4-year-plans/ise-degree-requirements"
@@ -92,6 +94,7 @@
       "id": "uw-seattle-lsj",
       "name": "Law, Societies & Justice",
       "degree": "BA",
+      "category": "Social Sciences & Public Policy",
       "status": "complete",
       "file": "law-societies-justice.json",
       "source": "https://lsj.washington.edu/lsj-gold-curriculum-requirements"
@@ -100,6 +103,7 @@
       "id": "uw-seattle-mse",
       "name": "Materials Science & Engineering",
       "degree": "BSMSE",
+      "category": "Engineering",
       "status": "complete",
       "file": "materials-science-engineering.json",
       "source": "https://www.engr.washington.edu/current/academics/4-year-plans/mse-degree-requirements"
@@ -108,6 +112,7 @@
       "id": "uw-seattle-math-bs",
       "name": "Mathematics (BS)",
       "degree": "BS",
+      "category": "Computer Science, Data & Mathematics",
       "status": "complete",
       "file": "mathematics-bs.json",
       "source": "https://math.washington.edu/bs-mathematics-major-requirements-0"
@@ -116,6 +121,7 @@
       "id": "uw-seattle-me",
       "name": "Mechanical Engineering",
       "degree": "BSME",
+      "category": "Engineering",
       "status": "complete",
       "file": "mechanical-engineering.json",
       "source": "https://www.engr.washington.edu/current/academics/4-year-plans/me-degree-requirements"
@@ -124,22 +130,16 @@
       "id": "uw-seattle-biochemistry-bs",
       "name": "Biochemistry (BS)",
       "degree": "BS",
+      "category": "Health and Life Sciences",
       "status": "complete",
       "file": "biochemistry-bs.json",
       "source": "https://chem.washington.edu/bs-biochemistry"
     },
     {
-      "id": "uw-seattle-biochemistry-ba",
-      "name": "Biochemistry (BA)",
-      "degree": "BA",
-      "status": "complete",
-      "file": "biochemistry-ba.json",
-      "source": "https://chem.washington.edu/ba-biochemistry"
-    },
-    {
       "id": "uw-seattle-neuroscience",
       "name": "Neuroscience",
       "degree": "BS",
+      "category": "Health and Life Sciences",
       "status": "complete",
       "file": "neuroscience.json",
       "source": "https://www.washington.edu/students/gencat/program/S/Neuroscience-1018.html"

@@ -33,10 +33,60 @@
     </div>
 
     <div class="top-controls">
-      <label class="select-field">
+      <div class="select-field major-combobox-field">
         <span>Primary major</span>
-        <select id="major-select" required></select>
-      </label>
+
+        <div
+          id="major-combobox"
+          class="major-combobox"
+        >
+          <button
+            id="major-combobox-button"
+            class="major-combobox-button"
+            type="button"
+            aria-haspopup="listbox"
+            aria-expanded="false"
+          >
+            <span id="major-combobox-value">
+              Select your major…
+            </span>
+
+            <span class="major-combobox-arrow">
+              ▾
+            </span>
+          </button>
+
+          <div
+            id="major-combobox-menu"
+            class="major-combobox-menu"
+            hidden
+          >
+            <div class="major-search-wrap">
+              <input
+                id="major-search"
+                class="major-search"
+                type="search"
+                placeholder="Search majors…"
+                autocomplete="off"
+                spellcheck="false"
+              >
+            </div>
+
+            <div
+              id="major-search-results"
+              class="major-search-results"
+              role="listbox"
+            ></div>
+          </div>
+        </div>
+
+        <select
+          id="major-select"
+          hidden
+          aria-hidden="true"
+          tabindex="-1"
+        ></select>
+      </div>
       <label class="select-field">
         <span>Primary degree path</span>
         <select id="track-select"></select>

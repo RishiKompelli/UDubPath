@@ -203,7 +203,9 @@ const app = {
   mapPanState: null,
   mapDidPan: false,
   mapScrollSyncing: false,
-  combinationPanel: "summary"
+  combinationPanel: "summary",
+  majorSearchQuery: "",
+  majorSearchIndex: -1
 };
 
 const $ = (selector, parent = document) => parent.querySelector(selector);
@@ -2231,20 +2233,312 @@ function renderCombination() {
   renderCombinationPanelVisibility();
 }
 
+function majorCategory(major) {
+  return String(
+    major.category
+    || major.college
+    || major.collegeName
+    || "Other Programs"
+  ).trim();
+}
+
+function searchableMajorText(major) {
+  return [
+    major.name,
+    major.degree,
+    major.category,
+    major.college,
+    major.id
+  ]
+    .filter(Boolean)
+    .join(" ")
+    .toLowerCase();
+}
+
+function filteredMajorDefinitions() {
+  const query = String(
+    app.majorSearchQuery || ""
+  )
+    .trim()
+    .toLowerCase();
+
+  const majors = [
+    ...(app.majorIndex?.majors || [])
+  ];
+
+  if (!query) {
+    return majors;
+  }
+
+  return majors.filter((major) =>
+    searchableMajorText(major).includes(query)
+  );
+}
+
+function groupedMajorDefinitions() {
+  const groups = new Map();
+
+  for (const major of filteredMajorDefinitions()) {
+    const category = majorCategory(major);
+
+    if (!groups.has(category)) {
+      groups.set(category, []);
+    }
+
+    groups.get(category).push(major);
+  }
+
+  return [...groups.entries()]
+    .sort(([categoryA], [categoryB]) =>
+      categoryA.localeCompare(categoryB)
+    )
+    .map(([category, majors]) => ({
+      category,
+
+      majors: majors.sort((a, b) =>
+        a.name.localeCompare(b.name)
+      )
+    }));
+}
+
+function renderMajorCombobox() {
+  const value = $("#major-combobox-value");
+  const results = $("#major-search-results");
+
+  if (!value || !results) {
+    return;
+  }
+
+  value.textContent =
+    app.primaryMajorChosen && app.major
+      ? `${app.major.name}${app.major.degree ? ` · ${app.major.degree}` : ""}`
+      : "Select your major…";
+
+  const groupedMajors = groupedMajorDefinitions();
+  const visibleMajors = groupedMajors.flatMap(
+    (group) => group.majors
+  );
+
+  if (
+    app.majorSearchIndex
+    >= visibleMajors.length
+  ) {
+    app.majorSearchIndex =
+      visibleMajors.length - 1;
+  }
+
+  if (!visibleMajors.length) {
+    results.innerHTML = `
+      <div class="major-search-empty">
+        No majors match
+        “${escapeHtml(app.majorSearchQuery)}”
+      </div>
+    `;
+
+    return;
+  }
+
+  let visibleIndex = 0;
+
+  results.innerHTML = groupedMajors
+    .map(({ category, majors }) => {
+      const items = majors
+        .map((major) => {
+          const itemIndex = visibleIndex;
+          visibleIndex += 1;
+
+          const unavailable =
+            major.status !== "complete";
+
+          const selected =
+            app.primaryMajorChosen
+            && major.id === app.major?.id;
+
+          return `
+            <button
+              type="button"
+              class="major-combobox-option
+                ${selected ? "selected" : ""}
+                ${
+                  itemIndex === app.majorSearchIndex
+                    ? "keyboard-active"
+                    : ""
+                }"
+              data-major-option="${escapeHtml(major.id)}"
+              data-major-index="${itemIndex}"
+              role="option"
+              aria-selected="${selected}"
+              ${unavailable ? "disabled" : ""}
+            >
+              <span class="major-option-main">
+                <strong>
+                  ${escapeHtml(major.name)}
+                </strong>
+
+                ${
+                  major.degree
+                    ? `<small>
+                        ${escapeHtml(major.degree)}
+                      </small>`
+                    : ""
+                }
+              </span>
+
+              ${
+                unavailable
+                  ? `<span class="major-option-status">
+                      Coming soon
+                    </span>`
+                  : ""
+              }
+            </button>
+          `;
+        })
+        .join("");
+
+      return `
+        <section class="major-option-group">
+          <div class="major-option-category">
+            ${escapeHtml(category)}
+          </div>
+
+          <div class="major-option-list">
+            ${items}
+          </div>
+        </section>
+      `;
+    })
+    .join("");
+}
+
+function openMajorCombobox() {
+  const menu = $("#major-combobox-menu");
+  const button = $("#major-combobox-button");
+  const search = $("#major-search");
+
+  if (!menu || !button || !search) {
+    return;
+  }
+
+  menu.hidden = false;
+  button.setAttribute(
+    "aria-expanded",
+    "true"
+  );
+
+  app.majorSearchIndex = -1;
+  renderMajorCombobox();
+
+  requestAnimationFrame(() => {
+    search.focus();
+    search.select();
+  });
+}
+
+function closeMajorCombobox() {
+  const menu = $("#major-combobox-menu");
+  const button = $("#major-combobox-button");
+
+  if (!menu || !button) {
+    return;
+  }
+
+  menu.hidden = true;
+  button.setAttribute(
+    "aria-expanded",
+    "false"
+  );
+
+  app.majorSearchQuery = "";
+  app.majorSearchIndex = -1;
+
+  const search = $("#major-search");
+
+  if (search) {
+    search.value = "";
+  }
+
+  renderMajorCombobox();
+}
+
+function toggleMajorCombobox() {
+  const menu = $("#major-combobox-menu");
+
+  if (!menu) {
+    return;
+  }
+
+  if (menu.hidden) {
+    openMajorCombobox();
+  } else {
+    closeMajorCombobox();
+  }
+}
+
+function visibleMajorOptions() {
+  return filteredMajorDefinitions();
+}
+
+function focusMajorSearchOption(index) {
+  const majors = visibleMajorOptions();
+
+  if (!majors.length) {
+    app.majorSearchIndex = -1;
+    return;
+  }
+
+  app.majorSearchIndex = Math.max(
+    0,
+    Math.min(index, majors.length - 1)
+  );
+
+  renderMajorCombobox();
+
+  const active = $(
+    `[data-major-index="${app.majorSearchIndex}"]`
+  );
+
+  active?.scrollIntoView({
+    block: "nearest"
+  });
+}
+
+async function selectMajorFromCombobox(majorId) {
+  const select = $("#major-select");
+
+  if (!select) {
+    return;
+  }
+
+  select.value = majorId;
+
+  select.dispatchEvent(
+    new Event("change", {
+      bubbles: true
+    })
+  );
+
+  closeMajorCombobox();
+}
+
 function populateGlobalControls() {
   const majorSelect = $("#major-select");
 
   majorSelect.innerHTML = `
-    <option value="" disabled>Select your major…</option>
-    ${app.majorIndex.majors.map((major) =>
-      `<option
-        value="${escapeHtml(major.id)}"
-        ${major.status !== "complete" ? "disabled" : ""}
-      >
-        ${escapeHtml(major.name)}
-        ${major.status !== "complete" ? " — future" : ""}
-      </option>`
-    ).join("")}
+    <option value="">
+      Select your major…
+    </option>
+
+    ${(app.majorIndex?.majors || [])
+      .map((major) => `
+        <option
+          value="${escapeHtml(major.id)}"
+          ${major.status !== "complete" ? "disabled" : ""}
+        >
+          ${escapeHtml(major.name)}
+        </option>
+      `)
+      .join("")}
   `;
 
   if (app.primaryMajorChosen) {
@@ -2252,6 +2546,8 @@ function populateGlobalControls() {
   } else {
     majorSelect.value = "";
   }
+
+  renderMajorCombobox();
 
 const trackSelect = $("#track-select");
 const trackField = trackSelect.closest(".select-field");
@@ -2923,6 +3219,125 @@ function bindEvents() {
   $("#confirm-modal").addEventListener("click", (event) => { if (event.target === $("#confirm-modal")) resolveConfirm(false); });
 
   window.addEventListener("resize", debounce(drawMapEdges, 120));
+  $("#major-combobox-button")?.addEventListener(
+  "click",
+  toggleMajorCombobox
+  );
+
+  $("#major-search")?.addEventListener(
+    "input",
+    (event) => {
+      app.majorSearchQuery =
+        event.target.value;
+
+      app.majorSearchIndex = -1;
+      renderMajorCombobox();
+    }
+  );
+
+  $("#major-search")?.addEventListener(
+    "keydown",
+    (event) => {
+      const majors = visibleMajorOptions();
+
+      if (event.key === "ArrowDown") {
+        event.preventDefault();
+
+        focusMajorSearchOption(
+          app.majorSearchIndex + 1
+        );
+
+        return;
+      }
+
+      if (event.key === "ArrowUp") {
+        event.preventDefault();
+
+        focusMajorSearchOption(
+          app.majorSearchIndex <= 0
+            ? majors.length - 1
+            : app.majorSearchIndex - 1
+        );
+
+        return;
+      }
+
+      if (
+        event.key === "Enter"
+        && app.majorSearchIndex >= 0
+      ) {
+        event.preventDefault();
+
+        const major =
+          majors[app.majorSearchIndex];
+
+        if (
+          major
+          && major.status === "complete"
+        ) {
+          selectMajorFromCombobox(
+            major.id
+          );
+        }
+
+        return;
+      }
+
+      if (event.key === "Escape") {
+        event.preventDefault();
+        closeMajorCombobox();
+      }
+    }
+  );
+
+  $("#major-search-results")?.addEventListener(
+    "mousemove",
+    (event) => {
+      const option = event.target.closest(
+        "[data-major-index]"
+      );
+
+      if (!option) {
+        return;
+      }
+
+      app.majorSearchIndex = Number(
+        option.dataset.majorIndex
+      );
+    }
+  );
+
+  $("#major-search-results")?.addEventListener(
+    "click",
+    (event) => {
+      const option = event.target.closest(
+        "[data-major-option]"
+      );
+
+      if (!option || option.disabled) {
+        return;
+      }
+
+      selectMajorFromCombobox(
+        option.dataset.majorOption
+      );
+    }
+  );
+
+  document.addEventListener(
+    "click",
+    (event) => {
+      const combobox =
+        $("#major-combobox");
+
+      if (
+        combobox
+        && !combobox.contains(event.target)
+      ) {
+        closeMajorCombobox();
+      }
+    }
+  );
 }
 
 
