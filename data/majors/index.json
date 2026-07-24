@@ -135,6 +135,14 @@
       "status": "complete",
       "file": "biochemistry-ba.json",
       "source": "https://chem.washington.edu/ba-biochemistry"
+    },
+    {
+      "id": "uw-seattle-neuroscience",
+      "name": "Neuroscience",
+      "degree": "BS",
+      "status": "complete",
+      "file": "neuroscience.json",
+      "source": "https://www.washington.edu/students/gencat/program/S/Neuroscience-1018.html"
     }
   ]
 }

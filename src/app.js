@@ -3951,13 +3951,17 @@ function renderEmptyMap() {
   }
 }
 
+
+
 function renderMap() {
   if (!app.primaryMajorChosen) {
     renderEmptyMap();
     return;
   }
   const query = normalizeCode($("#map-search")?.value || "");
-  const rawQuery = ($("#map-search")?.value || "").trim().toLowerCase();
+  const rawQuery =
+    ($("#map-search")?.value || "").trim().toLowerCase();
+
   const availableOnly = $("#available-only")?.checked;
   const groups = getVisibleMapGroups();
   const planSlotsByGroup = getMapPlanSlotsByGroup(groups);
@@ -3992,24 +3996,123 @@ function renderMap() {
           </div>
         </article>`;
     }).join("");
-    const requirementCards = (group.requirementRefs || []).map(renderMapRequirementCard).join("");
-    const planSlots = planSlotsByGroup.get(group.id) || [];
-    const planSlotCards = planSlots.map((slot) => renderMapPlanSlotCard(slot, rawQuery)).join("");
-    const itemCount = group.courses.length + (group.requirementRefs || []).length + planSlots.length;
-    return `
-      <section class="map-column ${group.courses.length > 14 ? "dense" : ""} ${!group.courses.length ? "requirements-only" : ""}" data-group="${escapeHtml(group.id)}">
-        <div class="map-column-header">
-          <div class="map-column-title-row">
-            <span>${escapeHtml(group.shortLabel || group.label)}</span>
-            <b>${escapeHtml(group.credits || `${itemCount} items`)}</b>
-          </div>
-          ${group.shortLabel ? `<strong>${escapeHtml(group.label)}</strong>` : ""}
-          ${group.description ? `<p>${escapeHtml(group.description)}</p>` : ""}
-        </div>
-        ${requirementCards ? `<div class="map-requirement-list">${requirementCards}</div>` : ""}
-        ${planSlotCards ? `<div class="map-plan-slot-section"><div class="map-plan-slot-heading">Course placeholders</div><div class="map-plan-slot-list">${planSlotCards}</div></div>` : ""}
-        <div class="map-node-list">${nodes}</div>
-      </section>`;
+    const requirementCards = (group.requirementRefs || [])
+  .map(renderMapRequirementCard)
+  .join("");
+
+const planSlots = planSlotsByGroup.get(group.id) || [];
+
+const planSlotCards = planSlots
+  .map((slot) => renderMapPlanSlotCard(slot, rawQuery))
+  .join("");
+
+const itemCount =
+  group.courses.length
+  + (group.requirementRefs || []).length
+  + planSlots.length;
+
+// Keep one outer box, but add internal columns when there
+// are more than 20 courses.
+const courseColumnCount =
+  group.courses.length > 20
+    ? Math.ceil(group.courses.length / 20)
+    : 1;
+
+const multiColumn = courseColumnCount > 1;
+
+const expandedColumnWidth =
+  courseColumnCount * 224 + 32;
+
+const columnStyle = multiColumn
+  ? [
+      `width:${expandedColumnWidth}px`,
+      `min-width:${expandedColumnWidth}px`,
+      `max-width:none`,
+      `flex:0 0 ${expandedColumnWidth}px`
+    ].join(";")
+  : "";
+
+const nodeListStyle = multiColumn
+  ? [
+      `display:grid`,
+      `grid-auto-flow:column`,
+      `grid-template-rows:repeat(20,auto)`,
+      `grid-template-columns:repeat(${courseColumnCount},210px)`,
+      `width:max-content`,
+      `max-width:none`,
+      `align-items:start`,
+      `gap:10px 14px`
+    ].join(";")
+  : "";
+
+return `
+  <section
+    class="map-column
+      ${group.courses.length > 14 ? "dense" : ""}
+      ${!group.courses.length ? "requirements-only" : ""}
+      ${multiColumn ? "multi-column-group" : ""}"
+    data-group="${escapeHtml(group.id)}"
+    style="${columnStyle}"
+  >
+    <div
+      class="map-column-header"
+      ${multiColumn ? 'style="max-width:none"' : ""}
+    >
+      <div class="map-column-title-row">
+        <span>
+          ${escapeHtml(group.shortLabel || group.label)}
+        </span>
+
+        <b>
+          ${escapeHtml(
+            group.credits || `${itemCount} items`
+          )}
+        </b>
+      </div>
+
+      ${
+        group.shortLabel
+          ? `<strong>${escapeHtml(group.label)}</strong>`
+          : ""
+      }
+
+      ${
+        group.description
+          ? `<p>${escapeHtml(group.description)}</p>`
+          : ""
+      }
+    </div>
+
+    ${
+      requirementCards
+        ? `<div class="map-requirement-list">
+            ${requirementCards}
+          </div>`
+        : ""
+    }
+
+    ${
+      planSlotCards
+        ? `<div class="map-plan-slot-section">
+            <div class="map-plan-slot-heading">
+              Course placeholders
+            </div>
+
+            <div class="map-plan-slot-list">
+              ${planSlotCards}
+            </div>
+          </div>`
+        : ""
+    }
+
+    <div
+      class="map-node-list
+        ${multiColumn ? "multi-column" : ""}"
+      style="${nodeListStyle}"
+    >
+      ${nodes}
+    </div>
+  </section>`;
   }).join("");
 
   renderCoursePanel();

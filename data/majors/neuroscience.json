@@ -1,0 +1,1485 @@
+{
+  "id": "uw-seattle-neuroscience",
+  "university": "University of Washington Seattle",
+  "name": "Neuroscience",
+  "degree": "Bachelor of Science in Neuroscience",
+  "catalogYear": "Current UW catalog framework",
+  "totalCredits": 180,
+  "sources": [
+    {
+      "label": "UW Neuroscience degree requirements",
+      "url": "https://www.washington.edu/students/gencat/program/S/Neuroscience-1018.html"
+    },
+    {
+      "label": "UW Undergraduate Neuroscience degree requirements",
+      "url": "https://sites.uw.edu/neusci/about/degree-requirements/"
+    },
+    {
+      "label": "UW Undergraduate Neuroscience courses and approved electives",
+      "url": "https://sites.uw.edu/neusci/about/courses/"
+    },
+    {
+      "label": "UW Undergraduate Neuroscience sample schedule",
+      "url": "https://sites.uw.edu/neusci/about/sample-schedule/"
+    },
+    {
+      "label": "UW Neuroscience course catalog",
+      "url": "https://www.washington.edu/students/crscat/neusci.html"
+    },
+    {
+      "label": "UW College of Arts & Sciences graduation requirements",
+      "url": "https://www.washington.edu/students/gencat/program/S/college_arts_sciences.html"
+    }
+  ],
+  "tracks": [
+    {
+      "id": "standard",
+      "name": "Neuroscience BS",
+      "description": "Standard Bachelor of Science in Neuroscience curriculum."
+    }
+  ],
+  "courseOverrides": {
+    "CHEM 142": {
+      "title": "General Chemistry",
+      "credits": "5",
+      "prerequisiteGroups": [],
+      "otherPrerequisites": "CHEM 110 with the required grade, the General Chemistry Placement Exam, or AP Chemistry placement can provide entry. Check the current catalog."
+    },
+    "CHEM 152": {
+      "title": "General Chemistry",
+      "credits": "5",
+      "prerequisiteGroups": [
+        [
+          "CHEM 142",
+          "CHEM 143",
+          "CHEM 145"
+        ]
+      ]
+    },
+    "CHEM 143": {
+      "title": "Accelerated General Chemistry I",
+      "credits": "6",
+      "areas": "NSc, RSN",
+      "offered": "Autumn",
+      "description": "First half of UW's accelerated two-quarter general chemistry sequence.",
+      "prerequisiteGroups": [],
+      "sourceUrl": "https://www.washington.edu/students/crscat/chem.html",
+      "otherPrerequisites": "CHEM 110 with the required grade, the General Chemistry Placement Exam, or AP Chemistry placement can provide entry. Check the current catalog."
+    },
+    "CHEM 153": {
+      "title": "Accelerated General Chemistry II",
+      "credits": "6",
+      "areas": "NSc",
+      "offered": "Winter",
+      "description": "Second half of UW's accelerated two-quarter general chemistry sequence.",
+      "prerequisiteGroups": [
+        [
+          "CHEM 143"
+        ]
+      ],
+      "sourceUrl": "https://www.washington.edu/students/crscat/chem.html"
+    },
+    "CHEM 145": {
+      "title": "Honors General Chemistry",
+      "credits": "5",
+      "areas": "NSc, RSN",
+      "offered": "Autumn",
+      "description": "First course in UW's honors general chemistry sequence, covering CHEM 142 topics with greater mathematical rigor.",
+      "prerequisiteGroups": [],
+      "sourceUrl": "https://www.washington.edu/students/crscat/chem.html",
+      "otherPrerequisites": "Entry can be based on MATH 124 or MATH 134 (which may be concurrent), the Honors General Chemistry placement exam, AP Chemistry, or IB Higher Level Chemistry. Check the current score thresholds."
+    },
+    "CHEM 155": {
+      "title": "Honors General Chemistry",
+      "credits": "5",
+      "areas": "NSc, RSN",
+      "offered": "Winter",
+      "description": "Second course in UW's honors general chemistry sequence, overlapping CHEM 152.",
+      "prerequisiteGroups": [
+        [
+          "CHEM 145"
+        ]
+      ],
+      "sourceUrl": "https://www.washington.edu/students/crscat/chem.html"
+    },
+    "CHEM 165": {
+      "title": "Honors General Chemistry",
+      "credits": "5",
+      "areas": "NSc, RSN",
+      "offered": "Spring",
+      "description": "Third course in UW's honors general chemistry sequence, overlapping CHEM 162. It is shown for sequence completeness but is not required for the BSME chemistry minimum.",
+      "prerequisiteGroups": [
+        [
+          "CHEM 155"
+        ]
+      ],
+      "sourceUrl": "https://www.washington.edu/students/crscat/chem.html"
+    },
+    "PHYS 114": {
+      "title": "General Physics",
+      "credits": "4",
+      "areas": "NSc, RSN",
+      "prerequisiteGroups": [],
+      "otherPrerequisites": "UW mathematics placement or the catalog-listed mathematics preparation may apply."
+    },
+    "PHYS 115": {
+      "title": "General Physics",
+      "credits": "4",
+      "areas": "NSc, RSN",
+      "prerequisiteGroups": [
+        [
+          "PHYS 114"
+        ]
+      ]
+    },
+    "PHYS 121": {
+      "title": "Mechanics",
+      "credits": "5",
+      "prerequisiteGroups": [
+        [
+          "MATH 124",
+          "MATH 134"
+        ]
+      ]
+    },
+    "PHYS 122": {
+      "title": "Electromagnetism",
+      "credits": "5",
+      "prerequisiteGroups": [
+        [
+          "MATH 125",
+          "MATH 134"
+        ],
+        [
+          "PHYS 121",
+          "PHYS 141"
+        ]
+      ]
+    },
+    "PHYS 141": {
+      "title": "Honors Mechanics",
+      "credits": "5",
+      "areas": "NSc",
+      "offered": "Autumn",
+      "description": "Honors version of calculus-based mechanics, covering PHYS 121 material in greater depth.",
+      "prerequisiteGroups": [
+        [
+          "MATH 124",
+          "MATH 134"
+        ]
+      ],
+      "sourceUrl": "https://www.washington.edu/students/crscat/phys.html",
+      "otherPrerequisites": "AP Calculus scores can also provide entry; high-school physics is recommended. Check the current grade and score thresholds."
+    },
+    "PHYS 142": {
+      "title": "Honors Electromagnetism",
+      "credits": "5",
+      "areas": "NSc",
+      "offered": "Winter",
+      "description": "Honors version of calculus-based electromagnetism, covering PHYS 122 material in greater depth.",
+      "prerequisiteGroups": [
+        [
+          "PHYS 141"
+        ],
+        [
+          "MATH 125",
+          "MATH 134"
+        ]
+      ],
+      "sourceUrl": "https://www.washington.edu/students/crscat/phys.html"
+    },
+    "MATH 124": {
+      "title": "Calculus with Analytic Geometry I",
+      "credits": "5",
+      "prerequisiteGroups": []
+    },
+    "MATH 134": {
+      "title": "Accelerated [Honors] Calculus",
+      "credits": "5",
+      "areas": "NSc, RSN",
+      "offered": "Autumn",
+      "description": "First course in UW's accelerated honors calculus and linear algebra sequence.",
+      "prerequisiteGroups": [],
+      "sourceUrl": "https://www.washington.edu/students/crscat/math.html"
+    },
+    "BIOL 180": {
+      "title": "Introductory Biology",
+      "credits": "5",
+      "areas": "NSc",
+      "offered": "A,W,Sp,S",
+      "prerequisiteGroups": []
+    },
+    "BIOL 200": {
+      "title": "Introductory Biology",
+      "credits": "5",
+      "areas": "NSc",
+      "offered": "A,W,Sp,S",
+      "prerequisiteGroups": [
+        [
+          "BIOL 180"
+        ],
+        [
+          "CHEM 143",
+          "CHEM 145",
+          "CHEM 223",
+          "CHEM 237",
+          "CHEM 152",
+          "CHEM 153",
+          "CHEM 155",
+          "CHEM 220"
+        ]
+      ],
+      "otherPrerequisites": "Some chemistry choices may be taken concurrently; the planner conservatively places them earlier."
+    },
+    "BIOL 220": {
+      "title": "Introductory Biology",
+      "credits": "5",
+      "areas": "NSc",
+      "offered": "A,W,Sp,S",
+      "prerequisiteGroups": [
+        [
+          "BIOL 200"
+        ]
+      ]
+    },
+    "NEUSCI 301": {
+      "title": "Introduction to Cellular and Molecular Neuroscience",
+      "credits": "5",
+      "areas": "NSc",
+      "offered": "Winter",
+      "prerequisiteGroups": [
+        [
+          "BIOL 220"
+        ]
+      ],
+      "description": "Cellular and molecular properties of neurons, synapses, and nervous-system development. Includes laboratory work.",
+      "sourceUrl": "https://www.washington.edu/students/crscat/neusci.html"
+    },
+    "NEUSCI 302": {
+      "title": "Introduction to Systems and Behavioral Neuroscience",
+      "credits": "5",
+      "areas": "NSc",
+      "offered": "Autumn",
+      "prerequisiteGroups": [
+        [
+          "NEUSCI 301"
+        ]
+      ],
+      "description": "Systems and behavioral neuroscience, including sensory processing and behavior. Includes laboratory work.",
+      "sourceUrl": "https://www.washington.edu/students/crscat/neusci.html"
+    },
+    "NEUSCI 401": {
+      "title": "Systems Neuroscience",
+      "credits": "3",
+      "areas": "NSc",
+      "offered": "Spring",
+      "prerequisiteGroups": [
+        [
+          "NEUSCI 301"
+        ]
+      ],
+      "sourceUrl": "https://www.washington.edu/students/crscat/neusci.html"
+    },
+    "NEUSCI 402": {
+      "title": "Diseases of the Nervous System",
+      "credits": "3",
+      "areas": "NSc",
+      "offered": "Winter",
+      "prerequisiteGroups": [
+        [
+          "NEUSCI 401"
+        ]
+      ],
+      "sourceUrl": "https://www.washington.edu/students/crscat/neusci.html"
+    },
+    "NEUSCI 403": {
+      "title": "Computational Models for Cognitive Neuroscience",
+      "credits": "3",
+      "areas": "NSc",
+      "offered": "Winter",
+      "prerequisiteGroups": [
+        [
+          "NEUSCI 401"
+        ]
+      ],
+      "sourceUrl": "https://www.washington.edu/students/crscat/neusci.html"
+    },
+    "NEUSCI 404": {
+      "title": "Neuropharmacology",
+      "credits": "3",
+      "areas": "NSc",
+      "offered": "Spring",
+      "prerequisiteGroups": [
+        [
+          "NEUSCI 401"
+        ]
+      ],
+      "sourceUrl": "https://www.washington.edu/students/crscat/neusci.html"
+    },
+    "NEUSCI 440": {
+      "title": "Topics in Current Neuroscience Research",
+      "credits": "2",
+      "areas": "NSc",
+      "prerequisiteGroups": [
+        [
+          "NEUSCI 302"
+        ]
+      ],
+      "sourceUrl": "https://www.washington.edu/students/crscat/neusci.html"
+    },
+    "NEUSCI 445": {
+      "title": "Quantitative Methods in Neuroscience",
+      "credits": "3",
+      "areas": "NSc",
+      "offered": "Winter",
+      "prerequisiteGroups": [
+        [
+          "AMATH 342"
+        ]
+      ],
+      "sourceUrl": "https://www.washington.edu/students/crscat/neusci.html"
+    },
+    "NEUSCI 450": {
+      "title": "Current Research Literature in Neuroscience",
+      "credits": "2",
+      "areas": "NSc",
+      "prerequisiteGroups": [
+        [
+          "BIOL 220"
+        ]
+      ],
+      "sourceUrl": "https://www.washington.edu/students/crscat/neusci.html"
+    },
+    "NEUSCI 496": {
+      "title": "Peer Teaching Facilitator in Neuroscience",
+      "credits": "1-5",
+      "prerequisiteGroups": [
+        [
+          "NEUSCI 302"
+        ]
+      ],
+      "sourceUrl": "https://www.washington.edu/students/crscat/neusci.html"
+    },
+    "NEUSCI 499": {
+      "title": "Individual Research in Neuroscience",
+      "credits": "3-6",
+      "prerequisiteGroups": [
+        [
+          "NEUSCI 301"
+        ]
+      ],
+      "sourceUrl": "https://www.washington.edu/students/crscat/neusci.html"
+    }
+  },
+  "mapGroups": [
+    {
+      "id": "admission",
+      "label": "Neuroscience Admission Checkpoint",
+      "shortLabel": "Admission",
+      "credits": "Before applying",
+      "description": "BIOL 180, 200, and 220 are required for admission. Admission is capacity-constrained.",
+      "courses": [
+        "BIOL 180",
+        "BIOL 200",
+        "BIOL 220"
+      ],
+      "requirementRefs": [
+        {
+          "id": "admission-grades",
+          "scope": "requirement",
+          "label": "Minimum grades in admission courses",
+          "credits": "2.0 each"
+        },
+        {
+          "id": "admission-supporting-gpa",
+          "scope": "requirement",
+          "label": "Supporting-course GPA",
+          "credits": "2.50 recommended minimum"
+        }
+      ]
+    },
+    {
+      "id": "general-education",
+      "label": "General Education Requirements",
+      "shortLabel": "General Education",
+      "credits": "College of Arts & Sciences",
+      "description": "Language skills, reasoning and writing, Areas of Inquiry, and Diversity.",
+      "courses": [],
+      "requirementRefs": [
+        {
+          "id": "english-comp",
+          "scope": "item",
+          "label": "English Composition",
+          "credits": "5 cr"
+        },
+        {
+          "id": "foreign-language",
+          "scope": "item",
+          "label": "Foreign Language",
+          "credits": "0–15 cr"
+        },
+        {
+          "id": "reasoning",
+          "scope": "item",
+          "label": "Reasoning",
+          "credits": "5 cr"
+        },
+        {
+          "id": "writing",
+          "scope": "item",
+          "label": "Writing in Context",
+          "credits": "10 cr"
+        },
+        {
+          "id": "ah",
+          "scope": "item",
+          "label": "Arts & Humanities",
+          "credits": "20 cr"
+        },
+        {
+          "id": "ssc",
+          "scope": "item",
+          "label": "Social Sciences",
+          "credits": "20 cr"
+        },
+        {
+          "id": "nsc",
+          "scope": "item",
+          "label": "Natural Sciences",
+          "credits": "20 cr"
+        },
+        {
+          "id": "additional-aoi",
+          "scope": "item",
+          "label": "Additional Areas of Inquiry",
+          "credits": "15 cr"
+        },
+        {
+          "id": "div",
+          "scope": "item",
+          "label": "Diversity",
+          "credits": "5 cr"
+        }
+      ]
+    },
+    {
+      "id": "supporting",
+      "label": "Supporting Science Coursework",
+      "shortLabel": "Supporting Science",
+      "credits": "48+ cr",
+      "description": "Approved chemistry, physics, calculus, and introductory biology sequences.",
+      "courses": [
+        "CHEM 120",
+        "CHEM 220",
+        "CHEM 221",
+        "CHEM 142",
+        "CHEM 152",
+        "CHEM 162",
+        "CHEM 143",
+        "CHEM 153",
+        "CHEM 145",
+        "CHEM 155",
+        "CHEM 165",
+        "CHEM 223",
+        "CHEM 224",
+        "CHEM 237",
+        "CHEM 238",
+        "CHEM 239",
+        "CHEM 335",
+        "CHEM 336",
+        "CHEM 337",
+        "PHYS 114",
+        "PHYS 115",
+        "PHYS 121",
+        "PHYS 122",
+        "MATH 124",
+        "MATH 125",
+        "Q SCI 291",
+        "Q SCI 292",
+        "BIOL 180",
+        "BIOL 200",
+        "BIOL 220"
+      ]
+    },
+    {
+      "id": "intro-neuro",
+      "label": "Introduction to Neuroscience",
+      "shortLabel": "Intro Neuroscience",
+      "credits": "10 cr",
+      "description": "The two-course introductory laboratory sequence.",
+      "courses": [
+        "NEUSCI 301",
+        "NEUSCI 302"
+      ]
+    },
+    {
+      "id": "advanced-neuro",
+      "label": "Advanced Neuroscience Core",
+      "shortLabel": "Advanced Core",
+      "credits": "12 cr",
+      "description": "Required advanced neuroscience courses.",
+      "courses": [
+        "NEUSCI 401",
+        "NEUSCI 402",
+        "NEUSCI 403",
+        "NEUSCI 404"
+      ]
+    },
+    {
+      "id": "electives",
+      "label": "Advanced Neuroscience Electives",
+      "shortLabel": "Neuroscience Electives",
+      "credits": "16 cr",
+      "description": "Approved advanced electives. Up to 7 credits of research, seminars, peer facilitation, and internships may count.",
+      "courses": [
+        "ANTH 415",
+        "AMATH 301",
+        "AMATH 342",
+        "AMATH 351",
+        "AMATH 352",
+        "AMATH 353",
+        "AMATH 383",
+        "AMATH 422",
+        "BH 311",
+        "BH 402",
+        "BH 420",
+        "BH 440",
+        "BH 456",
+        "BH 474",
+        "BH 481",
+        "BIO A 482",
+        "BIOL 310",
+        "BIOL 401",
+        "BIOL 408",
+        "BIOL 413",
+        "BIOL 414",
+        "BIOL 418",
+        "BIOL 427",
+        "BIOL 433",
+        "BIOL 434",
+        "BIOL 440",
+        "BIOL 441",
+        "BIOL 444",
+        "BIOL 451",
+        "BIOL 452",
+        "BIOL 453",
+        "BIOL 457",
+        "BIOL 460",
+        "BIOL 462",
+        "BIOL 465",
+        "BIOL 467",
+        "BIOL 468",
+        "BIOC 405",
+        "BIOC 406",
+        "BIOC 426",
+        "BIOC 440",
+        "BIOC 441",
+        "BIOC 442",
+        "BIOC 450",
+        "BIOC 451",
+        "BIOEN 460",
+        "BIOEN 461",
+        "BIOST 310",
+        "CHEM 321",
+        "CHEM 452",
+        "CHEM 453",
+        "CHEM 455",
+        "CHEM 456",
+        "CHEM 457",
+        "CHEM 460",
+        "CHID 444",
+        "CSE 332",
+        "CSE 416",
+        "CSE 446",
+        "DANCE 493",
+        "ECON 437",
+        "ENV H 405",
+        "ENV H 444",
+        "ENV H 451",
+        "ENVIR 439",
+        "EPI 320",
+        "ESRM 410",
+        "ESRM 452",
+        "GEOG 381",
+        "GENOME 361",
+        "GENOME 371",
+        "GENOME 372",
+        "GENOME 373",
+        "GENOME 453",
+        "GENOME 465",
+        "GENOME 466",
+        "GENOME 475",
+        "G H 410",
+        "G H 456",
+        "G H 459",
+        "HCDE 411",
+        "HSERV 482",
+        "IMMUN 441",
+        "LING 441",
+        "MEDCH 327",
+        "PCEUT 327",
+        "MICROM 301",
+        "MICROM 302",
+        "MICROM 402",
+        "MICROM 410",
+        "MICROM 412",
+        "MICROM 442",
+        "MUSIC 344",
+        "NURS 301",
+        "NUTR 405",
+        "NUTR 406",
+        "PHARM 451",
+        "PHCOL 401",
+        "PHCOL 402",
+        "PHIL 442",
+        "PHIL 460",
+        "PHIL 464",
+        "PHIL 481",
+        "PHIL 482",
+        "PHYS 417",
+        "PHYS 429",
+        "POL S 302",
+        "PSYCH 302",
+        "PSYCH 322",
+        "PSYCH 333",
+        "PSYCH 345",
+        "PSYCH 355",
+        "PSYCH 400",
+        "PSYCH 403",
+        "PSYCH 414",
+        "PSYCH 416",
+        "PSYCH 417",
+        "PSYCH 420",
+        "PSYCH 421",
+        "PSYCH 426",
+        "PSYCH 430",
+        "PSYCH 432",
+        "PSYCH 435",
+        "PSYCH 437",
+        "PSYCH 440",
+        "PSYCH 441",
+        "PSYCH 451",
+        "PSYCH 456",
+        "PSYCH 459",
+        "PSYCH 460",
+        "PSYCH 462",
+        "PSYCH 470",
+        "PSYCH 471",
+        "PSYCH 488",
+        "Q SCI 381",
+        "SPHSC 305",
+        "SPHSC 371",
+        "SPHSC 425",
+        "STAT 311",
+        "STAT 390",
+        "STAT 416",
+        "UCONJ 440",
+        "NEUSCI 440",
+        "NEUSCI 445",
+        "NEUSCI 450",
+        "NEUSCI 496",
+        "NEUSCI 499"
+      ]
+    },
+    {
+      "id": "additional-major",
+      "label": "Additional Major Requirements",
+      "shortLabel": "Additional Requirements",
+      "credits": "GPA and degree checks",
+      "description": "Minimum major GPA and overall degree-credit requirements.",
+      "courses": [],
+      "requirementRefs": [
+        {
+          "id": "major-gpa",
+          "scope": "requirement",
+          "label": "Major GPA",
+          "credits": "2.00 minimum"
+        },
+        {
+          "id": "major-minimum",
+          "scope": "requirement",
+          "label": "Minimum major credits",
+          "credits": "86 cr"
+        },
+        {
+          "id": "total",
+          "scope": "requirement",
+          "label": "Total degree credits",
+          "credits": "180 cr"
+        }
+      ]
+    }
+  ],
+  "requirements": [
+    {
+      "id": "neuroscience-admission",
+      "title": "Neuroscience Admission Checkpoint",
+      "displayCredits": "Before applying",
+      "targetCredits": 0,
+      "type": "group",
+      "note": "The major is capacity-constrained. BIOL 180, BIOL 200, and BIOL 220 are required for admission with a minimum 2.0 grade in each.",
+      "items": [
+        {
+          "id": "admission-biology",
+          "label": "Admission biology sequence",
+          "type": "all",
+          "courses": [
+            "BIOL 180",
+            "BIOL 200",
+            "BIOL 220"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "admission-grades",
+      "title": "Minimum 2.0 in each admission course",
+      "displayCredits": "Confirm manually",
+      "targetCredits": 1,
+      "type": "manual",
+      "note": "Enter 1 or mark fulfilled after confirming a minimum 2.0 in BIOL 180, BIOL 200, and BIOL 220."
+    },
+    {
+      "id": "admission-supporting-gpa",
+      "title": "Supporting-course GPA for admission",
+      "displayCredits": "2.50 recommended minimum",
+      "targetCredits": 1,
+      "type": "manual",
+      "note": "UW recommends completion of most supporting physics, mathematics, and chemistry coursework with at least a 2.50 GPA in work completed at application."
+    },
+    {
+      "id": "general-education",
+      "title": "College of Arts & Sciences General Education",
+      "displayCredits": "University and college requirements",
+      "targetCredits": 0,
+      "type": "group",
+      "items": [
+        {
+          "id": "english-comp",
+          "label": "English Composition",
+          "type": "bucket",
+          "targetCredits": 5,
+          "area": "C"
+        },
+        {
+          "id": "foreign-language",
+          "label": "Foreign language through the third quarter",
+          "type": "bucket",
+          "targetCredits": 15,
+          "area": "FL",
+          "note": "May be fulfilled by prior high-school or college language study; use the manual override when applicable."
+        },
+        {
+          "id": "reasoning",
+          "label": "Reasoning",
+          "type": "bucket",
+          "targetCredits": 5,
+          "area": "RSN"
+        },
+        {
+          "id": "writing",
+          "label": "Writing in Context",
+          "type": "bucket",
+          "targetCredits": 10,
+          "area": "W"
+        },
+        {
+          "id": "ah",
+          "label": "Arts & Humanities",
+          "type": "bucket",
+          "targetCredits": 20,
+          "area": "A&H"
+        },
+        {
+          "id": "ssc",
+          "label": "Social Sciences",
+          "type": "bucket",
+          "targetCredits": 20,
+          "area": "SSc"
+        },
+        {
+          "id": "nsc",
+          "label": "Natural Sciences",
+          "type": "bucket",
+          "targetCredits": 20,
+          "area": "NSc",
+          "note": "Major science courses can satisfy much of this requirement."
+        },
+        {
+          "id": "additional-aoi",
+          "label": "Additional Areas of Inquiry",
+          "type": "additional-bucket",
+          "targetCredits": 15,
+          "baseCredits": 60,
+          "area": "A&H/SSc/NSc"
+        },
+        {
+          "id": "div",
+          "label": "Diversity",
+          "type": "bucket",
+          "targetCredits": 5,
+          "area": "DIV",
+          "note": "May overlap with another general-education category."
+        }
+      ]
+    },
+    {
+      "id": "chemistry",
+      "title": "Chemistry",
+      "displayCredits": "15–27 cr",
+      "targetCredits": 15,
+      "type": "group",
+      "items": [
+        {
+          "id": "chemistry-path",
+          "label": "Choose one approved chemistry sequence",
+          "type": "path-choice",
+          "paths": [
+            {
+              "label": "Allied-health chemistry",
+              "courses": [
+                "CHEM 120",
+                "CHEM 220",
+                "CHEM 221"
+              ]
+            },
+            {
+              "label": "General/accelerated chemistry + short organic",
+              "courses": [
+                "CHEM 142",
+                "CHEM 152",
+                "CHEM 223",
+                "CHEM 224"
+              ]
+            },
+            {
+              "label": "Accelerated general chemistry + short organic",
+              "courses": [
+                "CHEM 143",
+                "CHEM 153",
+                "CHEM 223",
+                "CHEM 224"
+              ]
+            },
+            {
+              "label": "Full general and organic chemistry",
+              "courses": [
+                "CHEM 142",
+                "CHEM 152",
+                "CHEM 162",
+                "CHEM 237",
+                "CHEM 238",
+                "CHEM 239"
+              ]
+            },
+            {
+              "label": "Honors general + full organic chemistry",
+              "courses": [
+                "CHEM 145",
+                "CHEM 155",
+                "CHEM 165",
+                "CHEM 237",
+                "CHEM 238",
+                "CHEM 239"
+              ]
+            },
+            {
+              "label": "General chemistry + alternate organic sequence",
+              "courses": [
+                "CHEM 142",
+                "CHEM 152",
+                "CHEM 162",
+                "CHEM 335",
+                "CHEM 336",
+                "CHEM 337"
+              ]
+            }
+          ],
+          "note": "The full general and organic chemistry route is recommended. Organic chemistry laboratories are not required."
+        }
+      ]
+    },
+    {
+      "id": "physics",
+      "title": "Physics",
+      "displayCredits": "8–10 cr",
+      "targetCredits": 8,
+      "type": "group",
+      "items": [
+        {
+          "id": "physics-path",
+          "label": "Choose one approved physics sequence",
+          "type": "path-choice",
+          "paths": [
+            {
+              "label": "Algebra-based physics",
+              "courses": [
+                "PHYS 114",
+                "PHYS 115"
+              ]
+            },
+            {
+              "label": "Calculus-based physics (recommended)",
+              "courses": [
+                "PHYS 121",
+                "PHYS 122"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mathematics",
+      "title": "Mathematics",
+      "displayCredits": "10 cr",
+      "targetCredits": 10,
+      "type": "group",
+      "items": [
+        {
+          "id": "calculus-path",
+          "label": "Two quarters of calculus",
+          "type": "path-choice",
+          "paths": [
+            {
+              "label": "MATH calculus",
+              "courses": [
+                "MATH 124",
+                "MATH 125"
+              ]
+            },
+            {
+              "label": "Quantitative science calculus",
+              "courses": [
+                "Q SCI 291",
+                "Q SCI 292"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "intro-biology",
+      "title": "Introductory Biology",
+      "displayCredits": "15 cr",
+      "targetCredits": 15,
+      "type": "group",
+      "items": [
+        {
+          "id": "intro-biology-all",
+          "label": "BIOL 180, 200, and 220",
+          "type": "all",
+          "courses": [
+            "BIOL 180",
+            "BIOL 200",
+            "BIOL 220"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "intro-neuroscience",
+      "title": "Introduction to Neuroscience",
+      "displayCredits": "10 cr",
+      "targetCredits": 10,
+      "type": "group",
+      "items": [
+        {
+          "id": "intro-neuro-all",
+          "label": "NEUSCI 301 and NEUSCI 302",
+          "type": "all",
+          "courses": [
+            "NEUSCI 301",
+            "NEUSCI 302"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "advanced-neuroscience",
+      "title": "Advanced Neuroscience Core",
+      "displayCredits": "12 cr",
+      "targetCredits": 12,
+      "type": "group",
+      "items": [
+        {
+          "id": "advanced-neuro-all",
+          "label": "NEUSCI 401, 402, 403, and 404",
+          "type": "all",
+          "courses": [
+            "NEUSCI 401",
+            "NEUSCI 402",
+            "NEUSCI 403",
+            "NEUSCI 404"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "neuroscience-electives",
+      "title": "Advanced Neuroscience Electives",
+      "displayCredits": "16 cr",
+      "targetCredits": 16,
+      "type": "pool",
+      "minCredits": 16,
+      "courses": [
+        "ANTH 415",
+        "AMATH 301",
+        "AMATH 342",
+        "AMATH 351",
+        "AMATH 352",
+        "AMATH 353",
+        "AMATH 383",
+        "AMATH 422",
+        "BH 311",
+        "BH 402",
+        "BH 420",
+        "BH 440",
+        "BH 456",
+        "BH 474",
+        "BH 481",
+        "BIO A 482",
+        "BIOL 310",
+        "BIOL 401",
+        "BIOL 408",
+        "BIOL 413",
+        "BIOL 414",
+        "BIOL 418",
+        "BIOL 427",
+        "BIOL 433",
+        "BIOL 434",
+        "BIOL 440",
+        "BIOL 441",
+        "BIOL 444",
+        "BIOL 451",
+        "BIOL 452",
+        "BIOL 453",
+        "BIOL 457",
+        "BIOL 460",
+        "BIOL 462",
+        "BIOL 465",
+        "BIOL 467",
+        "BIOL 468",
+        "BIOC 405",
+        "BIOC 406",
+        "BIOC 426",
+        "BIOC 440",
+        "BIOC 441",
+        "BIOC 442",
+        "BIOC 450",
+        "BIOC 451",
+        "BIOEN 460",
+        "BIOEN 461",
+        "BIOST 310",
+        "CHEM 321",
+        "CHEM 452",
+        "CHEM 453",
+        "CHEM 455",
+        "CHEM 456",
+        "CHEM 457",
+        "CHEM 460",
+        "CHID 444",
+        "CSE 332",
+        "CSE 416",
+        "CSE 446",
+        "DANCE 493",
+        "ECON 437",
+        "ENV H 405",
+        "ENV H 444",
+        "ENV H 451",
+        "ENVIR 439",
+        "EPI 320",
+        "ESRM 410",
+        "ESRM 452",
+        "GEOG 381",
+        "GENOME 361",
+        "GENOME 371",
+        "GENOME 372",
+        "GENOME 373",
+        "GENOME 453",
+        "GENOME 465",
+        "GENOME 466",
+        "GENOME 475",
+        "G H 410",
+        "G H 456",
+        "G H 459",
+        "HCDE 411",
+        "HSERV 482",
+        "IMMUN 441",
+        "LING 441",
+        "MEDCH 327",
+        "PCEUT 327",
+        "MICROM 301",
+        "MICROM 302",
+        "MICROM 402",
+        "MICROM 410",
+        "MICROM 412",
+        "MICROM 442",
+        "MUSIC 344",
+        "NURS 301",
+        "NUTR 405",
+        "NUTR 406",
+        "PHARM 451",
+        "PHCOL 401",
+        "PHCOL 402",
+        "PHIL 442",
+        "PHIL 460",
+        "PHIL 464",
+        "PHIL 481",
+        "PHIL 482",
+        "PHYS 417",
+        "PHYS 429",
+        "POL S 302",
+        "PSYCH 302",
+        "PSYCH 322",
+        "PSYCH 333",
+        "PSYCH 345",
+        "PSYCH 355",
+        "PSYCH 400",
+        "PSYCH 403",
+        "PSYCH 414",
+        "PSYCH 416",
+        "PSYCH 417",
+        "PSYCH 420",
+        "PSYCH 421",
+        "PSYCH 426",
+        "PSYCH 430",
+        "PSYCH 432",
+        "PSYCH 435",
+        "PSYCH 437",
+        "PSYCH 440",
+        "PSYCH 441",
+        "PSYCH 451",
+        "PSYCH 456",
+        "PSYCH 459",
+        "PSYCH 460",
+        "PSYCH 462",
+        "PSYCH 470",
+        "PSYCH 471",
+        "PSYCH 488",
+        "Q SCI 381",
+        "SPHSC 305",
+        "SPHSC 371",
+        "SPHSC 425",
+        "STAT 311",
+        "STAT 390",
+        "STAT 416",
+        "UCONJ 440",
+        "NEUSCI 440",
+        "NEUSCI 445",
+        "NEUSCI 450",
+        "NEUSCI 496",
+        "NEUSCI 499"
+      ],
+      "note": "Use the current department-approved list. Up to 7 credits of NEUSCI 450, NEUSCI 496, NEUSCI 499, and other approved research, seminar, peer-facilitation, or internship credit may count."
+    },
+    {
+      "id": "major-gpa",
+      "title": "Minimum cumulative major GPA",
+      "displayCredits": "2.00 minimum",
+      "targetCredits": 1,
+      "type": "manual",
+      "note": "Enter 1 or mark fulfilled after confirming at least a 2.00 cumulative GPA in courses applied to the major."
+    },
+    {
+      "id": "major-minimum",
+      "title": "Minimum Neuroscience major credits",
+      "displayCredits": "86 cr minimum",
+      "targetCredits": 86,
+      "type": "manual",
+      "manualLabel": "Major credits completed",
+      "maxCredits": 120,
+      "note": "The official program requires at least 86 credits across supporting science, neuroscience core, and approved electives."
+    },
+    {
+      "id": "free-electives",
+      "title": "Free Electives",
+      "displayCredits": "As needed",
+      "targetCredits": 0,
+      "type": "manual",
+      "manualLabel": "Additional elective credits completed",
+      "maxCredits": 90,
+      "note": "Additional coursework needed to reach 180 total credits."
+    },
+    {
+      "id": "total",
+      "title": "Total degree credits",
+      "displayCredits": "180 cr",
+      "targetCredits": 180,
+      "type": "total",
+      "note": "Includes major, general education, and free-elective coursework."
+    }
+  ],
+  "samplePlan": {
+    "name": "UW Neuroscience sample schedule",
+    "quarters": {
+      "y1-autumn": [
+        "CHEM 142",
+        "SLOT:5:Foreign Language",
+        "SLOT:5:English Composition"
+      ],
+      "y1-winter": [
+        "CHEM 152",
+        "MATH 124",
+        "SLOT:5:Foreign Language"
+      ],
+      "y1-spring": [
+        "CHEM 162",
+        "MATH 125",
+        "SLOT:5:Foreign Language"
+      ],
+      "y2-autumn": [
+        "BIOL 180",
+        "CHEM 237",
+        "SLOT:5:A&H"
+      ],
+      "y2-winter": [
+        "BIOL 200",
+        "CHEM 238",
+        "SLOT:5:SSc"
+      ],
+      "y2-spring": [
+        "BIOL 220",
+        "CHEM 239",
+        "SLOT:5:A&H"
+      ],
+      "y3-autumn": [
+        "PHYS 114",
+        "SLOT:4:Neuroscience Elective",
+        "SLOT:5:SSc"
+      ],
+      "y3-winter": [
+        "NEUSCI 301",
+        "PHYS 115",
+        "SLOT:5:A&H"
+      ],
+      "y3-spring": [
+        "NEUSCI 401",
+        "SLOT:4:Neuroscience Elective",
+        "SLOT:5:SSc"
+      ],
+      "y4-autumn": [
+        "NEUSCI 302",
+        "SLOT:4:Neuroscience Elective",
+        "SLOT:5:A&H"
+      ],
+      "y4-winter": [
+        "NEUSCI 402",
+        "NEUSCI 403",
+        "SLOT:4:Neuroscience Elective"
+      ],
+      "y4-spring": [
+        "NEUSCI 404",
+        "SLOT:4:Neuroscience Elective",
+        "SLOT:5:SSc"
+      ]
+    },
+    "creditTotal": 180.0,
+    "note": "Based on the department sample sequence. Replace placeholders with approved courses and verify quarter offerings."
+  },
+  "prerequisiteSubstitutions": {
+    "CHEM 142": [
+      "CHEM 143",
+      "CHEM 145"
+    ],
+    "CHEM 152": [
+      "CHEM 153",
+      "CHEM 155"
+    ],
+    "PHYS 121": [
+      "PHYS 141"
+    ],
+    "PHYS 122": [
+      "PHYS 142"
+    ],
+    "MATH 124": [
+      "MATH 134"
+    ],
+    "MATH 125": [
+      "MATH 135"
+    ]
+  },
+  "plannerSlotPools": {
+    "Foreign Language": {
+      "areas": [
+        "FL"
+      ]
+    },
+    "English Composition": {
+      "areas": [
+        "C"
+      ]
+    },
+    "A&H": {
+      "areas": [
+        "A&H"
+      ]
+    },
+    "SSc": {
+      "areas": [
+        "SSc"
+      ]
+    },
+    "Neuroscience Elective": {
+      "courses": [
+        "ANTH 415",
+        "AMATH 301",
+        "AMATH 342",
+        "AMATH 351",
+        "AMATH 352",
+        "AMATH 353",
+        "AMATH 383",
+        "AMATH 422",
+        "BH 311",
+        "BH 402",
+        "BH 420",
+        "BH 440",
+        "BH 456",
+        "BH 474",
+        "BH 481",
+        "BIO A 482",
+        "BIOL 310",
+        "BIOL 401",
+        "BIOL 408",
+        "BIOL 413",
+        "BIOL 414",
+        "BIOL 418",
+        "BIOL 427",
+        "BIOL 433",
+        "BIOL 434",
+        "BIOL 440",
+        "BIOL 441",
+        "BIOL 444",
+        "BIOL 451",
+        "BIOL 452",
+        "BIOL 453",
+        "BIOL 457",
+        "BIOL 460",
+        "BIOL 462",
+        "BIOL 465",
+        "BIOL 467",
+        "BIOL 468",
+        "BIOC 405",
+        "BIOC 406",
+        "BIOC 426",
+        "BIOC 440",
+        "BIOC 441",
+        "BIOC 442",
+        "BIOC 450",
+        "BIOC 451",
+        "BIOEN 460",
+        "BIOEN 461",
+        "BIOST 310",
+        "CHEM 321",
+        "CHEM 452",
+        "CHEM 453",
+        "CHEM 455",
+        "CHEM 456",
+        "CHEM 457",
+        "CHEM 460",
+        "CHID 444",
+        "CSE 332",
+        "CSE 416",
+        "CSE 446",
+        "DANCE 493",
+        "ECON 437",
+        "ENV H 405",
+        "ENV H 444",
+        "ENV H 451",
+        "ENVIR 439",
+        "EPI 320",
+        "ESRM 410",
+        "ESRM 452",
+        "GEOG 381",
+        "GENOME 361",
+        "GENOME 371",
+        "GENOME 372",
+        "GENOME 373",
+        "GENOME 453",
+        "GENOME 465",
+        "GENOME 466",
+        "GENOME 475",
+        "G H 410",
+        "G H 456",
+        "G H 459",
+        "HCDE 411",
+        "HSERV 482",
+        "IMMUN 441",
+        "LING 441",
+        "MEDCH 327",
+        "PCEUT 327",
+        "MICROM 301",
+        "MICROM 302",
+        "MICROM 402",
+        "MICROM 410",
+        "MICROM 412",
+        "MICROM 442",
+        "MUSIC 344",
+        "NURS 301",
+        "NUTR 405",
+        "NUTR 406",
+        "PHARM 451",
+        "PHCOL 401",
+        "PHCOL 402",
+        "PHIL 442",
+        "PHIL 460",
+        "PHIL 464",
+        "PHIL 481",
+        "PHIL 482",
+        "PHYS 417",
+        "PHYS 429",
+        "POL S 302",
+        "PSYCH 302",
+        "PSYCH 322",
+        "PSYCH 333",
+        "PSYCH 345",
+        "PSYCH 355",
+        "PSYCH 400",
+        "PSYCH 403",
+        "PSYCH 414",
+        "PSYCH 416",
+        "PSYCH 417",
+        "PSYCH 420",
+        "PSYCH 421",
+        "PSYCH 426",
+        "PSYCH 430",
+        "PSYCH 432",
+        "PSYCH 435",
+        "PSYCH 437",
+        "PSYCH 440",
+        "PSYCH 441",
+        "PSYCH 451",
+        "PSYCH 456",
+        "PSYCH 459",
+        "PSYCH 460",
+        "PSYCH 462",
+        "PSYCH 470",
+        "PSYCH 471",
+        "PSYCH 488",
+        "Q SCI 381",
+        "SPHSC 305",
+        "SPHSC 371",
+        "SPHSC 425",
+        "STAT 311",
+        "STAT 390",
+        "STAT 416",
+        "UCONJ 440",
+        "NEUSCI 440",
+        "NEUSCI 445",
+        "NEUSCI 450",
+        "NEUSCI 496",
+        "NEUSCI 499"
+      ]
+    }
+  },
+  "dataAudit": {
+    "auditedOn": "2026-07-23",
+    "degreeTotalChecked": 180,
+    "samplePlanCredits": 180.0,
+    "officialPlanningNote": "Planning aid only. Confirm admission timing, elective approval, variable-credit limits, and substitutions with the Neuroscience adviser."
+  },
+  "degreeAwardId": "BSNEUSCI",
+  "collegeId": "arts-sciences",
+  "minimumDegreeCredits": 180
+}
