@@ -1,0 +1,1630 @@
+{
+  "id": "uw-seattle-computer-engineering",
+  "university": "University of Washington Seattle",
+  "name": "Computer Engineering",
+  "degree": "Bachelor of Science in Computer Engineering",
+  "category": "Computer Science, Data & Mathematics",
+  "catalogYear": "Current UW catalog framework",
+  "totalCredits": 180,
+  "sources": [
+    {
+      "label": "UW General Catalog \u2014 Computer Engineering",
+      "url": "https://www.washington.edu/students/gencat/program/S/ComputerScienceandEngineering-406.html"
+    },
+    {
+      "label": "Allen School Computer Engineering graduation requirements",
+      "url": "https://www.cs.washington.edu/wp-content/uploads/2025/02/CompE_degreq_dec24v2.pdf"
+    },
+    {
+      "label": "Allen School degree requirements",
+      "url": "https://www.cs.washington.edu/academics/undergraduate/degree-requirements/"
+    },
+    {
+      "label": "Allen School approved course lists",
+      "url": "https://www.cs.washington.edu/academics/undergraduate/degree-requirements/courses/"
+    },
+    {
+      "label": "Allen School capstones",
+      "url": "https://www.cs.washington.edu/academics/undergraduate/degree-requirements/capstones/"
+    }
+  ],
+  "tracks": [
+    {
+      "id": "standard",
+      "name": "Computer Engineering BS",
+      "description": "Standard Bachelor of Science in Computer Engineering curriculum."
+    }
+  ],
+  "courseOverrides": {
+    "CSE 123": {
+      "title": "Introduction to Computer Programming III",
+      "credits": "4",
+      "prerequisiteGroups": [
+        [
+          "CSE 122"
+        ]
+      ]
+    },
+    "CSE 143": {
+      "title": "Computer Programming II",
+      "credits": "5",
+      "prerequisiteGroups": [
+        [
+          "CSE 142"
+        ]
+      ]
+    },
+    "CSE 311": {
+      "title": "Foundations of Computing I",
+      "credits": "4",
+      "prerequisiteGroups": [
+        [
+          "CSE 123",
+          "CSE 143"
+        ],
+        [
+          "MATH 126",
+          "MATH 135"
+        ]
+      ]
+    },
+    "CSE 312": {
+      "title": "Foundations of Computing II",
+      "credits": "4",
+      "prerequisiteGroups": [
+        [
+          "CSE 311"
+        ]
+      ]
+    },
+    "CSE 332": {
+      "title": "Data Structures and Parallelism",
+      "credits": "4",
+      "prerequisiteGroups": [
+        [
+          "CSE 123",
+          "CSE 143"
+        ],
+        [
+          "CSE 311"
+        ]
+      ]
+    },
+    "CSE 351": {
+      "title": "The Hardware/Software Interface",
+      "credits": "4",
+      "prerequisiteGroups": [
+        [
+          "CSE 123",
+          "CSE 143"
+        ]
+      ]
+    },
+    "CSE 369": {
+      "title": "Introduction to Digital Design",
+      "credits": "3",
+      "prerequisiteGroups": [
+        [
+          "CSE 123",
+          "CSE 143"
+        ]
+      ]
+    },
+    "CSE 371": {
+      "title": "Design of Digital Circuits and Systems",
+      "credits": "5",
+      "prerequisiteGroups": [
+        [
+          "CSE 369"
+        ]
+      ],
+      "otherPrerequisites": "Jointly offered as E E 371."
+    },
+    "E E 205": {
+      "title": "Introduction to Signal Conditioning",
+      "credits": "4",
+      "prerequisiteGroups": [
+        [
+          "MATH 126",
+          "MATH 135"
+        ],
+        [
+          "PHYS 122",
+          "PHYS 142"
+        ]
+      ]
+    },
+    "E E 215": {
+      "title": "Introduction to Electrical Engineering",
+      "credits": "4",
+      "prerequisiteGroups": [
+        [
+          "MATH 126",
+          "MATH 135"
+        ],
+        [
+          "PHYS 122",
+          "PHYS 142"
+        ]
+      ]
+    },
+    "MATH 124": {
+      "title": "Calculus with Analytic Geometry I",
+      "credits": "5",
+      "prerequisiteGroups": []
+    },
+    "MATH 125": {
+      "title": "Calculus with Analytic Geometry II",
+      "credits": "5",
+      "prerequisiteGroups": [
+        [
+          "MATH 124",
+          "MATH 134"
+        ]
+      ]
+    },
+    "MATH 126": {
+      "title": "Calculus with Analytic Geometry III",
+      "credits": "5",
+      "prerequisiteGroups": [
+        [
+          "MATH 125",
+          "MATH 135"
+        ]
+      ]
+    },
+    "MATH 208": {
+      "title": "Matrix Algebra with Applications",
+      "credits": "3",
+      "prerequisiteGroups": [
+        [
+          "MATH 126",
+          "MATH 136"
+        ]
+      ]
+    },
+    "PHYS 121": {
+      "title": "Mechanics",
+      "credits": "5",
+      "prerequisiteGroups": [
+        [
+          "MATH 124",
+          "MATH 134"
+        ]
+      ]
+    },
+    "PHYS 122": {
+      "title": "Electromagnetism",
+      "credits": "5",
+      "prerequisiteGroups": [
+        [
+          "PHYS 121",
+          "PHYS 141"
+        ],
+        [
+          "MATH 125",
+          "MATH 135"
+        ]
+      ]
+    },
+    "CSE 403": {
+      "title": "Software Engineering",
+      "credits": "4",
+      "prerequisiteGroups": [
+        [
+          "CSE 331"
+        ],
+        [
+          "CSE 332"
+        ]
+      ]
+    },
+    "CSE 474": {
+      "title": "Introduction to Embedded Systems",
+      "credits": "4",
+      "prerequisiteGroups": [
+        [
+          "CSE 333"
+        ],
+        [
+          "CSE 352"
+        ]
+      ],
+      "otherPrerequisites": "Jointly offered as E E 474."
+    },
+    "CSE 480": {
+      "title": "Computer Ethics",
+      "credits": "2",
+      "prerequisiteGroups": []
+    },
+    "CSE 484": {
+      "title": "Computer Security",
+      "credits": "4",
+      "prerequisiteGroups": [
+        [
+          "CSE 332"
+        ],
+        [
+          "CSE 351"
+        ]
+      ]
+    },
+    "CSE 475": {
+      "title": "Embedded Systems Capstone",
+      "credits": "5",
+      "prerequisiteGroups": [
+        [
+          "CSE 369"
+        ],
+        [
+          "CSE 466",
+          "CSE 474",
+          "E E 472",
+          "E E 474"
+        ]
+      ]
+    }
+  },
+  "mapGroups": [
+    {
+      "id": "admission",
+      "label": "Computer Engineering Admission Checkpoint",
+      "shortLabel": "Admission",
+      "credits": "Before applying",
+      "description": "For current UW and transfer applicants. Direct-to-major first-year applicants follow a separate pathway.",
+      "courses": [
+        "MATH 124",
+        "MATH 125",
+        "MATH 126",
+        "CSE 123",
+        "CSE 143",
+        "PHYS 121"
+      ],
+      "requirementRefs": [
+        {
+          "id": "admission-composition",
+          "scope": "item",
+          "label": "English Composition",
+          "credits": "5 cr"
+        },
+        {
+          "id": "admission-grades",
+          "scope": "requirement",
+          "label": "Minimum grades",
+          "credits": "2.0 each"
+        },
+        {
+          "id": "admission-college-credits",
+          "scope": "requirement",
+          "label": "Graded college credits",
+          "credits": "30 cr"
+        }
+      ]
+    },
+    {
+      "id": "general-education",
+      "label": "General Education Component",
+      "shortLabel": "General Education",
+      "credits": "47 cr",
+      "description": "Written and oral communication, Diversity, and Areas of Inquiry.",
+      "courses": [],
+      "requirementRefs": [
+        {
+          "id": "english-comp",
+          "scope": "item",
+          "label": "English Composition",
+          "credits": "5 cr"
+        },
+        {
+          "id": "additional-writing",
+          "scope": "item",
+          "label": "Approved Writing or Composition",
+          "credits": "7 cr"
+        },
+        {
+          "id": "div",
+          "scope": "item",
+          "label": "Diversity",
+          "credits": "5 cr"
+        },
+        {
+          "id": "ah",
+          "scope": "item",
+          "label": "Arts & Humanities",
+          "credits": "10\u201320 cr"
+        },
+        {
+          "id": "ssc",
+          "scope": "item",
+          "label": "Social Sciences",
+          "credits": "10\u201320 cr"
+        }
+      ]
+    },
+    {
+      "id": "math-science",
+      "label": "Mathematics & Natural Sciences",
+      "shortLabel": "Math & Science",
+      "credits": "41 cr",
+      "description": "Calculus, linear algebra, physics, approved science, and additional math/science.",
+      "courses": [
+        "MATH 124",
+        "MATH 125",
+        "MATH 126",
+        "MATH 208",
+        "PHYS 121",
+        "PHYS 122"
+      ],
+      "requirementRefs": [
+        {
+          "id": "additional-science",
+          "scope": "requirement",
+          "label": "Approved natural science",
+          "credits": "10 cr"
+        },
+        {
+          "id": "additional-math-science",
+          "scope": "requirement",
+          "label": "Additional math/science",
+          "credits": "3\u20136 cr"
+        }
+      ]
+    },
+    {
+      "id": "fundamentals",
+      "label": "Computer Engineering Fundamentals",
+      "shortLabel": "Fundamentals",
+      "credits": "32\u201333 cr",
+      "description": "Programming, theory, systems, digital design, and electrical engineering fundamentals.",
+      "courses": [
+        "CSE 123",
+        "CSE 143",
+        "CSE 311",
+        "CSE 312",
+        "CSE 332",
+        "CSE 351",
+        "CSE 369",
+        "CSE 371",
+        "E E 205",
+        "E E 215"
+      ]
+    },
+    {
+      "id": "core-electives",
+      "label": "Core and Electives",
+      "shortLabel": "Core & Electives",
+      "credits": "40 cr",
+      "description": "Computing and society, systems electives, core courses, capstone, and senior electives.",
+      "courses": [
+        "CSE 331",
+        "CSE 333",
+        "CSE 340",
+        "CSE 341",
+        "CSE 344",
+        "CSE 401",
+        "CSE 402",
+        "CSE 403",
+        "CSE 421",
+        "CSE 422",
+        "CSE 426",
+        "CSE 427",
+        "CSE 428",
+        "CSE 431",
+        "CSE 434",
+        "CSE 438",
+        "CSE 440",
+        "CSE 442",
+        "CSE 443",
+        "CSE 444",
+        "CSE 446",
+        "CSE 447",
+        "CSE 451",
+        "CSE 452",
+        "CSE 453",
+        "CSE 455",
+        "CSE 457",
+        "CSE 458",
+        "CSE 460",
+        "CSE 461",
+        "CSE 462",
+        "CSE 466",
+        "CSE 467",
+        "CSE 469",
+        "CSE 470",
+        "CSE 471",
+        "CSE 473",
+        "CSE 474",
+        "CSE 475",
+        "CSE 478",
+        "CSE 480",
+        "CSE 481",
+        "CSE 482",
+        "CSE 484",
+        "CSE 486",
+        "CSE 493",
+        "E E 476",
+        "E E 477",
+        "STAT 391"
+      ],
+      "requirementRefs": [
+        {
+          "id": "computing-society",
+          "scope": "item",
+          "label": "Computing & Society",
+          "credits": "1 course"
+        },
+        {
+          "id": "systems-electives",
+          "scope": "item",
+          "label": "CE Systems Electives",
+          "credits": "3 courses"
+        },
+        {
+          "id": "core-courses",
+          "scope": "item",
+          "label": "CSE Core Courses",
+          "credits": "2 courses"
+        },
+        {
+          "id": "capstone",
+          "scope": "item",
+          "label": "CSE Capstone",
+          "credits": "1 course"
+        },
+        {
+          "id": "ce-elective-total",
+          "scope": "requirement",
+          "label": "Total CE core/electives",
+          "credits": "40 cr"
+        }
+      ]
+    },
+    {
+      "id": "additional",
+      "label": "Additional Degree Requirements",
+      "shortLabel": "Additional",
+      "credits": "GPA and degree checks",
+      "description": "CSE GPA and total degree-credit checks.",
+      "courses": [],
+      "requirementRefs": [
+        {
+          "id": "cse-gpa",
+          "scope": "requirement",
+          "label": "CSE GPA",
+          "credits": "2.00 minimum"
+        },
+        {
+          "id": "engineering-cse-total",
+          "scope": "requirement",
+          "label": "Engineering + CSE credits beyond fundamentals",
+          "credits": "40 cr"
+        },
+        {
+          "id": "total",
+          "scope": "requirement",
+          "label": "Total degree credits",
+          "credits": "180 cr"
+        }
+      ]
+    }
+  ],
+  "requirements": [
+    {
+      "id": "admission",
+      "title": "Computer Engineering Admission Requirements",
+      "displayCredits": "Before applying",
+      "targetCredits": 0,
+      "type": "group",
+      "note": "For current UW and transfer applicants; direct-to-major first-year applicants do not complete college prerequisites before admission.",
+      "items": [
+        {
+          "id": "admission-calculus",
+          "label": "Calculus through MATH 126",
+          "type": "path-choice",
+          "paths": [
+            {
+              "label": "Standard calculus",
+              "courses": [
+                "MATH 124",
+                "MATH 125",
+                "MATH 126"
+              ]
+            },
+            {
+              "label": "Honors calculus",
+              "courses": [
+                "MATH 134",
+                "MATH 135",
+                "MATH 136"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "admission-programming",
+          "label": "Introductory programming",
+          "type": "one",
+          "courses": [
+            "CSE 123",
+            "CSE 143"
+          ]
+        },
+        {
+          "id": "admission-physics",
+          "label": "Mechanics",
+          "type": "one",
+          "courses": [
+            "PHYS 121",
+            "PHYS 141"
+          ]
+        },
+        {
+          "id": "admission-composition",
+          "label": "English Composition",
+          "type": "bucket",
+          "targetCredits": 5,
+          "area": "C"
+        }
+      ]
+    },
+    {
+      "id": "admission-grades",
+      "title": "Minimum grade in every admission prerequisite",
+      "displayCredits": "2.0 minimum",
+      "targetCredits": 1,
+      "type": "manual"
+    },
+    {
+      "id": "admission-college-credits",
+      "title": "Minimum graded college credits before application",
+      "displayCredits": "30 graded cr",
+      "targetCredits": 30,
+      "type": "manual",
+      "manualLabel": "Graded college credits completed",
+      "maxCredits": 90
+    },
+    {
+      "id": "general-education",
+      "title": "General Education Component",
+      "displayCredits": "47 cr",
+      "targetCredits": 47,
+      "type": "group",
+      "items": [
+        {
+          "id": "english-comp",
+          "label": "English Composition",
+          "type": "bucket",
+          "targetCredits": 5,
+          "area": "C"
+        },
+        {
+          "id": "additional-writing",
+          "label": "Approved UW Writing or Composition",
+          "type": "bucket",
+          "targetCredits": 7,
+          "area": "W/C"
+        },
+        {
+          "id": "div",
+          "label": "Diversity",
+          "type": "bucket",
+          "targetCredits": 5,
+          "area": "DIV",
+          "note": "May overlap."
+        },
+        {
+          "id": "ah",
+          "label": "Arts & Humanities",
+          "type": "bucket",
+          "targetCredits": 10,
+          "area": "A&H"
+        },
+        {
+          "id": "ssc",
+          "label": "Social Sciences",
+          "type": "bucket",
+          "targetCredits": 10,
+          "area": "SSc"
+        },
+        {
+          "id": "aoi-total",
+          "label": "Additional A&H or SSc to reach 30 Areas of Inquiry credits",
+          "type": "additional-bucket",
+          "targetCredits": 10,
+          "baseCredits": 20,
+          "area": "A&H/SSc"
+        }
+      ]
+    },
+    {
+      "id": "math-science",
+      "title": "Mathematics & Natural Sciences",
+      "displayCredits": "41 cr",
+      "targetCredits": 41,
+      "type": "group",
+      "items": [
+        {
+          "id": "calculus",
+          "label": "Calculus and linear algebra",
+          "type": "path-choice",
+          "paths": [
+            {
+              "label": "Standard calculus + linear algebra",
+              "courses": [
+                "MATH 124",
+                "MATH 125",
+                "MATH 126",
+                "MATH 208"
+              ]
+            },
+            {
+              "label": "Honors calculus sequence",
+              "courses": [
+                "MATH 134",
+                "MATH 135",
+                "MATH 136"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "physics",
+          "label": "Calculus-based physics",
+          "type": "path-choice",
+          "paths": [
+            {
+              "label": "Standard physics",
+              "courses": [
+                "PHYS 121",
+                "PHYS 122"
+              ]
+            },
+            {
+              "label": "Honors physics",
+              "courses": [
+                "PHYS 141",
+                "PHYS 142"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "additional-science",
+          "label": "Approved natural science courses",
+          "type": "pool",
+          "minCredits": 10,
+          "targetCredits": 10,
+          "courses": [
+            "BIOL 180",
+            "BIOL 200",
+            "BIOL 220",
+            "CHEM 142",
+            "CHEM 143",
+            "CHEM 144",
+            "CHEM 145",
+            "CHEM 152",
+            "CHEM 155",
+            "CHEM 162",
+            "CHEM 165",
+            "CHEM 220",
+            "CHEM 221",
+            "CHEM 223",
+            "CHEM 224",
+            "CHEM 237",
+            "CHEM 238",
+            "CHEM 239",
+            "CHEM 241",
+            "CHEM 242",
+            "CHEM 312",
+            "CHEM 317",
+            "CHEM 321",
+            "PHYS 116",
+            "PHYS 119",
+            "PHYS 123",
+            "PHYS 143",
+            "PHYS 224",
+            "PHYS 225",
+            "PHYS 227",
+            "PHYS 228",
+            "PHYS 231",
+            "PHYS 232",
+            "PHYS 315",
+            "PHYS 321",
+            "PHYS 322",
+            "PHYS 323",
+            "PHYS 324",
+            "PHYS 325",
+            "PHYS 328",
+            "PHYS 331",
+            "PHYS 334",
+            "PHYS 335",
+            "PHYS 407",
+            "PHYS 408",
+            "PHYS 421",
+            "PHYS 422",
+            "PHYS 423",
+            "PHYS 424",
+            "PHYS 425",
+            "PHYS 426",
+            "PHYS 434",
+            "PHYS 460",
+            "ESS 311",
+            "ESS 313",
+            "ESS 403",
+            "ESS 413",
+            "ESS 414",
+            "ESS 415",
+            "ESS 424",
+            "ESS 431",
+            "ESS 437",
+            "ESS 438",
+            "ESS 458",
+            "ESS 464",
+            "ESS 466",
+            "ESS 467",
+            "ESS 471",
+            "ASTR 301",
+            "ASTR 321",
+            "ASTR 322",
+            "ASTR 323",
+            "ASTR 423",
+            "ASTR 480",
+            "ATM S 301",
+            "ATM S 321",
+            "ATM S 370",
+            "ATM S 380",
+            "ATM S 451",
+            "ATM S 452",
+            "ATM S 460"
+          ]
+        },
+        {
+          "id": "additional-math-science",
+          "label": "Additional approved math or science",
+          "type": "pool",
+          "minCredits": 3,
+          "targetCredits": 3,
+          "courses": [
+            "BIOL 180",
+            "BIOL 200",
+            "BIOL 220",
+            "CHEM 142",
+            "CHEM 143",
+            "CHEM 144",
+            "CHEM 145",
+            "CHEM 152",
+            "CHEM 155",
+            "CHEM 162",
+            "CHEM 165",
+            "CHEM 220",
+            "CHEM 221",
+            "CHEM 223",
+            "CHEM 224",
+            "CHEM 237",
+            "CHEM 238",
+            "CHEM 239",
+            "CHEM 241",
+            "CHEM 242",
+            "CHEM 312",
+            "CHEM 317",
+            "CHEM 321",
+            "PHYS 116",
+            "PHYS 119",
+            "PHYS 123",
+            "PHYS 143",
+            "PHYS 224",
+            "PHYS 225",
+            "PHYS 227",
+            "PHYS 228",
+            "PHYS 231",
+            "PHYS 232",
+            "PHYS 315",
+            "PHYS 321",
+            "PHYS 322",
+            "PHYS 323",
+            "PHYS 324",
+            "PHYS 325",
+            "PHYS 328",
+            "PHYS 331",
+            "PHYS 334",
+            "PHYS 335",
+            "PHYS 407",
+            "PHYS 408",
+            "PHYS 421",
+            "PHYS 422",
+            "PHYS 423",
+            "PHYS 424",
+            "PHYS 425",
+            "PHYS 426",
+            "PHYS 434",
+            "PHYS 460",
+            "ESS 311",
+            "ESS 313",
+            "ESS 403",
+            "ESS 413",
+            "ESS 414",
+            "ESS 415",
+            "ESS 424",
+            "ESS 431",
+            "ESS 437",
+            "ESS 438",
+            "ESS 458",
+            "ESS 464",
+            "ESS 466",
+            "ESS 467",
+            "ESS 471",
+            "ASTR 301",
+            "ASTR 321",
+            "ASTR 322",
+            "ASTR 323",
+            "ASTR 423",
+            "ASTR 480",
+            "ATM S 301",
+            "ATM S 321",
+            "ATM S 370",
+            "ATM S 380",
+            "ATM S 451",
+            "ATM S 452",
+            "ATM S 460",
+            "STAT 391",
+            "STAT 394",
+            "MATH 207",
+            "MATH 209",
+            "MATH 318",
+            "MATH 334",
+            "MATH 335",
+            "MATH 394",
+            "AMATH 351",
+            "AMATH 353"
+          ],
+          "note": "Complete enough coursework to bring the component to 41 credits; normally 3\u20136 additional credits."
+        }
+      ]
+    },
+    {
+      "id": "fundamentals",
+      "title": "Computer Engineering Fundamentals",
+      "displayCredits": "32\u201333 cr",
+      "targetCredits": 32,
+      "type": "group",
+      "items": [
+        {
+          "id": "intro-programming",
+          "label": "Introductory programming",
+          "type": "one",
+          "courses": [
+            "CSE 123",
+            "CSE 143"
+          ]
+        },
+        {
+          "id": "required-cse-fundamentals",
+          "label": "Required CSE fundamentals",
+          "type": "all",
+          "courses": [
+            "CSE 311",
+            "CSE 312",
+            "CSE 332",
+            "CSE 351",
+            "CSE 369",
+            "CSE 371"
+          ]
+        },
+        {
+          "id": "ee-introduction",
+          "label": "Electrical engineering introduction",
+          "type": "one",
+          "courses": [
+            "E E 205",
+            "E E 215"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "core-electives",
+      "title": "Computer Engineering Core and Electives",
+      "displayCredits": "40 cr",
+      "targetCredits": 40,
+      "type": "group",
+      "items": [
+        {
+          "id": "computing-society",
+          "label": "Computing and society course",
+          "type": "one",
+          "courses": [
+            "CSE 403",
+            "CSE 474",
+            "CSE 480",
+            "CSE 484"
+          ]
+        },
+        {
+          "id": "systems-electives",
+          "label": "Three additional CE systems electives",
+          "type": "count",
+          "minCount": 3,
+          "courses": [
+            "CSE 401",
+            "CSE 402",
+            "CSE 403",
+            "CSE 444",
+            "CSE 451",
+            "CSE 452",
+            "CSE 453",
+            "CSE 461",
+            "CSE 466",
+            "CSE 467",
+            "CSE 469",
+            "CSE 470",
+            "CSE 471",
+            "CSE 474",
+            "CSE 478",
+            "CSE 484",
+            "E E 476",
+            "E E 477"
+          ]
+        },
+        {
+          "id": "core-courses",
+          "label": "Two additional CSE core courses",
+          "type": "count",
+          "minCount": 2,
+          "courses": [
+            "CSE 331",
+            "CSE 333",
+            "CSE 340",
+            "CSE 341",
+            "CSE 344",
+            "STAT 391",
+            "CSE 401",
+            "CSE 402",
+            "CSE 403",
+            "CSE 421",
+            "CSE 422",
+            "CSE 426",
+            "CSE 427",
+            "CSE 431",
+            "CSE 434",
+            "CSE 438",
+            "CSE 440",
+            "CSE 442",
+            "CSE 443",
+            "CSE 444",
+            "CSE 446",
+            "CSE 447",
+            "CSE 451",
+            "CSE 452",
+            "CSE 453",
+            "CSE 455",
+            "CSE 457",
+            "CSE 458",
+            "CSE 461",
+            "CSE 462",
+            "CSE 469",
+            "CSE 470",
+            "CSE 473",
+            "CSE 474",
+            "CSE 478",
+            "CSE 484",
+            "CSE 486",
+            "CSE 493"
+          ]
+        },
+        {
+          "id": "capstone",
+          "label": "One approved CSE capstone",
+          "type": "one",
+          "courses": [
+            "CSE 428",
+            "CSE 460",
+            "CSE 475",
+            "CSE 481",
+            "CSE 482"
+          ]
+        },
+        {
+          "id": "senior-electives",
+          "label": "Additional approved senior electives",
+          "type": "pool",
+          "minCredits": 6,
+          "targetCredits": 6,
+          "courses": [
+            "AMATH 401",
+            "AMATH 402",
+            "AMATH 403",
+            "AMATH 422",
+            "AMATH 423",
+            "AMATH 483",
+            "BIOEN 485",
+            "CSE 331",
+            "CSE 333",
+            "CSE 340",
+            "CSE 341",
+            "CSE 344",
+            "CSE 400",
+            "CSE 401",
+            "CSE 402",
+            "CSE 403",
+            "CSE 404",
+            "CSE 410",
+            "CSE 414",
+            "CSE 415",
+            "CSE 416",
+            "CSE 417",
+            "CSE 419",
+            "CSE 421",
+            "CSE 422",
+            "CSE 425",
+            "CSE 426",
+            "CSE 427",
+            "CSE 430",
+            "CSE 431",
+            "CSE 434",
+            "CSE 435",
+            "CSE 438",
+            "CSE 440",
+            "CSE 441",
+            "CSE 442",
+            "CSE 443",
+            "CSE 444",
+            "CSE 446",
+            "CSE 447",
+            "CSE 448",
+            "CSE 450",
+            "CSE 451",
+            "CSE 452",
+            "CSE 453",
+            "CSE 455",
+            "CSE 456",
+            "CSE 457",
+            "CSE 458",
+            "CSE 459",
+            "CSE 461",
+            "CSE 462",
+            "CSE 463",
+            "CSE 464",
+            "CSE 465",
+            "CSE 466",
+            "CSE 467",
+            "CSE 468",
+            "CSE 469",
+            "CSE 470",
+            "CSE 471",
+            "CSE 472",
+            "CSE 473",
+            "CSE 474",
+            "CSE 476",
+            "CSE 477",
+            "CSE 478",
+            "CSE 479",
+            "CSE 480",
+            "CSE 484",
+            "CSE 486",
+            "CSE 487",
+            "CSE 488",
+            "CSE 490",
+            "CSE 492",
+            "CSE 493",
+            "CSE 496",
+            "CSE 498",
+            "E E 331",
+            "E E 332",
+            "E E 341",
+            "E E 476",
+            "E E 477",
+            "ENTRE 432",
+            "GEOG 360",
+            "GEOG 460",
+            "GEOG 463",
+            "GEOG 465",
+            "INFO 446",
+            "INFO 454",
+            "INFO 464",
+            "LING 472",
+            "MATH 318",
+            "MATH 334",
+            "MATH 335",
+            "MATH 336",
+            "MATH 402",
+            "MATH 403",
+            "MATH 404",
+            "MATH 407",
+            "MATH 408",
+            "MATH 409",
+            "MATH 414",
+            "MATH 415",
+            "MATH 424",
+            "MATH 425",
+            "MATH 426",
+            "MATH 435",
+            "MATH 436",
+            "MATH 441",
+            "MATH 442",
+            "MATH 461",
+            "MATH 462",
+            "MATH 464",
+            "MATH 465",
+            "MATH 466",
+            "MUSIC 400",
+            "STAT 341",
+            "STAT 342",
+            "STAT 391",
+            "STAT 395",
+            "STAT 396",
+            "STAT 421",
+            "STAT 491"
+          ],
+          "note": "Use additional approved courses as needed so the full component totals at least 40 credits."
+        }
+      ]
+    },
+    {
+      "id": "ce-elective-total",
+      "title": "Total Computer Engineering core and elective credits",
+      "displayCredits": "40 cr minimum",
+      "targetCredits": 40,
+      "type": "manual",
+      "manualLabel": "Approved CE core/elective credits completed",
+      "maxCredits": 70
+    },
+    {
+      "id": "engineering-cse-total",
+      "title": "Engineering and CSE credits beyond fundamentals",
+      "displayCredits": "40 cr minimum",
+      "targetCredits": 40,
+      "type": "manual",
+      "manualLabel": "Engineering/CSE credits beyond fundamentals",
+      "maxCredits": 70
+    },
+    {
+      "id": "cse-gpa",
+      "title": "Minimum cumulative GPA in CSE courses",
+      "displayCredits": "2.00 minimum",
+      "targetCredits": 1,
+      "type": "manual"
+    },
+    {
+      "id": "free-electives",
+      "title": "Free Electives",
+      "displayCredits": "As needed",
+      "targetCredits": 0,
+      "type": "manual",
+      "manualLabel": "Additional elective credits completed",
+      "maxCredits": 90
+    },
+    {
+      "id": "total",
+      "title": "Total degree credits",
+      "displayCredits": "180 cr",
+      "targetCredits": 180,
+      "type": "total"
+    }
+  ],
+  "samplePlan": {
+    "name": "Inferred four-year Computer Engineering plan",
+    "quarters": {
+      "y1-autumn": [
+        "MATH 124",
+        "CSE 121",
+        "SLOT:5:English Composition"
+      ],
+      "y1-winter": [
+        "MATH 125",
+        "CSE 122",
+        "SLOT:5:A&H"
+      ],
+      "y1-spring": [
+        "MATH 126",
+        "CSE 123",
+        "PHYS 121"
+      ],
+      "y2-autumn": [
+        "MATH 208",
+        "PHYS 122",
+        "CSE 311"
+      ],
+      "y2-winter": [
+        "CSE 351",
+        "CSE 312",
+        "SLOT:5:SSc"
+      ],
+      "y2-spring": [
+        "CSE 332",
+        "CSE 369",
+        "SLOT:5:Natural Science"
+      ],
+      "y3-autumn": [
+        "CSE 371",
+        "E E 205",
+        "SLOT:4:CSE Core"
+      ],
+      "y3-winter": [
+        "SLOT:4:CE Systems Elective",
+        "SLOT:4:CSE Core",
+        "SLOT:5:A&H or SSc"
+      ],
+      "y3-spring": [
+        "SLOT:4:CE Systems Elective",
+        "SLOT:4:CSE Senior Elective",
+        "SLOT:5:Natural Science"
+      ],
+      "y4-autumn": [
+        "SLOT:4:Computing and Society",
+        "SLOT:4:CE Systems Elective",
+        "SLOT:5:A&H or SSc"
+      ],
+      "y4-winter": [
+        "SLOT:5:CSE Capstone",
+        "SLOT:4:CSE Senior Elective",
+        "SLOT:5:Writing"
+      ],
+      "y4-spring": [
+        "SLOT:4:CSE Senior Elective",
+        "SLOT:5:A&H or SSc",
+        "SLOT:5:Free Elective"
+      ]
+    },
+    "creditTotal": 180,
+    "note": "Inferred from official requirements and prerequisite sequencing, not an official guaranteed schedule."
+  },
+  "prerequisiteSubstitutions": {
+    "MATH 124": [
+      "MATH 134"
+    ],
+    "MATH 125": [
+      "MATH 135"
+    ],
+    "MATH 126": [
+      "MATH 136"
+    ],
+    "PHYS 121": [
+      "PHYS 141"
+    ],
+    "PHYS 122": [
+      "PHYS 142"
+    ],
+    "CSE 123": [
+      "CSE 143"
+    ],
+    "CSE 371": [
+      "E E 371"
+    ],
+    "CSE 474": [
+      "E E 474"
+    ]
+  },
+  "plannerSlotPools": {
+    "English Composition": {
+      "areas": [
+        "C"
+      ]
+    },
+    "Writing": {
+      "areas": [
+        "W",
+        "C"
+      ]
+    },
+    "A&H": {
+      "areas": [
+        "A&H"
+      ]
+    },
+    "SSc": {
+      "areas": [
+        "SSc"
+      ]
+    },
+    "A&H or SSc": {
+      "areas": [
+        "A&H",
+        "SSc"
+      ]
+    },
+    "Natural Science": {
+      "courses": [
+        "BIOL 180",
+        "BIOL 200",
+        "BIOL 220",
+        "CHEM 142",
+        "CHEM 143",
+        "CHEM 144",
+        "CHEM 145",
+        "CHEM 152",
+        "CHEM 155",
+        "CHEM 162",
+        "CHEM 165",
+        "CHEM 220",
+        "CHEM 221",
+        "CHEM 223",
+        "CHEM 224",
+        "CHEM 237",
+        "CHEM 238",
+        "CHEM 239",
+        "CHEM 241",
+        "CHEM 242",
+        "CHEM 312",
+        "CHEM 317",
+        "CHEM 321",
+        "PHYS 116",
+        "PHYS 119",
+        "PHYS 123",
+        "PHYS 143",
+        "PHYS 224",
+        "PHYS 225",
+        "PHYS 227",
+        "PHYS 228",
+        "PHYS 231",
+        "PHYS 232",
+        "PHYS 315",
+        "PHYS 321",
+        "PHYS 322",
+        "PHYS 323",
+        "PHYS 324",
+        "PHYS 325",
+        "PHYS 328",
+        "PHYS 331",
+        "PHYS 334",
+        "PHYS 335",
+        "PHYS 407",
+        "PHYS 408",
+        "PHYS 421",
+        "PHYS 422",
+        "PHYS 423",
+        "PHYS 424",
+        "PHYS 425",
+        "PHYS 426",
+        "PHYS 434",
+        "PHYS 460",
+        "ESS 311",
+        "ESS 313",
+        "ESS 403",
+        "ESS 413",
+        "ESS 414",
+        "ESS 415",
+        "ESS 424",
+        "ESS 431",
+        "ESS 437",
+        "ESS 438",
+        "ESS 458",
+        "ESS 464",
+        "ESS 466",
+        "ESS 467",
+        "ESS 471",
+        "ASTR 301",
+        "ASTR 321",
+        "ASTR 322",
+        "ASTR 323",
+        "ASTR 423",
+        "ASTR 480",
+        "ATM S 301",
+        "ATM S 321",
+        "ATM S 370",
+        "ATM S 380",
+        "ATM S 451",
+        "ATM S 452",
+        "ATM S 460"
+      ]
+    },
+    "CSE Core": {
+      "courses": [
+        "CSE 331",
+        "CSE 333",
+        "CSE 340",
+        "CSE 341",
+        "CSE 344",
+        "STAT 391",
+        "CSE 401",
+        "CSE 402",
+        "CSE 403",
+        "CSE 421",
+        "CSE 422",
+        "CSE 426",
+        "CSE 427",
+        "CSE 431",
+        "CSE 434",
+        "CSE 438",
+        "CSE 440",
+        "CSE 442",
+        "CSE 443",
+        "CSE 444",
+        "CSE 446",
+        "CSE 447",
+        "CSE 451",
+        "CSE 452",
+        "CSE 453",
+        "CSE 455",
+        "CSE 457",
+        "CSE 458",
+        "CSE 461",
+        "CSE 462",
+        "CSE 469",
+        "CSE 470",
+        "CSE 473",
+        "CSE 474",
+        "CSE 478",
+        "CSE 484",
+        "CSE 486",
+        "CSE 493"
+      ]
+    },
+    "CE Systems Elective": {
+      "courses": [
+        "CSE 401",
+        "CSE 402",
+        "CSE 403",
+        "CSE 444",
+        "CSE 451",
+        "CSE 452",
+        "CSE 453",
+        "CSE 461",
+        "CSE 466",
+        "CSE 467",
+        "CSE 469",
+        "CSE 470",
+        "CSE 471",
+        "CSE 474",
+        "CSE 478",
+        "CSE 484",
+        "E E 476",
+        "E E 477"
+      ]
+    },
+    "Computing and Society": {
+      "courses": [
+        "CSE 403",
+        "CSE 474",
+        "CSE 480",
+        "CSE 484"
+      ]
+    },
+    "CSE Capstone": {
+      "courses": [
+        "CSE 428",
+        "CSE 460",
+        "CSE 475",
+        "CSE 481",
+        "CSE 482"
+      ]
+    },
+    "CSE Senior Elective": {
+      "courses": [
+        "AMATH 401",
+        "AMATH 402",
+        "AMATH 403",
+        "AMATH 422",
+        "AMATH 423",
+        "AMATH 483",
+        "BIOEN 485",
+        "CSE 331",
+        "CSE 333",
+        "CSE 340",
+        "CSE 341",
+        "CSE 344",
+        "CSE 400",
+        "CSE 401",
+        "CSE 402",
+        "CSE 403",
+        "CSE 404",
+        "CSE 410",
+        "CSE 414",
+        "CSE 415",
+        "CSE 416",
+        "CSE 417",
+        "CSE 419",
+        "CSE 421",
+        "CSE 422",
+        "CSE 425",
+        "CSE 426",
+        "CSE 427",
+        "CSE 430",
+        "CSE 431",
+        "CSE 434",
+        "CSE 435",
+        "CSE 438",
+        "CSE 440",
+        "CSE 441",
+        "CSE 442",
+        "CSE 443",
+        "CSE 444",
+        "CSE 446",
+        "CSE 447",
+        "CSE 448",
+        "CSE 450",
+        "CSE 451",
+        "CSE 452",
+        "CSE 453",
+        "CSE 455",
+        "CSE 456",
+        "CSE 457",
+        "CSE 458",
+        "CSE 459",
+        "CSE 461",
+        "CSE 462",
+        "CSE 463",
+        "CSE 464",
+        "CSE 465",
+        "CSE 466",
+        "CSE 467",
+        "CSE 468",
+        "CSE 469",
+        "CSE 470",
+        "CSE 471",
+        "CSE 472",
+        "CSE 473",
+        "CSE 474",
+        "CSE 476",
+        "CSE 477",
+        "CSE 478",
+        "CSE 479",
+        "CSE 480",
+        "CSE 484",
+        "CSE 486",
+        "CSE 487",
+        "CSE 488",
+        "CSE 490",
+        "CSE 492",
+        "CSE 493",
+        "CSE 496",
+        "CSE 498",
+        "E E 331",
+        "E E 332",
+        "E E 341",
+        "E E 476",
+        "E E 477",
+        "ENTRE 432",
+        "GEOG 360",
+        "GEOG 460",
+        "GEOG 463",
+        "GEOG 465",
+        "INFO 446",
+        "INFO 454",
+        "INFO 464",
+        "LING 472",
+        "MATH 318",
+        "MATH 334",
+        "MATH 335",
+        "MATH 336",
+        "MATH 402",
+        "MATH 403",
+        "MATH 404",
+        "MATH 407",
+        "MATH 408",
+        "MATH 409",
+        "MATH 414",
+        "MATH 415",
+        "MATH 424",
+        "MATH 425",
+        "MATH 426",
+        "MATH 435",
+        "MATH 436",
+        "MATH 441",
+        "MATH 442",
+        "MATH 461",
+        "MATH 462",
+        "MATH 464",
+        "MATH 465",
+        "MATH 466",
+        "MUSIC 400",
+        "STAT 341",
+        "STAT 342",
+        "STAT 391",
+        "STAT 395",
+        "STAT 396",
+        "STAT 421",
+        "STAT 491"
+      ]
+    },
+    "Free Elective": {}
+  },
+  "dataAudit": {
+    "auditedOn": "2026-07-24",
+    "degreeTotalChecked": 180,
+    "samplePlanCredits": 180,
+    "officialPlanningNote": "Planning aid only. Confirm annual offerings, capstone availability, and elective approval with an Allen School adviser."
+  },
+  "degreeAwardId": "BSCE",
+  "collegeId": "engineering",
+  "minimumDegreeCredits": 180
+}

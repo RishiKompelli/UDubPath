@@ -3574,101 +3574,472 @@ function explicitCourseCodesFromSlotLabel(label) {
 }
 
 function chooseMapGroupForPlanSlot(slot, groups) {
-  const label = String(slot.label || "").toLowerCase();
-  const definition = app.major.plannerSlotPools?.[slot.label] || {};
+  const label = String(slot.label || "")
+    .trim()
+    .toLowerCase();
 
-  if (definition.mapGroup && groups.some((group) => group.id === definition.mapGroup)) {
+  const definition =
+    app.major.plannerSlotPools?.[slot.label] || {};
+
+  /*
+   * Always respect an explicit mapGroup from the major JSON.
+   */
+  if (
+    definition.mapGroup
+    && groups.some(
+      (group) => group.id === definition.mapGroup
+    )
+  ) {
     return definition.mapGroup;
   }
 
-  const explicitCodes = explicitCourseCodesFromSlotLabel(slot.label);
+  /*
+   * Search helpers.
+   */
+  const groupText = (group) =>
+    [
+      group.id,
+      group.label,
+      group.shortLabel,
+      group.description
+    ]
+      .filter(Boolean)
+      .join(" ")
+      .toLowerCase();
+
+  const findGroup = (...patterns) =>
+    groups.find((group) =>
+      patterns.some((pattern) =>
+        pattern.test(groupText(group))
+      )
+    )?.id || null;
+
+  const findGroupExcluding = (
+    includePatterns,
+    excludePatterns = []
+  ) =>
+    groups.find((group) => {
+      const text = groupText(group);
+
+      const included =
+        includePatterns.some((pattern) =>
+          pattern.test(text)
+        );
+
+      const excluded =
+        excludePatterns.some((pattern) =>
+          pattern.test(text)
+        );
+
+      return included && !excluded;
+    })?.id || null;
+
+  /*
+   * A placeholder containing a specific course code should go
+   * to the section containing that course.
+   */
+  const explicitCodes =
+    explicitCourseCodesFromSlotLabel(slot.label);
+
   if (explicitCodes.length) {
     const exactGroup = groups.find((group) => {
-      const codes = new Set((group.courses || []).map(normalizeCode));
-      return explicitCodes.some((code) => codes.has(code));
+      const codes = new Set(
+        (group.courses || []).map(normalizeCode)
+      );
+
+      return explicitCodes.some((code) =>
+        codes.has(code)
+      );
     });
-    if (exactGroup) return exactGroup.id;
+
+    if (exactGroup) {
+      return exactGroup.id;
+    }
   }
 
-  if (/unassigned|graduation credits?|free elective|general elective/.test(label)) {
-    return firstMapGroup(groups, [/free/, /elective/]) || groups.at(-1)?.id;
+  /*
+   * General education placeholders.
+   */
+  if (
+    /composition|writing|english|a\s*&\s*h|arts?\s*(?:&|and)?\s*humanities|ssc|social sciences?|diversity|foreign language|reasoning|areas? of inquiry/.test(
+      label
+    )
+  ) {
+    return findGroup(
+      /general education/,
+      /general studies?/,
+      /areas? of inquiry/,
+      /college requirements?/
+    );
   }
 
-  if (/composition|writing|a\s*&\s*h|arts?\s*&?\s*humanities|ssc|social sciences?|diversity|foreign language|reasoning|areas? of inquiry/.test(label)) {
-    return firstMapGroup(groups, [/general.education/, /general studies?/, /areas? of inquiry/]);
+  /*
+   * Free electives and unassigned graduation credits.
+   */
+  if (
+    /unassigned|graduation credits?|free elective|general elective/.test(
+      label
+    )
+  ) {
+    return (
+      findGroup(
+        /free electives?/,
+        /additional electives?/,
+        /graduation credits?/
+      )
+      || groups.at(-1)?.id
+    );
   }
 
-  if (/math|statistics?/.test(label) && !/science/.test(label)) {
-    return firstMapGroup(groups, [/mathematics/, /\bmath\b/, /statistics/]);
+  /*
+   * Capstones must only go to a capstone section when the
+   * placeholder itself says capstone, design project, or
+   * senior project.
+   */
+  if (
+    /capstone|senior design|design project|senior project/.test(
+      label
+    )
+  ) {
+    return findGroup(
+      /capstone/,
+      /senior design/,
+      /design project/,
+      /senior project/
+    );
   }
 
-  if (/science|natural science|nsc|biology|chemistry|physics/.test(label)) {
-    return firstMapGroup(groups, [/\bscience/, /math.*science/]);
+  /*
+   * Senior, technical, major, departmental, and program
+   * electives. Explicitly exclude capstone sections.
+   */
+  if (
+    /technical elective|option elective|advanced .*elective|senior elective|major elective|department elective|program elective|bioen elective|cse senior elective|mse technical elective|hcde elective|ind e technical elective|me elective|mechanical engineering elective|ece elective|electrical engineering elective|civil engineering elective|environmental engineering elective|neuroscience elective|computer engineering elective|cs elective/.test(
+      label
+    )
+  ) {
+    return findGroupExcluding(
+      [
+        /senior electives?/,
+        /technical electives?/,
+        /major electives?/,
+        /department electives?/,
+        /program electives?/,
+        /approved electives?/,
+        /advanced electives?/,
+        /\belectives?\b/
+      ],
+      [
+        /capstone/,
+        /senior design/,
+        /design project/,
+        /admission/,
+        /general education/
+      ]
+    );
   }
 
-  if (/engineering fundamentals?/.test(label)) {
-    return firstMapGroup(groups, [/fundamentals?/]);
-  }
-
-  if (/capstone/.test(label)) {
-    return firstMapGroup(groups, [/capstone/, /major core/, /\bcore\b/]);
-  }
-
-  if (/engineering\s*&?\s*science elective/.test(label)) {
-    return firstMapGroup(groups, [/engineering.*science/, /approved engineering/, /elective/]);
+  /*
+   * Engineering and science elective pools.
+   */
+  if (
+    /engineering\s*(?:&|and)\s*science elective/.test(
+      label
+    )
+  ) {
+    return findGroupExcluding(
+      [
+        /engineering.*science/,
+        /approved engineering/,
+        /engineering electives?/,
+        /\belectives?\b/
+      ],
+      [
+        /capstone/,
+        /senior design/,
+        /admission/
+      ]
+    );
   }
 
   if (/engineering elective/.test(label)) {
-    return firstMapGroup(groups, [/approved engineering/, /engineering electives?/, /elective/]);
+    return findGroupExcluding(
+      [
+        /approved engineering/,
+        /engineering electives?/,
+        /technical electives?/,
+        /\belectives?\b/
+      ],
+      [
+        /capstone/,
+        /senior design/,
+        /admission/
+      ]
+    );
   }
 
-  if (/technical elective|option elective|advanced .*elective|senior elective|major elective|bioen elective|cse senior elective|mse technical elective|hcde elective|ind e technical elective/.test(label)) {
-    return firstMapGroup(groups, [/technical elective/, /senior elective/, /advanced/, /options?/, /electives?/]);
+  /*
+   * Mathematics, statistics, and science pools.
+   */
+  if (
+    /math|mathematics|statistics?/.test(label)
+    && !/science/.test(label)
+  ) {
+    return findGroupExcluding(
+      [
+        /mathematics/,
+        /\bmath\b/,
+        /statistics/
+      ],
+      [
+        /elective/,
+        /capstone/
+      ]
+    );
   }
 
-  if (/professional issues/.test(label)) {
-    return firstMapGroup(groups, [/advanced/, /core/, /elective/]);
+  if (
+    /natural science|science elective|nsc|biology|chemistry|physics/.test(
+      label
+    )
+  ) {
+    return findGroupExcluding(
+      [
+        /mathematics.*natural sciences?/,
+        /math.*science/,
+        /natural sciences?/,
+        /\bscience\b/
+      ],
+      [
+        /capstone/,
+        /senior design/
+      ]
+    );
   }
 
-  const poolCodes = (definition.courses || []).map(normalizeCode);
+  /*
+   * Engineering fundamentals.
+   */
+  if (
+    /engineering fundamentals?|major fundamentals?|fundamentals?/.test(
+      label
+    )
+  ) {
+    return findGroup(
+      /fundamentals?/,
+      /foundations?/
+    );
+  }
+
+  /*
+   * Professional issues and ethics.
+   */
+  if (
+    /professional issues|professional practice|engineering ethics|computing and society/.test(
+      label
+    )
+  ) {
+    return findGroupExcluding(
+      [
+        /professional/,
+        /society/,
+        /ethics/,
+        /core/,
+        /advanced/
+      ],
+      [
+        /capstone/
+      ]
+    );
+  }
+
+  /*
+   * Compare the placeholder's approved pool against the actual
+   * courses in each map group.
+   *
+   * This is more reliable than matching generic words such as
+   * "elective."
+   */
+  const poolCodes =
+    (definition.courses || []).map(normalizeCode);
+
   if (poolCodes.length) {
-    let best = null;
+    let bestGroup = null;
     let bestCount = 0;
+
     for (const group of groups) {
-      const groupCodes = new Set((group.courses || []).map(normalizeCode));
-      const overlap = poolCodes.reduce((count, code) => count + (groupCodes.has(code) ? 1 : 0), 0);
+      const text = groupText(group);
+
+      /*
+       * Never send a generic elective pool to a capstone group.
+       */
+      if (
+        /capstone|senior design|design project/.test(text)
+        && !/capstone|senior design|design project/.test(
+          label
+        )
+      ) {
+        continue;
+      }
+
+      const groupCodes = new Set(
+        (group.courses || []).map(normalizeCode)
+      );
+
+      const overlap = poolCodes.reduce(
+        (count, code) =>
+          count + (groupCodes.has(code) ? 1 : 0),
+        0
+      );
+
       if (overlap > bestCount) {
-        best = group.id;
+        bestGroup = group.id;
         bestCount = overlap;
       }
     }
-    if (best) return best;
+
+    if (bestGroup) {
+      return bestGroup;
+    }
   }
 
-  const ignored = new Set(["approved", "additional", "course", "courses", "credit", "credits", "elective", "requirement", "requirements", "with", "and", "or"]);
-  const tokens = label.split(/[^a-z0-9]+/).filter((token) => token.length > 2 && !ignored.has(token));
-  let best = null;
+  /*
+   * Final text-scoring fallback.
+   */
+  const ignoredTokens = new Set([
+    "approved",
+    "additional",
+    "course",
+    "courses",
+    "credit",
+    "credits",
+    "elective",
+    "electives",
+    "requirement",
+    "requirements",
+    "with",
+    "and",
+    "the",
+    "for"
+  ]);
+
+  const tokens = label
+    .split(/[^a-z0-9]+/)
+    .filter(
+      (token) =>
+        token.length > 2
+        && !ignoredTokens.has(token)
+    );
+
+  let bestGroup = null;
   let bestScore = 0;
+
   for (const group of groups) {
-    const haystack = mapGroupText(group);
-    const score = tokens.reduce((sum, token) => sum + (haystack.includes(token) ? 1 : 0), 0);
+    const text = groupText(group);
+
+    /*
+     * Generic placeholders should not fall into a capstone group.
+     */
+    if (
+      /capstone|senior design|design project/.test(text)
+      && !/capstone|senior design|design project/.test(
+        label
+      )
+    ) {
+      continue;
+    }
+
+    let score = tokens.reduce(
+      (sum, token) =>
+        sum + (text.includes(token) ? 1 : 0),
+      0
+    );
+
+    /*
+     * Give elective sections a bonus for elective placeholders.
+     */
+    if (
+      /elective/.test(label)
+      && /elective/.test(text)
+    ) {
+      score += 3;
+    }
+
+    /*
+     * Prefer senior-elective sections when the placeholder says
+     * senior, technical, major, program, or department elective.
+     */
+    if (
+      /senior elective|technical elective|major elective|program elective|department elective/.test(
+        label
+      )
+      && /senior elective|technical elective|major elective|program elective|department elective/.test(
+        text
+      )
+    ) {
+      score += 5;
+    }
+
     if (score > bestScore) {
-      best = group.id;
+      bestGroup = group.id;
       bestScore = score;
     }
   }
-  if (best) return best;
 
-  return firstMapGroup(groups, [/general.education/, /free/]) || groups.at(-1)?.id;
+  if (bestGroup) {
+    return bestGroup;
+  }
+
+  /*
+   * Last resort: prefer a non-capstone elective section.
+   */
+  return (
+    findGroupExcluding(
+      [
+        /senior electives?/,
+        /technical electives?/,
+        /major electives?/,
+        /\belectives?\b/
+      ],
+      [
+        /capstone/,
+        /senior design/,
+        /admission/
+      ]
+    )
+    || findGroup(
+      /general education/,
+      /free electives?/
+    )
+    || groups.at(-1)?.id
+  );
 }
 
 function getMapPlanSlotsByGroup(groups) {
-  const result = new Map(groups.map((group) => [group.id, []]));
+  const result = new Map(
+    groups.map((group) => [group.id, []])
+  );
+
   for (const slot of getSamplePlanMapSlots()) {
-    const groupId = chooseMapGroupForPlanSlot(slot, groups);
-    if (!result.has(groupId)) result.set(groupId, []);
+    const groupId =
+      chooseMapGroupForPlanSlot(slot, groups);
+
+    /*
+     * Ignore an invalid result instead of accidentally creating
+     * a detached group that the map cannot lay out correctly.
+     */
+    if (!groupId || !result.has(groupId)) {
+      console.warn(
+        "Could not assign plan placeholder to a map group:",
+        slot
+      );
+
+      continue;
+    }
+
     result.get(groupId).push(slot);
   }
+
   return result;
 }
 
@@ -4366,13 +4737,12 @@ function renderEmptyMap() {
   }
 }
 
-
-
 function renderMap() {
   if (!app.primaryMajorChosen) {
     renderEmptyMap();
     return;
   }
+
   const query = normalizeCode($("#map-search")?.value || "");
   const rawQuery =
     ($("#map-search")?.value || "").trim().toLowerCase();
@@ -4381,158 +4751,366 @@ function renderMap() {
   const groups = getVisibleMapGroups();
   const planSlotsByGroup = getMapPlanSlotsByGroup(groups);
   const selected = app.selectedCode;
-  const neighbors = new Set(selected ? [selected, ...getMajorSuccessors(selected), ...getPrerequisiteGroups(selected).flatMap(expandedPrerequisiteOptions)] : []);
+
+  const neighbors = new Set(
+    selected
+      ? [
+          selected,
+          ...getMajorSuccessors(selected),
+          ...getPrerequisiteGroups(selected)
+            .flatMap(expandedPrerequisiteOptions)
+        ]
+      : []
+  );
 
   $("#map-columns").innerHTML = groups.map((group) => {
-    const nodes = group.courses.map((code) => {
+    const groupCourses = Array.isArray(group.courses)
+      ? group.courses
+      : [];
+
+    const nodes = groupCourses.map((code) => {
       const course = getCourse(code);
       const status = courseStatus(code);
-      const matches = !rawQuery || course.code.toLowerCase().includes(rawQuery) || course.title.toLowerCase().includes(rawQuery);
-      const hidden = availableOnly && status !== "available" && code !== selected;
-      const dimmed = (rawQuery && !matches) || (selected && !neighbors.has(code));
+
+      const matches =
+        !rawQuery
+        || course.code.toLowerCase().includes(rawQuery)
+        || course.title.toLowerCase().includes(rawQuery);
+
+      const hidden =
+        availableOnly
+        && status !== "available"
+        && code !== selected;
+
+      const dimmed =
+        (rawQuery && !matches)
+        || (selected && !neighbors.has(code));
+
       return `
-        <article class="course-node ${status} ${code === selected ? "selected" : ""} ${dimmed ? "dimmed" : ""} ${hidden ? "hidden-node" : ""}"
-          data-course-code="${escapeHtml(code)}" id="node-${safeId(code)}" tabindex="0">
-          <span class="node-port left" aria-hidden="true"></span><span class="node-port right" aria-hidden="true"></span>
+        <article
+          class="course-node
+            ${status}
+            ${code === selected ? "selected" : ""}
+            ${dimmed ? "dimmed" : ""}
+            ${hidden ? "hidden-node" : ""}"
+          data-course-code="${escapeHtml(code)}"
+          id="node-${safeId(code)}"
+          tabindex="0"
+        >
+          <span
+            class="node-port left"
+            aria-hidden="true"
+          ></span>
+
+          <span
+            class="node-port right"
+            aria-hidden="true"
+          ></span>
+
           <div class="node-top">
-            <span class="node-code">${escapeHtml(course.code)}</span>
-            <span class="node-credits">${escapeHtml(course.credits || "?")} cr</span>
+            <span class="node-code">
+              ${escapeHtml(course.code)}
+            </span>
+
+            <span class="node-credits">
+              ${escapeHtml(course.credits || "?")} cr
+            </span>
           </div>
-          <div class="node-category">${escapeHtml(mapCategory(code))}</div>
-          <div class="node-title">${escapeHtml(course.title)}</div>
+
+          <div class="node-category">
+            ${escapeHtml(mapCategory(code))}
+          </div>
+
+          <div class="node-title">
+            ${escapeHtml(course.title)}
+          </div>
+
           <div class="node-bottom">
-            <span class="status-label">${statusText(status)}</span>
+            <span class="status-label">
+              ${statusText(status)}
+            </span>
+
             <span class="node-actions">
-              ${externalSourcesForCourse(code).length ? `<span class="external-credit-badge" title="${escapeHtml(fulfillmentSourceLabels(code).join(" · "))}">CREDIT</span>` : ""}
-              <label class="course-check" title="Already fulfilled" onclick="event.stopPropagation()">
-                <input type="checkbox" data-action="toggle-fulfilled" data-code="${escapeHtml(code)}" ${isFulfilled(code) ? "checked" : ""} aria-label="Mark ${escapeHtml(code)} fulfilled">
+              ${
+                externalSourcesForCourse(code).length
+                  ? `<span
+                      class="external-credit-badge"
+                      title="${escapeHtml(
+                        fulfillmentSourceLabels(code).join(" · ")
+                      )}"
+                    >
+                      CREDIT
+                    </span>`
+                  : ""
+              }
+
+              <label
+                class="course-check"
+                title="Already fulfilled"
+                onclick="event.stopPropagation()"
+              >
+                <input
+                  type="checkbox"
+                  data-action="toggle-fulfilled"
+                  data-code="${escapeHtml(code)}"
+                  ${isFulfilled(code) ? "checked" : ""}
+                  aria-label="Mark ${escapeHtml(code)} fulfilled"
+                >
               </label>
             </span>
           </div>
         </article>`;
     }).join("");
-    const requirementCards = (group.requirementRefs || [])
-  .map(renderMapRequirementCard)
-  .join("");
 
-const planSlots = planSlotsByGroup.get(group.id) || [];
+    const requirementCards =
+      (group.requirementRefs || [])
+        .map(renderMapRequirementCard)
+        .join("");
 
-const planSlotCards = planSlots
-  .map((slot) => renderMapPlanSlotCard(slot, rawQuery))
-  .join("");
+    const planSlots =
+      planSlotsByGroup.get(group.id) || [];
 
-const itemCount =
-  group.courses.length
-  + (group.requirementRefs || []).length
-  + planSlots.length;
+    const planSlotCards =
+      planSlots
+        .map((slot) =>
+          renderMapPlanSlotCard(slot, rawQuery)
+        )
+        .join("");
 
-// Keep one outer box, but add internal columns when there
-// are more than 20 courses.
-const courseColumnCount =
-  group.courses.length > 20
-    ? Math.ceil(group.courses.length / 20)
-    : 1;
+    const itemCount =
+      groupCourses.length
+      + (group.requirementRefs || []).length
+      + planSlots.length;
 
-const multiColumn = courseColumnCount > 1;
+    /*
+     * Course layout:
+     *
+     * 0 courses:
+     *   Placeholder box uses the normal section width.
+     *
+     * 1–20 courses:
+     *   One 268px course column.
+     *
+     * More than 20 courses:
+     *   Courses are divided into internal 210px columns,
+     *   with no more than 20 cards in each column.
+     *
+     * When a section has both courses and placeholders,
+     * the placeholder box appears in a 260px sidebar.
+     */
+    const hasCourses =
+      groupCourses.length > 0;
 
-const expandedColumnWidth =
-  courseColumnCount * 224 + 32;
+    const hasPlanSlots =
+      planSlots.length > 0;
 
-const columnStyle = multiColumn
-  ? [
-      `width:${expandedColumnWidth}px`,
-      `min-width:${expandedColumnWidth}px`,
-      `max-width:none`,
-      `flex:0 0 ${expandedColumnWidth}px`
-    ].join(";")
-  : "";
+    const usePlaceholderSidebar =
+      hasCourses && hasPlanSlots;
 
-const nodeListStyle = multiColumn
-  ? [
-      `display:grid`,
-      `grid-auto-flow:column`,
-      `grid-template-rows:repeat(20,auto)`,
-      `grid-template-columns:repeat(${courseColumnCount},210px)`,
-      `width:max-content`,
-      `max-width:none`,
-      `align-items:start`,
-      `gap:10px 14px`
-    ].join(";")
-  : "";
+    const courseColumnCount =
+      groupCourses.length > 20
+        ? Math.ceil(groupCourses.length / 20)
+        : 1;
 
-return `
-  <section
-    class="map-column
-      ${group.courses.length > 14 ? "dense" : ""}
-      ${!group.courses.length ? "requirements-only" : ""}
-      ${multiColumn ? "multi-column-group" : ""}"
-    data-group="${escapeHtml(group.id)}"
-    style="${columnStyle}"
-  >
-    <div
-      class="map-column-header"
-      ${multiColumn ? 'style="max-width:none"' : ""}
-    >
-      <div class="map-column-title-row">
-        <span>
-          ${escapeHtml(group.shortLabel || group.label)}
-        </span>
+    const multiColumn =
+      hasCourses && courseColumnCount > 1;
 
-        <b>
-          ${escapeHtml(
-            group.credits || `${itemCount} items`
-          )}
-        </b>
-      </div>
+    const standardCourseWidth = 268;
+    const multiCourseWidth = 210;
+    const internalColumnGap = 14;
+    const placeholderWidth = 260;
+    const placeholderGap = 16;
+    const outerHorizontalPadding = 24;
 
-      ${
-        group.shortLabel
-          ? `<strong>${escapeHtml(group.label)}</strong>`
-          : ""
-      }
+    const courseGridWidth =
+      !hasCourses
+        ? 0
+        : multiColumn
+          ? (
+              courseColumnCount * multiCourseWidth
+              + Math.max(
+                  0,
+                  courseColumnCount - 1
+                ) * internalColumnGap
+            )
+          : standardCourseWidth;
 
-      ${
-        group.description
-          ? `<p>${escapeHtml(group.description)}</p>`
-          : ""
-      }
-    </div>
+    const contentWidth =
+      usePlaceholderSidebar
+        ? (
+            courseGridWidth
+            + placeholderGap
+            + placeholderWidth
+          )
+        : hasCourses
+          ? courseGridWidth
+          : standardCourseWidth;
 
-    ${
-      requirementCards
-        ? `<div class="map-requirement-list">
-            ${requirementCards}
-          </div>`
-        : ""
-    }
+    const totalColumnWidth =
+      contentWidth + outerHorizontalPadding;
 
-    ${
-      planSlotCards
-        ? `<div class="map-plan-slot-section">
-            <div class="map-plan-slot-heading">
-              Course placeholders
-            </div>
+    const columnStyle = [
+      `--map-inner-columns:${courseColumnCount}`,
+      `width:${totalColumnWidth}px`,
+      `min-width:${totalColumnWidth}px`,
+      `max-width:${totalColumnWidth}px`,
+      `flex:0 0 ${totalColumnWidth}px`
+    ].join(";");
 
-            <div class="map-plan-slot-list">
-              ${planSlotCards}
-            </div>
-          </div>`
-        : ""
-    }
+    const nodeListStyle =
+      multiColumn
+        ? [
+            `display:grid`,
+            `grid-auto-flow:column`,
+            `grid-template-rows:repeat(20,auto)`,
+            `grid-template-columns:repeat(${courseColumnCount},${multiCourseWidth}px)`,
+            `width:${courseGridWidth}px`,
+            `min-width:${courseGridWidth}px`,
+            `max-width:${courseGridWidth}px`,
+            `align-items:start`,
+            `gap:10px ${internalColumnGap}px`
+          ].join(";")
+        : hasCourses
+          ? [
+              `display:grid`,
+              `grid-template-columns:${standardCourseWidth}px`,
+              `width:${standardCourseWidth}px`,
+              `min-width:${standardCourseWidth}px`,
+              `max-width:${standardCourseWidth}px`,
+              `align-items:start`,
+              `gap:10px`
+            ].join(";")
+          : "";
 
-    <div
-      class="map-node-list
-        ${multiColumn ? "multi-column" : ""}"
-      style="${nodeListStyle}"
-    >
-      ${nodes}
-    </div>
-  </section>`;
+    const contentStyle =
+      usePlaceholderSidebar
+        ? [
+            `display:grid`,
+            `grid-template-columns:${courseGridWidth}px ${placeholderWidth}px`,
+            `gap:${placeholderGap}px`,
+            `align-items:start`,
+            `justify-content:start`,
+            `width:${contentWidth}px`,
+            `min-width:${contentWidth}px`,
+            `max-width:${contentWidth}px`
+          ].join(";")
+        : [
+            `display:block`,
+            `width:${contentWidth}px`,
+            `min-width:${contentWidth}px`,
+            `max-width:${contentWidth}px`
+          ].join(";");
+
+    return `
+      <section
+        class="map-column
+          ${!hasCourses ? "requirements-only" : ""}
+          ${multiColumn ? "multi-column-group" : ""}
+          ${usePlaceholderSidebar ? "has-course-placeholder-sidebar" : ""}
+          ${!hasCourses && hasPlanSlots ? "has-only-placeholders" : ""}"
+        data-group="${escapeHtml(group.id)}"
+        style="${columnStyle}"
+      >
+        <div
+          class="map-column-header"
+          style="max-width:none"
+        >
+          <div class="map-column-title-row">
+            <span>
+              ${escapeHtml(
+                group.shortLabel || group.label
+              )}
+            </span>
+
+            <b>
+              ${escapeHtml(
+                group.credits || `${itemCount} items`
+              )}
+            </b>
+          </div>
+
+          ${
+            group.shortLabel
+              ? `<strong>
+                  ${escapeHtml(group.label)}
+                </strong>`
+              : ""
+          }
+
+          ${
+            group.description
+              ? `<p>
+                  ${escapeHtml(group.description)}
+                </p>`
+              : ""
+          }
+        </div>
+
+        ${
+          requirementCards
+            ? `<div class="map-requirement-list">
+                ${requirementCards}
+              </div>`
+            : ""
+        }
+
+        <div
+          class="map-column-content
+            ${usePlaceholderSidebar
+              ? "has-placeholder-sidebar"
+              : ""}
+            ${!hasCourses && hasPlanSlots
+              ? "placeholders-only"
+              : ""}"
+          style="${contentStyle}"
+        >
+          ${
+            hasCourses
+              ? `<div
+                  class="map-node-list
+                    ${multiColumn
+                      ? "multi-column"
+                      : ""}"
+                  style="${nodeListStyle}"
+                >
+                  ${nodes}
+                </div>`
+              : ""
+          }
+
+          ${
+            planSlotCards
+              ? `<aside class="map-plan-slot-section">
+                  <div class="map-plan-slot-heading">
+                    <span>
+                      Course placeholders
+                    </span>
+
+                    <small>
+                      Choose courses later
+                    </small>
+                  </div>
+
+                  <div class="map-plan-slot-list">
+                    ${planSlotCards}
+                  </div>
+                </aside>`
+              : ""
+          }
+        </div>
+      </section>`;
   }).join("");
 
   renderCoursePanel();
-  const token = ++app.mapRenderToken;
-  requestAnimationFrame(() => { if (token === app.mapRenderToken) drawMapEdges(); });
+
+  const token =
+    ++app.mapRenderToken;
+
+  requestAnimationFrame(() => {
+    if (token === app.mapRenderToken) {
+      drawMapEdges();
+    }
+  });
 }
 
 function safeId(value) {

@@ -419,8 +419,6 @@ footer { padding: 22px 28px 40px; color: var(--muted); font-size: 11px; text-ali
 /* Keep large elective pools visual without making the prerequisite map excessively tall. */
 .map-columns { display: flex; }
 .map-column { width: 270px; flex: 0 0 270px; }
-.map-column[data-group="options"] { width: 560px; flex-basis: 560px; }
-.map-column[data-group="options"] .map-node-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .legend-dot.unknown { background: var(--amber); }
 .course-node.unknown { border-left-color: var(--amber); background: #fffdf8; }
 
@@ -428,8 +426,6 @@ footer { padding: 22px 28px 40px; color: var(--muted); font-size: 11px; text-ali
 .map-edges { z-index: 2; }
 .map-columns { position: relative; z-index: 3; display: flex; gap: 46px; align-items: flex-start; }
 .map-column { width: 292px; flex: 0 0 292px; min-height: 590px; }
-.map-column.dense { width: 584px; flex-basis: 584px; }
-.map-column.dense .map-node-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .map-edge-halo { fill: none; stroke: rgba(255,255,255,.96); stroke-width: 8; stroke-linecap: round; stroke-linejoin: round; }
 .map-edge { fill: none; stroke: #8b8298; stroke-width: 2.35; opacity: .88; stroke-linecap: round; stroke-linejoin: round; }
 .map-edge.incoming { stroke: var(--uw-purple); stroke-width: 3.4; opacity: 1; }
@@ -516,8 +512,6 @@ footer { padding: 22px 28px 40px; color: var(--muted); font-size: 11px; text-ali
   .external-credit-row { grid-template-columns: 1fr; gap: 7px; }
 }
 @media (max-width: 760px) {
-  .map-column.dense { width: 292px; flex-basis: 292px; }
-  .map-column.dense .map-node-list { grid-template-columns: 1fr; }
   .ap-add-row { grid-template-columns: 1fr; }
   .credit-card-head { flex-direction: column; }
 }
@@ -610,24 +604,41 @@ footer { padding: 22px 28px 40px; color: var(--muted); font-size: 11px; text-ali
 
 
 .map-plan-slot-section {
-  margin: 10px 10px 2px;
-  padding-top: 10px;
-  border-top: 1px dashed var(--line, #d5dce5);
+  margin: 18px 0 2px;
+  padding: 12px;
+  border: 1px dashed rgba(75, 46, 131, 0.3);
+  border-radius: 12px;
+  background: rgba(75, 46, 131, 0.035);
 }
 
 .map-plan-slot-heading {
-  margin: 0 2px 7px;
-  color: var(--muted, #667085);
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 10px;
+  margin: 0 2px 9px;
+}
+
+.map-plan-slot-heading span {
+  color: var(--uw-purple);
   font-size: 0.7rem;
-  font-weight: 800;
+  font-weight: 850;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+}
+
+.map-plan-slot-heading small {
+  color: var(--muted, #667085);
+  font-size: 0.65rem;
+  font-weight: 650;
+  white-space: nowrap;
 }
 
 .map-plan-slot-list {
   display: grid;
   gap: 7px;
 }
+
 
 .map-plan-slot-node {
   width: 100%;
@@ -2321,4 +2332,410 @@ button.combined-plan-course:hover {
   padding: 30px 18px;
   color: #777080;
   text-align: center;
+}
+
+/* ============================================================
+   FINAL DEGREE MAP COURSE + PLACEHOLDER LAYOUT
+   ============================================================ */
+
+/*
+ * The JavaScript calculates the exact width of every group.
+ * Prevent older flex or dense-section rules from overriding it.
+ */
+.map-columns {
+  display: flex;
+  align-items: flex-start;
+  gap: 46px;
+}
+
+.map-column {
+  position: relative;
+  flex-shrink: 0;
+  overflow: visible;
+  box-sizing: border-box;
+}
+
+/*
+ * The header and requirement cards should fill the complete
+ * outer section width, including a placeholder sidebar.
+ */
+.map-column-header,
+.map-requirement-list {
+  width: 100%;
+  max-width: none;
+  box-sizing: border-box;
+}
+
+/*
+ * Main content wrapper.
+ *
+ * JavaScript applies either:
+ * - one normal course column,
+ * - multiple course columns,
+ * - courses plus a placeholder sidebar, or
+ * - a placeholder-only layout.
+ */
+.map-column-content {
+  position: relative;
+  box-sizing: border-box;
+  overflow: visible;
+}
+
+/*
+ * Ensure direct course-list children do not stretch or shrink
+ * beyond the width calculated by JavaScript.
+ */
+.map-column-content > .map-node-list {
+  min-width: 0;
+  margin: 0;
+  align-self: start;
+  justify-self: start;
+  box-sizing: border-box;
+}
+
+/*
+ * Course cards should always fill their assigned grid track.
+ * This prevents narrow or randomly compressed cards.
+ */
+.map-column-content .course-node {
+  width: 100%;
+  min-width: 0;
+  max-width: none;
+  box-sizing: border-box;
+}
+
+/*
+ * One-column groups always use one card column.
+ *
+ * The inline JavaScript width is 268px. This rule intentionally
+ * does not use !important so the inline size remains authoritative.
+ */
+.map-column:not(.multi-column-group) .map-node-list {
+  display: grid;
+  grid-template-columns: 268px;
+  align-items: start;
+  gap: 10px;
+}
+
+/*
+ * Large pools use the column count and dimensions calculated
+ * directly in renderMap().
+ */
+.map-column.multi-column-group .map-node-list {
+  width: max-content;
+  min-width: max-content;
+  max-width: none;
+  align-items: start;
+}
+
+/*
+ * Keep each large-pool card at the intended readable width.
+ */
+.map-column.multi-column-group .course-node {
+  width: 210px;
+  min-width: 210px;
+  max-width: 210px;
+}
+
+/*
+ * Sections with courses and placeholders use two side-by-side
+ * tracks. The actual grid columns are set inline in app.js.
+ */
+.map-column-content.has-placeholder-sidebar {
+  overflow: visible;
+}
+
+/*
+ * Sidebar placeholder panel.
+ *
+ * position: static prevents old sticky or absolute-position rules
+ * from floating the panel over neighboring courses or sections.
+ */
+.map-column-content.has-placeholder-sidebar
+> .map-plan-slot-section {
+  position: static !important;
+  display: block;
+  align-self: start;
+  justify-self: start;
+  width: 260px !important;
+  min-width: 260px !important;
+  max-width: 260px !important;
+  margin: 0 !important;
+  padding: 12px;
+  box-sizing: border-box;
+}
+
+/*
+ * Placeholder-only sections do not reserve an empty course
+ * column. The placeholder panel uses the normal section width.
+ */
+.map-column-content.placeholders-only {
+  display: block !important;
+  width: 268px !important;
+  min-width: 268px !important;
+  max-width: 268px !important;
+}
+
+.map-column-content.placeholders-only
+> .map-plan-slot-section {
+  position: static !important;
+  display: block;
+  width: 268px !important;
+  min-width: 268px !important;
+  max-width: 268px !important;
+  margin: 0 !important;
+  padding: 12px;
+  box-sizing: border-box;
+}
+
+/*
+ * Placeholder cards are always one readable column inside the
+ * placeholder panel.
+ */
+.map-column-content.has-placeholder-sidebar
+.map-plan-slot-list,
+.map-column-content.placeholders-only
+.map-plan-slot-list {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) !important;
+  gap: 8px;
+  width: 100%;
+  min-width: 0;
+}
+
+/*
+ * Prevent individual placeholder cards from expanding beyond
+ * their panel or inheriting widths from an older grid rule.
+ */
+.map-column-content
+.map-plan-slot-node {
+  display: block;
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  box-sizing: border-box;
+}
+
+/*
+ * Placeholder panel appearance.
+ */
+.map-plan-slot-section {
+  border: 1px dashed rgba(75, 46, 131, 0.3);
+  border-radius: 12px;
+  background: rgba(75, 46, 131, 0.035);
+}
+
+/*
+ * Placeholder heading.
+ */
+.map-plan-slot-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 10px;
+  margin: 0 2px 9px;
+}
+
+.map-plan-slot-heading span {
+  color: var(--uw-purple);
+  font-size: 0.7rem;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.map-plan-slot-heading small {
+  color: var(--muted, #667085);
+  font-size: 0.65rem;
+  font-weight: 650;
+  white-space: nowrap;
+}
+
+/*
+ * Prevent a requirement-only group from inheriting a giant
+ * minimum height from older map-column styles.
+ */
+.map-column.requirements-only {
+  min-height: 0;
+}
+
+/*
+ * The SVG prerequisite lines must remain behind the course cards.
+ */
+.map-column-content,
+.map-column-header,
+.map-requirement-list,
+.map-plan-slot-section,
+.map-node-list,
+.course-node {
+  position: relative;
+}
+
+.map-column-content,
+.map-column-header,
+.map-requirement-list {
+  z-index: 3;
+}
+
+.course-node,
+.map-plan-slot-section {
+  z-index: 4;
+}
+
+/*
+ * Responsive fallback.
+ *
+ * On a narrow screen, sections still remain horizontally
+ * scrollable, but course and placeholder cards retain readable
+ * widths instead of shrinking.
+ */
+@media (max-width: 760px) {
+  .map-column {
+    flex-shrink: 0;
+  }
+
+  .map-column-content.has-placeholder-sidebar {
+    display: grid !important;
+  }
+
+  .map-column-content .course-node {
+    min-width: 0;
+  }
+}
+
+/* ============================================================
+   FIX OLD GRID-AREA RULES THAT OFFSET MAP CONTENT
+   ============================================================ */
+
+/*
+ * The outer category box must not itself use the old named-area grid.
+ */
+.map-column,
+.map-column.multi-column-group,
+.map-column.has-course-placeholder-sidebar {
+  display: block !important;
+  grid-template-columns: none !important;
+  grid-template-rows: none !important;
+  grid-template-areas: none !important;
+}
+
+/*
+ * The inner wrapper is the only element allowed to arrange
+ * courses and placeholders side by side.
+ */
+.map-column-content {
+  position: relative;
+  display: block;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/*
+ * Remove old named grid placements. These are what create the
+ * invisible empty column and move the cards to the right.
+ */
+.map-column-content > .map-node-list,
+.map-column-content > .map-plan-slot-section,
+.map-column.multi-column-group .map-node-list,
+.map-column.multi-column-group .map-plan-slot-section {
+  grid-area: auto !important;
+  grid-column: auto !important;
+  grid-row: auto !important;
+}
+
+/*
+ * Sections containing both real courses and placeholders.
+ */
+.map-column-content.has-placeholder-sidebar {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: flex-start !important;
+  justify-content: flex-start !important;
+  gap: 16px !important;
+}
+
+/*
+ * Real courses always remain on the left.
+ */
+.map-column-content.has-placeholder-sidebar
+> .map-node-list {
+  order: 1;
+  flex: 0 0 auto;
+  position: relative;
+  left: auto !important;
+  right: auto !important;
+  top: auto !important;
+  transform: none !important;
+  margin: 0 !important;
+}
+
+/*
+ * Placeholders always remain on the right.
+ */
+.map-column-content.has-placeholder-sidebar
+> .map-plan-slot-section {
+  order: 2;
+  flex: 0 0 260px !important;
+
+  position: static !important;
+
+  width: 260px !important;
+  min-width: 260px !important;
+  max-width: 260px !important;
+
+  left: auto !important;
+  right: auto !important;
+  top: auto !important;
+  transform: none !important;
+
+  margin: 0 !important;
+  box-sizing: border-box;
+}
+
+/*
+ * Sections with placeholders but no fixed course cards should
+ * not reserve an invisible course column.
+ */
+.map-column-content.placeholders-only {
+  display: block !important;
+  width: 268px !important;
+  min-width: 268px !important;
+  max-width: 268px !important;
+}
+
+.map-column-content.placeholders-only
+> .map-plan-slot-section {
+  position: static !important;
+
+  width: 268px !important;
+  min-width: 268px !important;
+  max-width: 268px !important;
+
+  margin: 0 !important;
+  transform: none !important;
+}
+
+/*
+ * Keep course cards inside their assigned grid tracks.
+ */
+.map-node-list {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.map-node-list .course-node {
+  position: relative;
+  left: auto !important;
+  right: auto !important;
+  top: auto !important;
+  transform: none;
+  box-sizing: border-box;
+}
+
+/* Restore only the hover movement. */
+.map-node-list .course-node:hover {
+  transform: translateY(-2px);
 }
