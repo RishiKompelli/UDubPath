@@ -161,6 +161,15 @@
       "status": "complete",
       "file": "computer-engineering.json",
       "source": "https://www.washington.edu/students/gencat/program/S/ComputerScienceandEngineering-406.html"
+    },
+    {
+      "id": "uw-seattle-marine-biology",
+      "name": "Marine Biology",
+      "degree": "BS",
+      "category": "Environment & Sustainability",
+      "status": "complete",
+      "file": "marine-biology.json",
+      "source": "https://marinebiology.uw.edu/students/marine-biology-major/major-requirements/"
     }
   ]
 }
