@@ -4649,59 +4649,14 @@ function renderEmptyMap() {
   $("#map-title").textContent = "Select your major";
 
   $("#map-columns").innerHTML = `
-    <section
-      style="
-        width: min(650px, calc(100vw - 80px));
-        min-height: 400px;
-        margin: 40px auto;
-        padding: 48px 32px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        background: white;
-        border: 2px dashed #b7abc9;
-        border-radius: 18px;
-        box-sizing: border-box;
-      "
-    >
-      <div
-        style="
-          width: 64px;
-          height: 64px;
-          margin-bottom: 18px;
-          display: grid;
-          place-items: center;
-          border-radius: 18px;
-          background: #eee9f5;
-          color: #4b2e83;
-          font-size: 30px;
-          font-weight: 700;
-        "
-        aria-hidden="true"
-      >
-        U
+    <section class="empty-major-card">
+      <div class="empty-major-icon" aria-hidden="true">
+        W
       </div>
 
-      <h2
-        style="
-          margin: 0 0 10px;
-          color: #4b2e83;
-          font-size: 28px;
-        "
-      >
-        Select your major
-      </h2>
+      <h2>Select your major</h2>
 
-      <p
-        style="
-          max-width: 500px;
-          margin: 0 0 24px;
-          color: #626875;
-          line-height: 1.6;
-        "
-      >
+      <p class="empty-major-description">
         Choose a major from the dropdown above to view its courses,
         requirements, prerequisites, and recommended degree map.
       </p>
@@ -4713,6 +4668,26 @@ function renderEmptyMap() {
       >
         Select your major
       </button>
+
+      <aside class="site-disclaimer site-disclaimer-opening">
+        <div class="site-disclaimer-icon" aria-hidden="true">
+          !
+        </div>
+
+        <div>
+          <strong>Disclaimer:</strong>
+
+          <p>
+            UDubPath is an unofficial planning aid and is not affiliated
+            with or endorsed by the University of Washington. Degree
+            requirements, admission rules, prerequisites, course
+            availability, and transfer-credit policies can change.
+            Always confirm your plan with the official UW catalog,
+            your department, and an academic adviser before registering
+            or making academic decisions.
+          </p>
+        </div>
+      </aside>
     </section>
   `;
 
@@ -4723,16 +4698,16 @@ function renderEmptyMap() {
 
   if (selectButton) {
     selectButton.addEventListener("click", () => {
-      const majorSelect = $("#major-select");
-      majorSelect.focus();
+      const majorCombobox = $("#major-combobox");
 
-      if (typeof majorSelect.showPicker === "function") {
-        try {
-          majorSelect.showPicker();
-        } catch (_) {
+      majorCombobox?.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
 
-        }
-      }
+      setTimeout(() => {
+        openMajorCombobox();
+      }, 400);
     });
   }
 }
